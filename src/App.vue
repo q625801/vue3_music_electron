@@ -47,6 +47,7 @@ export default class Home extends Vue {}
   }
   .home-screen{
     flex: 1;
+    background-color: rgb(43, 43, 43);
   }
 }
 </style>

@@ -1,19 +1,19 @@
 <template>
-  <nav class="wrap-nav">
-    
+  <nav class="wrap-nav clear">
+    <div class="wrap-logo clear fl">
+      <div class="img-logo fl">
+        <img src="../assets/img/logo.png" />
+      </div>
+      <div class="logo-content fl">
+        咪咪云音乐
+      </div>
+    </div>
   </nav>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+export default {
 
-@Options({
-  props: {
-    msg: String,
-  },
-})
-export default class HelloWorld extends Vue {
-  msg!: string;
 }
 </script>
 
@@ -22,5 +22,26 @@ export default class HelloWorld extends Vue {
 .wrap-nav{
   height: 60px;
   background-color: rgb(35,35,38);
+  box-sizing: border-box;
+  border-bottom: 2px solid rgb(148, 22, 22);
+  .wrap-logo{
+    height: 100%;
+    .img-logo{
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      img{
+        width: 35px;
+        height: 35px;
+      }
+    }
+    .logo-content{
+      line-height: 58px;
+      color: #ffffff;
+      font-weight: bold;
+      padding-left: 8px;
+    }
+  }
 }
 </style>
