@@ -5,7 +5,7 @@
         <img src="../assets/img/logo.png" />
       </div>
       <div class="logo-content fl">
-        咪咪云音乐
+        云音乐
       </div>
     </div>
   </nav>

@@ -49,7 +49,6 @@ function successDataFun(res:any, successCallback:any, isloading:any){
     //     store.state.loadding = false;
     // }
     let ret = res.data
-    console.log(successCallback)
     if(successCallback){
         successCallback(res)
     }
