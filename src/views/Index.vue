@@ -19,11 +19,14 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 .wrap-index{
-  padding: 10px 30px;
+  padding: 10px 0px;
   height: 100%;
   box-sizing: border-box;
   .index-screen{
     height: 478px;
+    padding: 0 30px;
+    overflow-y: scroll;
+    box-sizing: border-box;
   }
 }
 </style>

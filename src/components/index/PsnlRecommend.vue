@@ -1,16 +1,19 @@
 <template>
   <div class="wrap-psnlrecommend">
-      <Banner/>
+    <Banner/>
+    <RecommendSong/>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Banner from './psnlrecommend/banner.vue'
+import RecommendSong from './psnlrecommend/recommendsong.vue'
 export default defineComponent({
   name:'Index',
   components:{
-    Banner
+    Banner,
+    RecommendSong
   }
 })
 </script>

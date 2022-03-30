@@ -6,4 +6,8 @@ import "../src/assets/css/reset.css" //重置css样式
 import "../src/assets/css/style.css" //重置css样式
 import Axios from "axios";
 import VueAxios from 'vue-axios'
-createApp(App).use(store).use(router).use(VueAxios,Axios).mount("#app");
+import lazyPlugin from 'vue3-lazy'
+createApp(App).use(store).use(router).use(VueAxios,Axios).use(lazyPlugin,{
+    loading: require('./assets/img/loading.gif'),//加载中图片，一定要有，不然会一直重复加载占位图
+    error: require('./assets/img/loading.gif')  //加载失败图片
+}).mount("#app");

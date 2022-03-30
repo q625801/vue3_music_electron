@@ -8,15 +8,15 @@ const api = 'https://netease-cloud-music-api-orcin-seven.vercel.app';
 // const api = process.env.NODE_ENV === 'development' ? '/api' : 'https://netease-cloud-music-api-orcin-seven.vercel.app';
 
 // ===================首页
-export const banner = api + '/banner?realIP=116.25.146.177' // 测试
+export const banner:string = api + '/banner?realIP=116.25.146.177' // 测试
 
 // ===================导航
-export const hotsearch = api + '/search/hot?realIP=116.25.146.177'
+export const hotsearch:string = api + '/search/hot?realIP=116.25.146.177'
 
 // ===================推荐歌单
-export const personalized = api + '/personalized?realIP=116.25.146.177'
+export const personalized:string = api + '/personalized?realIP=116.25.146.177'
 // ===================推荐新歌曲
-export const newsong = api + '/personalized/newsong?realIP=116.25.146.177'
+export const newsong:string = api + '/personalized/newsong?realIP=116.25.146.177'
 
 // ===================歌单详情
 export const sddetail = api + '/playlist/detail?realIP=116.25.146.177'
