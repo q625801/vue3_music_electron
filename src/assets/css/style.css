@@ -28,4 +28,9 @@ ul{list-style: none;padding: 0;margin: 0;}
 .fr{float:right;}
 .fl{float:left;}
 .clear{overflow: hidden;}
-
+img[v-lazy="loading"]{
+    width: 40px;
+}
+img[v-lazy="loaded"]{
+    width: 100%;
+}

@@ -3,6 +3,7 @@
     <Banner/>
     <RecommendSong/>
     <PopularPodcast/>
+    <PrivateContent/>
   </div>
 </template>
 
@@ -11,12 +12,14 @@ import { defineComponent } from 'vue'
 import Banner from './psnlrecommend/banner.vue'
 import RecommendSong from './psnlrecommend/recommendsong.vue'
 import PopularPodcast from './psnlrecommend/popularpodcast.vue'
+import PrivateContent from './psnlrecommend/privatecontent.vue'
 export default defineComponent({
   name:'Index',
   components:{
     Banner,
     RecommendSong,
-    PopularPodcast
+    PopularPodcast,
+    PrivateContent
   }
 })
 </script>

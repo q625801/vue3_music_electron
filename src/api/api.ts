@@ -19,39 +19,42 @@ export const personalized:string = api + '/personalized' + (api.indexOf('netease
 export const newsong:string = api + '/personalized/newsong' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================歌单详情
-export const sddetail = api + '/playlist/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const sddetail:string = api + '/playlist/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================歌单收藏者
-export const subscribers = api + '/playlist/subscribers' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const subscribers:string = api + '/playlist/subscribers' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================获取歌单全部歌曲
-export const sdsongAll = api + '/playlist/track/all' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const sdsongAll:string = api + '/playlist/track/all' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================相关歌单推荐
-export const related = api + '/related/playlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const related:string = api + '/related/playlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================音乐url
-export const mp3url = api + '/song/url' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const mp3url:string = api + '/song/url' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================获取歌曲详情
-export const songsdetail = api + '/song/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const songsdetail:string = api + '/song/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================获取歌曲歌词
-export const songlyric = api + '/lyric' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const songlyric:string = api + '/lyric' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================歌单评论
-export const songdetaiilcomment = api + '/comment/playlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const songdetaiilcomment:string = api + '/comment/playlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================用户详情
-export const userdetail = api + '/user/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const userdetail:string = api + '/user/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================专辑
-export const getAlbum = api + '/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const getAlbum:string = api + '/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================专辑动态信息 
-export const getAlbumDetailDynamic = api + '/album/detail/dynamic' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const getAlbumDetailDynamic:string = api + '/album/detail/dynamic' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================歌手专辑
-export const getArtistAlbum = api + '/artist/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const getArtistAlbum:string = api + '/artist/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================专辑评论
-export const getCommentAlbum = api + '/comment/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const getCommentAlbum:string = api + '/comment/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================歌单分类信息
-export const getPlaylistCatlist = api + '/top/playlist/highquality' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const getPlaylistCatlist:string = api + '/top/playlist/highquality' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================热门播客
-export const getPopularPodcast = api + '/personalized/djprogram' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+export const getPopularPodcast:string = api + '/personalized/djprogram' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+
+// ===================独家放送
+export const getPrivateContent:string = api + '/personalized/privatecontent' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')

@@ -6,7 +6,7 @@
                 <div class="list-img">
                     <img src="../../../assets/img/index-daily.jpg" title="每日推荐">
                     <div class="calendar">
-                        <span>{{today}}</span>
+                        <span>{{today.split('-')[2]}}</span>
                     </div>
                 </div>
                 <div class="list-title">
@@ -35,6 +35,7 @@ import {postJson} from "@/api/apiConfig";
 import { personalized } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
+import {myDate} from "@/utils/common"
 export default defineComponent({
   	name:'Index',
   	components:{
@@ -44,10 +45,11 @@ export default defineComponent({
   	setup(){
         let state = reactive<any>({
             SongSheetArr:[],
-            today:31
+            today:''
         })
         onMounted(() => {
            getSongSheet() 
+           state.today = myDate()
         })
 
         let getSongSheet = () => {
@@ -155,12 +157,4 @@ export default defineComponent({
         }
     }
 }
-</style>
-<style>
-img[v-lazy="loading"]{
-                    width: 40px;
-                }
-                img[v-lazy="loaded"]{
-                    width: 100%;
-                }
 </style>
