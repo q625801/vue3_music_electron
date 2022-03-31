@@ -1,11 +1,23 @@
 <template>
     <div class="wrap-recommendsong">
-        <Titlemm :title="'推荐歌单'" :arrow="true"/>
+        <Titlemm :title="'推荐歌单'" :arrow="true" :href="'xxxx'"/>
         <div class="recommendsong-section clear" v-if="SongSheetArr.length > 0">
+            <div class="songsheet-list fl" data-daily="loaded">
+                <div class="list-img">
+                    <img src="../../../assets/img/index-daily.jpg" title="每日推荐">
+                    <div class="calendar">
+                        <span>{{today}}</span>
+                    </div>
+                </div>
+                <div class="list-title">
+                    <span>每日歌曲推荐</span>
+                </div>
+            </div>
             <div class="songsheet-list fl" v-for="(item,index) in SongSheetArr" :key="index">
                 <div class="list-img">
                     <div class="list-playCount">{{(item.playCount/10000).toString().split(".")[0] + "万"}}</div>
-                        <img v-lazy="item.picUrl + '?param=200y200'" :key="item.picUrl">
+                    <img v-lazy="item.picUrl + '?param=150y150'" :key="item.picUrl">
+                    <!-- <img v-lazy="'../../../assets/img/loading.gif'" :key="item.picUrl"> -->
                     <div class="list-player amn4"></div>
                 </div>
                 <div class="list-title">
@@ -31,7 +43,8 @@ export default defineComponent({
   	},
   	setup(){
         let state = reactive<any>({
-            SongSheetArr:[]
+            SongSheetArr:[],
+            today:31
         })
         onMounted(() => {
            getSongSheet() 
@@ -68,6 +81,7 @@ export default defineComponent({
             margin-right:2.5%;
             .list-img{
                 width:100%;
+                height: 138px;
                 display:flex;
                 align-items: center;
                 justify-content: center;
@@ -75,12 +89,12 @@ export default defineComponent({
                 border-radius: 5px;
                 overflow: hidden;
                 .list-player{
-                    width:30px;
-                    height:30px;
+                    width:40px;
+                    height:40px;
                     position:absolute;
-                    right: 10px;
-                    bottom: 10px;
-                    background:url("../../../assets/img/player-btn.png") center no-repeat;
+                    right: 5px;
+                    bottom: 5px;
+                    background:url("../../../assets/img/player-daily.png") center no-repeat;
                     background-size:cover;
                     opacity:0;
                 }
@@ -96,6 +110,28 @@ export default defineComponent({
                     background-size: 16px;
                     padding-left: 20px;
                     padding-right:8px;
+                }
+                
+                .calendar{
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+                    display: block;
+                    width: 70px;
+                    height: 70px;
+                    background: url('../../../assets/img/calendar-1.png') center no-repeat;
+                    background-size: 100%;
+                    span{
+                        display: block;
+                        font-weight: bold;
+                        padding-top: 30px;
+                        text-align: center;
+                        font-size: 28px;
+                        color: white;
+                    }
                 }
             }
             .list-img:hover .list-player{
@@ -119,4 +155,12 @@ export default defineComponent({
         }
     }
 }
+</style>
+<style>
+img[v-lazy="loading"]{
+                    width: 40px;
+                }
+                img[v-lazy="loaded"]{
+                    width: 100%;
+                }
 </style>

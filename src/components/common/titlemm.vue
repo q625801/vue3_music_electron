@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-title">
-        <span :class="['title',arrow ? 'arrow' : '']">{{title}}</span>
+        <span :class="['title',arrow ? 'arrow' : '']" @click="goUrl(href)">{{title}}</span>
     </div>
 </template>
 
@@ -13,14 +13,19 @@ export default defineComponent({
   	},
 	props:{
 		title: String,
-		arrow: Boolean
+		arrow: Boolean,
+		href: String,
 	},
   	setup(props){
-      	console.log(props.title,props.arrow)
-		const { title,arrow } = toRefs(props)
+		const { title,arrow,href } = toRefs(props)
+		function goUrl(href:string) {
+			console.log(href)
+		}
 		return{
 			title,
-			arrow
+			arrow,
+			href,
+			goUrl
 		} 
   	}
 })
