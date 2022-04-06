@@ -1,5 +1,5 @@
 <template>
-  <nav class="wrap-nav clear">
+  <nav class="wrap-nav clear" style="-webkit-app-region: drag">
     <div class="wrap-logo clear fl">
       <div class="img-logo fl">
         <img src="../assets/img/logo.png" />

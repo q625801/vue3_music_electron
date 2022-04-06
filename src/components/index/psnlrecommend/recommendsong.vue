@@ -2,12 +2,14 @@
     <div class="wrap-recommendsong">
         <Titlemm :title="'推荐歌单'" :arrow="true" :href="'xxxx'"/>
         <div class="recommendsong-section clear" v-if="SongSheetArr.length > 0">
-            <div class="songsheet-list fl" data-daily="loaded">
+            <div class="songsheet-list songsheet-daily fl" @mouseenter="enter()" @mouseleave="leave">
+                <div :class="[dailytips ? 'show' : '','daily-tips','amn2']">根据您的音乐口味生成每日更新</div>
                 <div class="list-img">
                     <img src="../../../assets/img/index-daily.jpg" title="每日推荐">
                     <div class="calendar">
-                        <span>{{today.split('-')[2]}}</span>
+                        <span>{{Number(today.split('-')[2])}}</span>
                     </div>
+                    <div class="list-player amn4"></div>
                 </div>
                 <div class="list-title">
                     <span>每日歌曲推荐</span>
@@ -45,13 +47,29 @@ export default defineComponent({
   	setup(){
         let state = reactive<any>({
             SongSheetArr:[],
-            today:''
+            today:'',
+            dailytips:false,
         })
         onMounted(() => {
            getSongSheet() 
            state.today = myDate()
         })
-
+        let timer:any = ''
+        const debounce = (func:Function, delay = 300, thisArg?:any) => {
+            return (...args:any) => {
+                clearTimeout(timer)
+                timer = setTimeout(func.bind(thisArg), delay, ...args)
+            }
+        }
+        let leave = () => {
+            if(timer){
+                clearTimeout(timer)
+            }
+            state.dailytips = false
+        }
+        let enter = debounce(function(){
+            state.dailytips = true
+        },700)
         let getSongSheet = () => {
             postJson(personalized,{limit:9},(res:any) => {
                 if(res.code == 200){
@@ -63,6 +81,8 @@ export default defineComponent({
         }
 		return{
 			...toRefs(state),
+            enter,
+            leave
 		} 
   	}
 })
@@ -153,6 +173,26 @@ export default defineComponent({
             }
             .list-title span:hover{
                 color:#ffffff;
+            }
+        }
+        .songsheet-daily{
+            position: relative;
+            .daily-tips{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 99;
+                background: rgba(0,0,0,0.5);
+                color: #ffffff;
+                font-size: 12px;
+                padding: 8px;
+                line-height: 20px;
+                box-sizing: border-box;
+                transform: translateY(-60px);
+            }
+            .daily-tips.show{
+                transform: translateY(0px);
             }
         }
     }

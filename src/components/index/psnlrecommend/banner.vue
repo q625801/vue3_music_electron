@@ -34,7 +34,7 @@ export default defineComponent({
             getbanner()
       	})
 		onUpdated(() => {
-			swiperShow(swiperShow(bannerArr.length))
+			swiperShow(bannerArr.length)
 		})
       	function getbanner(){
           	postJson(banner,{},(res) => {
