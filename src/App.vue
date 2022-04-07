@@ -37,6 +37,8 @@ export default class Home extends Vue {}
   width: 1022px;
   height: 670px;
   margin: 0 auto;
+  overflow: hidden;
+  position: relative;
 }
 .international-home{
   height: 538px;

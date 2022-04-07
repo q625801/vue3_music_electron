@@ -109,10 +109,10 @@ export default {
     width: 500px;
     box-sizing: border-box;
     padding: 20px;
-    position: fixed;
-    bottom: 69px;
+    position: absolute;
+    bottom: 72px;
     right: 0;
-    background: #ffffff;
+    background: #2B2B2B;
     z-index: 99;
     overflow: hidden;
     transform: translateX(500px);
@@ -141,7 +141,7 @@ export default {
     min-height: 31px;
     line-height: 31px;
     text-align: center;
-    color:#4a4a4a;
+    color:#d6d6d6;
     font-size:14px;
 }
 .wrap-lyriclist ul li.active {

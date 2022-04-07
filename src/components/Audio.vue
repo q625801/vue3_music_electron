@@ -1,33 +1,35 @@
 <template>
-  <div class="wrap audio-wrap sdwa" v-show="$store.state.audioInfo.audioFlag">
+  <div class="wrap audio-wrap" v-show="$store.state.audioInfo.audioFlag">
     <div class="player-bar">
-      <div class="avatar">
-        <img alt="nicemusic" :src="SongPic + '?param=100y100'" :title="SongName">
-      </div>
-      <div class="info">
-        <h2 class="ellipsis">{{SongName}}</h2>
-        <p class="ellipsis">{{SongArtists}}</p>
-      </div>
-      <div class="player-btn clear">
-        <span class="player-prev fl" @click="prevSong"></span>
-        <span @click="audioplay" class="fl" :class="audiostate ? 'player-play' : 'player-stop'"></span>
-        <span class="player-next fl" @click="nextSong"></span>
-      </div>
-      <div id="progress-wrap" class="progress-wrap">
-        <p class="current-time">{{playTime}}</p>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar" ref="barBg" @mousedown="clickBg" @touchstart="clickBg">
-          <!--
-        @touchmove.prevent="move"
-        
-        @touchend="end"-->
-            <div class="bar-inner">
-              <div class="progress" :style="{width:progressWidth+'%'}"></div>
-              <div class="progress-btn" @mousedown.stop="yuanmousedown" ref="barBgyuan" :style="{left:progressWidth+'%'}"></div>
-            </div>
+      <div class="clear player-songinfo">
+        <div class="avatar fl">
+          <img alt="nicemusic" :src="SongPic + '?param=100y100'" :title="SongName">
+        </div>
+        <div class="info fl">
+          <h2 class="ellipsis music-name">{{SongName}}</h2>
+          <div class="ellipsis author">
+            <span v-for="(item,index) in SongArtists" :key="index" v-html="((index != 0) ? ' / ' : '') + '<em>'+item.name+'</em>'"></span>
           </div>
         </div>
-          <p class="duration-time"> {{audioduration ? ((parseInt(audioduration / 60, 10) <= 9 ? '0' + parseInt(audioduration / 60, 10) : parseInt(audioduration / 60, 10)) + ':' + (parseInt(audioduration % 60) <= 9 ? '0' + parseInt(audioduration % 60) : parseInt(audioduration % 60))) : ''}} </p>
+      </div>
+      <div class="player-center">
+        <div class="player-btn clear">
+          <span class="player-prev" @click="prevSong"></span>
+          <span @click="audioplay" :class="[audiostate ? 'player-play' : 'player-stop','player-type']"></span>
+          <span class="player-next" @click="nextSong"></span>
+        </div>
+        <div id="progress-wrap" class="progress-wrap">
+          <p class="current-time">{{playTime}}</p>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" ref="barBg" @mousedown="clickBg" @touchstart="clickBg">
+              <div class="bar-inner">
+                <div class="progress" :style="{width:progressWidth+'%'}"></div>
+                <div class="progress-btn" @mousedown.stop="yuanmousedown" ref="barBgyuan" :style="{left:progressWidth+'%'}"></div>
+              </div>
+            </div>
+          </div>
+            <p class="duration-time"> {{audioduration ? ((parseInt(audioduration / 60, 10) <= 9 ? '0' + parseInt(audioduration / 60, 10) : parseInt(audioduration / 60, 10)) + ':' + (parseInt(audioduration % 60) <= 9 ? '0' + parseInt(audioduration % 60) : parseInt(audioduration % 60))) : ''}} </p>
+        </div>
       </div>
       <div class="volume-wrap">
         <div class="volume-yl" :class="{'off':VolumeSize == 0 ? true : false}" :title="volumeTitle" @click="volumeClick"></div>
@@ -94,8 +96,7 @@ export default {
       this.is_yuanmousedown = false
     },
     getmusicurl(id){
-      postJson(mp3url,{id:id},(res) => {
-        console.log(res)
+      postJson(mp3url + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
         if(res.data[0].url != null){
           this.$refs.audio.src = res.data[0].url;
         }else{
@@ -114,8 +115,8 @@ export default {
       },false)
     },
     getlyric(id){
-      postJson(songlyric,{id:id},(res) => {
-        this.$refs.lyric.init(res.data.lrc.lyric,res.data.lrc.version)
+      postJson(songlyric + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
+        this.$refs.lyric.init(res.lrc.lyric,res.lrc.version)
       },(err) => {
 
       },false)
@@ -356,6 +357,7 @@ export default {
       if(!this.$store.state.audioInfo.audioFlag){
         this.$store.commit('setAudioFlag',true)
       }
+      console.log(newval)
       this.getmusicurl(newval.SongId)
       this.getlyric(newval.SongId)
       this.SongId = newval.SongId
@@ -391,91 +393,129 @@ export default {
 <style scoped>
 .audio-wrap{
   width: 100%;
-  background: #fff;
-  position: fixed;
-  bottom: -3px;
+  background: rgb(35, 35, 37);
   right: 0;
   left: 0;
   z-index: 8000;
+  border-top:1px solid rgb(67, 67, 67);
+  overflow: hidden;
 }
 .player-bar{
-  height: 72px;
-  padding: 0 10px 0 20px;
+  height: 71px;
+  padding: 0 10px;
   display:flex;
   justify-content: space-between;
   align-items:center;
-  width: 1280px;
+  width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
 }
 .player-bar .avatar{
-  width: 60px;
+  width: 50px;
   border-radius: 5px;
   border-radius:5px;
   overflow:hidden;
 }
 .player-bar .info{
-  margin-right: 1%;
-  flex-shrink: 0;
-  width: 6%;
-  padding-left:20px;
+  width: 178px;
+  padding-left: 12px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 .player-bar .info h2{
   font-size: 14px;
-  color: #333;
-  margin-bottom: 15px;
+  color: #d6d6d6;
+  margin-bottom: 8px;
+  padding-top: 8px;
 }
-.player-bar .info p{
+.player-bar .info .ellipsis.author{
   font-size: 12px;
-  color: #999;
+  color: #d6d6d6;
+}
+.player-songinfo{
+  width: 240px;
 }
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.ellipsis.music-name{
+  cursor: pointer;
+}
+.ellipsis.music-name:hover{
+  color: #ffffff;
+}
+.player-bar .info .ellipsis.author span ::v-deep em{
+  cursor: pointer;
+}
 .player-btn{
   display:flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items:center;
+  margin-bottom: 6px;
 }
 .player-btn span{
   display:block;
   cursor:pointer;
 }
 .player-btn .player-prev{
-  width:40px;
-  height:40px;
+  width:20px;
+  height:20px;
   background:url(../assets/img/player-prev.png) center no-repeat;
-  background-size:35px;
+  background-size:13px;
+}
+.player-btn .player-prev:hover{
+  background:url(../assets/img/player-prev2.png) center no-repeat;
+  background-size:13px;
+}
+.player-btn .player-type{
+  width:36px;
+  height:36px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 30px;
 }
 .player-btn .player-play{
-  width:60px;
-  height:60px;
   background:url(../assets/img/player-btn3.png) center no-repeat;
-  background-size:50px;
+  background-size:11px;
+  background-color: rgb(46, 46, 46);
 }
 .player-btn .player-stop{
-  width:60px;
-  height:60px;
   background:url(../assets/img/player-stop.png) center no-repeat;
-  background-size:50px;
+  background-size:15px;
+  background-color: rgb(46, 46, 46);
+}
+.player-btn .player-type:hover{
+  background-color: rgb(211, 211, 211,.1);
 }
 .player-btn .player-next{
-  width:40px;
-  height:40px;
+  width:20px;
+  height:20px;
   background:url(../assets/img/player-next.png) center no-repeat;
-  background-size:35px;
+  background-size:13px;
+}
+.player-btn .player-next:hover{
+  background:url(../assets/img/player-next2.png) center no-repeat;
+  background-size:13px;
 }
 .player-bar .progress-wrap{
-  width: 60%;
+  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  margin-left: 3%;
 }
 .player-bar .progress-wrap p{
-  font-size: 14px;
+  font-size: 12px;
+  color:#7f7f7f;
+}
+.player-bar .progress-wrap p.current-time{
+  margin-right:7px;
+}
+.player-bar .progress-wrap p.duration-time{
+  margin-left:7px;
 }
 .progress-bar-wrap{
   width: 100%;
@@ -491,7 +531,6 @@ export default {
   background: rgba(0,0,0,.05);
   border-radius: 2px;
   cursor: pointer;
-  margin: 0 25px;
 }
 .progress-bar .bar-inner{
   position: absolute;
@@ -500,11 +539,11 @@ export default {
   display: flex;
   align-items: center;
   width:100%;
-  background-color: #cccccc;
+  background-color: #4A4A4D;
 }
 .progress-bar .bar-inner .progress{
   width: 0;
-  background: #C62F2F;
+  background: #EC4141;
   height: 3px;
   border-radius: 2px;
 }
@@ -512,11 +551,10 @@ export default {
   position: absolute;
   z-index: 100;
   left: 0;
-  width: 12px;
-  height: 12px;
-  top: -4.5px;
-  background: #C62F2F;
-  box-shadow: 0 0 15px 0 rgba(0,0,0,.15);
+  width: 10px;
+  height: 10px;
+  top: -3.5px;
+  background: #EC4141;
   border-radius: 50%;
 }
 .progress-bar .bar-inner .progress-btn:after {
@@ -525,9 +563,9 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 8px;
-    height: 8px;
-    background: #fff;
+    width: 6px;
+    height: 6px;
+    background: #EC4141;
     border-radius: 50%;
 }
 .player-bar .volume-wrap{
@@ -541,18 +579,18 @@ export default {
     position: relative;
     width: 100%;
     flex: 1;
-    margin-left: 10px;
+    background: #4A4A4D;
 }
 .player-bar .volume-wrap .volume-yl{
   width:30px;
   height:30px;
   background:url(../assets/img/player-yl.png) center no-repeat;
-  background-size:30px;
+  background-size:22px;
   cursor: pointer;
 }
 .player-bar .volume-wrap .volume-yl.off{
   background:url(../assets/img/player-ylo.png) center no-repeat;
-  background-size:29px;
+  background-size:21px;
 }
 .bfqbox-wrap{
   display:flex;
@@ -581,7 +619,7 @@ export default {
   display:block;
   font-size: 16px;
   cursor: pointer;
-  color:#C62F2F;
+  color: #d3d3d3;
   padding:0 20px;
 }
 .bfqbox-wrap .list{
@@ -593,58 +631,10 @@ export default {
   cursor: pointer;
 }
 .sdwa{
-  box-shadow: #efefef 0px -5px 8px;
+  box-shadow: rgba(255,255,255,0.1) 0px -5px 8px;
 }
-@media screen and (max-width:1280px){
-  .player-bar .progress-wrap{
-    display:none;
-  }
-  .player-bar .bfqbox-wrap{
-    display:none;
-  }
-  .player-bar .volume-wrap{
-    display:none;
-  }
-  .player-bar .info{
-    width:1.866667rem;
-  }
-  .player-bar{
-    display:block;
-    height:auto;
-    padding:0.266667rem;
-    overflow:hidden;
-  }
-  .player-bar .avatar{
-    float:left;
-  }
-  .player-bar .info{
-    float:left;
-    padding-top: 0.133333rem;
-  }
-  .player-bar .player-btn{
-    float:right;
-    padding-top: 0.2rem;
-  }
-  .player-btn .player-prev{
-    width:0.933333rem;
-    height:0.933333rem;
-    background-size:0.933333rem;
-  }
-  .player-btn .player-stop{
-    width:1.2rem;
-    height:1.2rem;
-    background-size:1.2rem;
-  }
-  .player-btn .player-play{
-    width:1.2rem;
-    height:1.2rem;
-    background-size:1.2rem;
-  }
-  .player-btn .player-next{
-    width:0.933333rem;
-    height:0.933333rem;
-    background-size:0.933333rem;
-  }
+.player-center{
+  width: 420px;
 }
 </style>
 <style>
@@ -653,20 +643,21 @@ export default {
 }
 .volume-slider .el-slider__bar{
   height:4px;
-  background-color: #C62F2F;
+  background-color: #EC4141;
 }
 .volume-slider .el-slider__button{
   width: 10px;
   height: 10px;
-  border-color: #C62F2F;
+  background: #EC4141;
+  border-radius: 50%;
 }
 .volume-slider .el-slider__button-wrapper{
-  top: -6px;
+  top: -2.5px;
   width: auto;
   height: auto;
+  left: 100%;
+  position: absolute;
 }
-</style>
-<style>
 .zZindex {
     z-index:10000 !important;
   }

@@ -5,15 +5,16 @@
         </div>
         <div class="playlist-listbdc">
             <div class="listbdc clear" v-for="(item,index) in SomgList" :key="index" @click="changeAudioInfo(item)">
-                <span class="fl name" :class="[item.SongId == $store.state.audioInfo.SongInfo.SongId ? ($store.state.audioInfo.audioPlayBtn ? 'on' : 'off') : '']">
+                <div class="fl name" :class="[item.SongId == $store.state.audioInfo.SongInfo.SongId ? ($store.state.audioInfo.audioPlayBtn ? 'on' : 'off') : '']">
                     {{item.SongName}}
-                </span>
-                <span class="fl artists">
-                    {{item.SongArtists}}
-                </span>
-                <span class="fl time">
+                </div>
+                <div class="fl artists">
+                    <!-- {{item.SongArtists}} -->
+                    <span v-for="(item2,index2) in item.SongArtists" :key="index2" v-html="((index2 != 0) ? ' / ' : '') + '<em>'+item2.name+'</em>'"></span>
+                </div>
+                <div class="fl time">
                     {{item.SongTime}}
-                </span>
+                </div>
             </div>
         </div>
   </div>
@@ -63,14 +64,14 @@ export default {
 <style scoped>
 .wrap-playlist{
     width: 500px;
-    height: 400px;
     box-sizing: border-box;
     padding: 20px;
-    position: fixed;
-    bottom: 69px;
+    position: absolute;
+    bottom: 72px;
     right: 0;
-    background: #ffffff;
+    background: #363636;
     z-index: 99;
+    overflow: hidden;
     transform: translateX(500px);
     opacity:0;
 }
@@ -80,14 +81,14 @@ export default {
 }
 .playlist-bt{
     font-size: 16px;
-    color: #4a4a4a;
+    color: #d6d6d6;
     font-weight: 700;
     text-align: left;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    border-bottom: 1px solid #DCDCDC;
+    border-bottom: 1px solid rgb(67, 67, 67);
     padding-bottom: 18px;
 }
 .playlist-listbdc{
@@ -100,39 +101,44 @@ export default {
     line-height: 40px;
     cursor: pointer;
 }
-.playlist-listbdc .listbdc span{
+.playlist-listbdc .listbdc div{
     font-size: 14px;
     display: inline-block;
     text-align: center;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color:#7f7f7f;
 }
-.playlist-listbdc .listbdc span.name{
-    width: 60%;
+.playlist-listbdc .listbdc div.name{
+    width: 50%;
     text-align: left;
     box-sizing: border-box;
+    color:#d6d6d6;
 }
-.playlist-listbdc .listbdc span.name.on{
-    padding-left: 25px;
+.playlist-listbdc .listbdc div.name.on{
+    padding-left: 16px;
     background: url(../../assets/img/player-stop.png) left center no-repeat;
-    background-size: 20px;
+    background-size: 12px;
 }
-.playlist-listbdc .listbdc span.name.off{
-    padding-left: 25px;
+.playlist-listbdc .listbdc div.name.off{
+    padding-left: 16px;
     background: url(../../assets/img/player-btn3.png) left center no-repeat;
-    background-size: 20px;
+    background-size: 10px;
 }
-.playlist-listbdc .listbdc span.artists{
-    width: 20%;
+.playlist-listbdc .listbdc div.artists{
+    width: 40%;
 }
-.playlist-listbdc .listbdc span.time{
-    width: 20%;
+.playlist-listbdc .listbdc div.time{
+    width: 10%;
 }
 .playlist-listbdc .listbdc:nth-child(2n){
-    background-color: #f7f7f7;
+    background-color: rgba(57,57,57,1);
 }
 .playlist-listbdc .listbdc:hover{
-    background: #e8e9ed;
+    background: rgb(61,61,61);
+}
+.playlist-listbdc .listbdc:hover div{
+    color:#ffffff;
 }
 </style>
