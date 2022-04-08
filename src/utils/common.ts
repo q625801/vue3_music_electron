@@ -99,7 +99,6 @@ export const audioPlay = (SongInfo:songinfo,SongList:any,self:any) => {
       SongArtists:SongInfo.song.artists
   }
   let arr:Array<any> = [];
-  console.log(SongList)
   if(SongList && SongList.length > 0){
       SongList.forEach((item:songinfo) => {
           let obj:SongData = {
@@ -109,10 +108,8 @@ export const audioPlay = (SongInfo:songinfo,SongList:any,self:any) => {
             SongArtists: item.song.artists,
             SongTime: playtime(item.song.bMusic.playTime)
           }
-          
           arr.push(obj)
       })
-      console.log(arr)
       self.$store.commit('setSongList',arr)
   }
   self.$store.commit('setSongInfo',data)

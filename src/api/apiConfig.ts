@@ -2,9 +2,20 @@ import axios from "axios"; // 引用axios
 const instance = axios.create({
   timeout: 60000,
 });
+interface axiosconfig {
+  headers:object
+}
 //请求拦截器
 instance.interceptors.request.use(config => {
-    return config
+  // console.log(config)
+  if(!config){
+    config = {}
+  }
+  if(!config.headers){
+    config.headers = {}
+  }
+  // console.log(config)
+  return config
 })
 //get请求
 function get(url:string, params = {}) {

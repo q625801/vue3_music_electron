@@ -4,8 +4,8 @@
             播放列表({{SomgList.length}})
         </div>
         <div class="playlist-listbdc">
-            <div class="listbdc clear" v-for="(item,index) in SomgList" :key="index" @click="changeAudioInfo(item)">
-                <div class="fl name" :class="[item.SongId == $store.state.audioInfo.SongInfo.SongId ? ($store.state.audioInfo.audioPlayBtn ? 'on' : 'off') : '']">
+            <div class="listbdc clear" v-for="(item,index) in SomgList" :key="index" @click="changeAudioInfo(item)" :class="[item.SongId == $store.state.audioInfo.SongInfo.SongId ? ($store.state.audioInfo.audioPlayBtn ? 'on' : 'off') : '']">
+                <div class="fl name">
                     {{item.SongName}}
                 </div>
                 <div class="fl artists">
@@ -116,14 +116,14 @@ export default {
     box-sizing: border-box;
     color:#d6d6d6;
 }
-.playlist-listbdc .listbdc div.name.on{
+.playlist-listbdc .listbdc.on div.name{
     padding-left: 16px;
-    background: url(../../assets/img/player-stop.png) left center no-repeat;
+    background: url(../../assets/img/player-stop2.png) left center no-repeat;
     background-size: 12px;
 }
-.playlist-listbdc .listbdc div.name.off{
+.playlist-listbdc .listbdc.off div.name{
     padding-left: 16px;
-    background: url(../../assets/img/player-btn3.png) left center no-repeat;
+    background: url(../../assets/img/player-btn4.png) left center no-repeat;
     background-size: 10px;
 }
 .playlist-listbdc .listbdc div.artists{
@@ -140,5 +140,8 @@ export default {
 }
 .playlist-listbdc .listbdc:hover div{
     color:#ffffff;
+}
+.playlist-listbdc .listbdc.on div.name,.playlist-listbdc .listbdc.off div.name,.playlist-listbdc .listbdc.on div.artists,.playlist-listbdc .listbdc.off div.artists{
+    color:#EC4141;
 }
 </style>

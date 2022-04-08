@@ -58,3 +58,5 @@ export const getPopularPodcast:string = api + '/personalized/djprogram' + (api.i
 
 // ===================独家放送
 export const getPrivateContent:string = api + '/personalized/privatecontent' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+
+export const recommendsongs:string = api + '/recommend/songs' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')

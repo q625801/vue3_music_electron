@@ -2,11 +2,11 @@
     <div class="wrap-newmusic">
         <Titlemm :title="'最新音乐'" :arrow="true" :href="'xxx'"/>
         <div class="newmusic-section">
-            <div class="newmusic-list clear" v-for="(item,index) in newsongdata" :key="index" @click="audioPlay(item,newsongdata,this)">
+            <div :class="['newmusic-list','clear',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '']" v-for="(item,index) in newsongdata" :key="index" @click="audioPlay(item,newsongdata,this)">
                 <div class="newmusic-left fl">
                     <div class="newmusic-img">
                         <img v-lazy="item.picUrl + '?param=300y300'"/>
-                        <div class="newmusic-playerbtn"></div>
+                        <div :class="['newmusic-playerbtn',item.id == $store.state.audioInfo.SongInfo.SongId ? ($store.state.audioInfo.audioPlayBtn ? 'play' : '') : '']"></div>
                     </div>
                 </div>
                 <div class="newmusic-right fl">
@@ -68,7 +68,7 @@ export default defineComponent({
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: wrap;
-        .newmusic-list:hover{
+        .newmusic-list.on,.newmusic-list:hover{
             background: rgba(208, 208, 208, 0.1);
         }
         .newmusic-list{
@@ -83,16 +83,20 @@ export default defineComponent({
                     overflow: hidden;
                     position: relative;
                     .newmusic-playerbtn{
-                        background: url("../../../assets/img/player-daily.png") center center no-repeat;
                         width: 30px;
                         height: 30px;
-                        background-size: 30px;
+                        background: url("../../../assets/img/player-daily.png") center center no-repeat;
+                        background-size: 28px;
                         position: absolute;
                         top: 0;
                         left: 0;
                         right: 0;
                         bottom: 0;
                         margin: auto;
+                    }
+                    .newmusic-playerbtn.play{
+                        background: url("../../../assets/img/player-daily-stop.png") center center no-repeat;
+                        background-size: 28px;
                     }
                 }
             }

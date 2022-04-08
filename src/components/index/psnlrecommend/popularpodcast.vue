@@ -89,13 +89,13 @@ export default defineComponent({
                 }
             }
             .popularpodcat-playerbtn{
-                width: 35px;
-                height: 35px;
+                width: 28px;
+                height: 28px;
                 background:url("../../../assets/img/player-daily.png") center no-repeat;
-                background-size: 35px;
+                background-size: 28px;
                 position: absolute;
-                right: 0;
-                bottom: 0;
+                right: 6px;
+                bottom: 6px;
             }
         }
         .popularpodcat-right{

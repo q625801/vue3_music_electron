@@ -40,7 +40,8 @@ export default createStore({
     },
     setSongInfo(state,data){
         if(state.audioInfo.SongInfo.SongId == data.SongId){
-            return
+          state.audioInfo.audioPlayBtn = !state.audioInfo.audioPlayBtn
+          return
         }
         state.audioInfo.SongInfo = data
     },

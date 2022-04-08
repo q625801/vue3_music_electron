@@ -111,11 +111,11 @@ export default defineComponent({
                 border-radius: 5px;
                 overflow: hidden;
                 .list-player{
-                    width:40px;
-                    height:40px;
+                    width:28px;
+                    height:28px;
                     position:absolute;
-                    right: 5px;
-                    bottom: 5px;
+                    right: 10px;
+                    bottom: 10px;
                     background:url("../../../assets/img/player-daily.png") center no-repeat;
                     background-size:cover;
                     opacity:0;

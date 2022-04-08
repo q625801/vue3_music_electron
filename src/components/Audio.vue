@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap audio-wrap" v-show="$store.state.audioInfo.audioFlag">
+  <div class="wrap audio-wrap" :class="$store.state.audioInfo.audioFlag ? '':'disabled'">
     <div class="player-bar">
       <div class="clear player-songinfo">
         <div class="avatar fl">
@@ -37,8 +37,8 @@
       </div>
       <div class="bfqbox-wrap clear">
         <span class="bflx fl" :class="[comPlayMode]" @click="changePlayMode"></span>
-        <span class="fl text" @click="$refs.lyric.lyricFlag = !$refs.lyric.lyricFlag;$refs.playlist.playlistFlag = false">词</span>
-        <span class="fl list" @click="$refs.playlist.playlistFlag = !$refs.playlist.playlistFlag;$refs.lyric.lyricFlag = false"></span>
+        <span class="fl text" @click="if($store.state.audioInfo.audioFlag) $refs.lyric.lyricFlag = !$refs.lyric.lyricFlag;$refs.playlist.playlistFlag = false">词</span>
+        <span class="fl list" @click="if($store.state.audioInfo.audioFlag) $refs.playlist.playlistFlag = !$refs.playlist.playlistFlag;$refs.lyric.lyricFlag = false"></span>
       </div>
     </div>
     <audio ref="audio">您的浏览器不支持 audio 标签。</audio>
@@ -189,6 +189,9 @@ export default {
       }
     },
     audioplay(){
+      if(!this.$store.state.audioInfo.audioFlag){
+        return
+      }
       let audio = this.$refs.audio;
       if (audio.paused) {
         this.$store.commit('setAudioPlayBtn',true)
@@ -197,15 +200,18 @@ export default {
       }
     },
     clickBg (e) {
+      if(!this.$store.state.audioInfo.audioFlag){
+        return
+      }
       if(!this.audioduration){
         return
       }
       this.touch.width = this.$refs.barBg.clientWidth
-      let left = this.$refs.barBg.offsetLeft
-      let offsetWidth,that = this
+      let left = this.$refs.barBg.getBoundingClientRect().left
+      let offsetWidth
       if(IsPC()){
-        that.touch.endX = e.pageX - left
-        offsetWidth = that.touch.endX / that.touch.width * 100;
+        this.touch.endX = e.pageX - left
+        offsetWidth = this.touch.endX / this.touch.width * 100;
       }
       this.changeTime(offsetWidth)
     },
@@ -220,14 +226,12 @@ export default {
         if (!that.is_yuanmousedown){
           return false;
         }
-        const left = that.$refs.barBg.offsetLeft
+        const left = that.$refs.barBg.getBoundingClientRect().left
         that.touch.startX = e.pageX - left
         that.touch.width = that.$refs.barBg.clientWidth
-        if(IsPC()){
-          let deltaX = e.pageX - left;
-          const width = Math.min(Math.max(0, deltaX), that.touch.width)
-          offsetWidth = width / that.touch.width * 100
-        }
+        let deltaX = e.pageX - left;
+        const width = Math.min(Math.max(0, deltaX), that.touch.width)
+        offsetWidth = width / that.touch.width * 100
         that.setProgress(offsetWidth)
       };
 
@@ -272,6 +276,9 @@ export default {
       this.progressWidth = val
     },
     volumeClick(){
+      if(!this.$store.state.audioInfo.audioFlag){
+        return
+      }
       if(this.volumeTitle == '静音'){
         this.$refs.audio.volume = 
         this.VolumeSize = 0
@@ -286,6 +293,9 @@ export default {
       this.$refs.audio.volume = this.VolumeSize/100
     },
     nextSong(){
+      if(!this.$store.state.audioInfo.audioFlag){
+        return
+      }
       if(this.audioPlayMode == 'loop' || this.audioPlayMode == 'loopone'){
         let SongList = this.$store.getters.getSongList
         this.goNextSong(SongList)
@@ -294,6 +304,9 @@ export default {
       }
     },
     prevSong(){
+      if(!this.$store.state.audioInfo.audioFlag){
+        return
+      }
       if(this.audioPlayMode == 'loop' || this.audioPlayMode == 'loopone'){
         let SongList = this.$store.getters.getSongList
         this.goPrevSong(SongList)
@@ -322,6 +335,9 @@ export default {
       this.$store.commit('setSongInfo',arr[SongOnIndex])
     },
     changePlayMode(){
+      if(!this.$store.state.audioInfo.audioFlag){
+        return
+      }
       if(this.audioPlayMode == 'loop'){
         this.audioPlayMode = 'loopone'
       }else if(this.audioPlayMode == 'loopone'){
@@ -357,7 +373,6 @@ export default {
       if(!this.$store.state.audioInfo.audioFlag){
         this.$store.commit('setAudioFlag',true)
       }
-      console.log(newval)
       this.getmusicurl(newval.SongId)
       this.getlyric(newval.SongId)
       this.SongId = newval.SongId
@@ -512,10 +527,10 @@ export default {
   color:#7f7f7f;
 }
 .player-bar .progress-wrap p.current-time{
-  margin-right:7px;
+  margin-right:12px;
 }
 .player-bar .progress-wrap p.duration-time{
-  margin-left:7px;
+  margin-left:12px;
 }
 .progress-bar-wrap{
   width: 100%;
@@ -580,6 +595,7 @@ export default {
     width: 100%;
     flex: 1;
     background: #4A4A4D;
+    cursor: pointer;
 }
 .player-bar .volume-wrap .volume-yl{
   width:30px;
@@ -661,4 +677,79 @@ export default {
 .zZindex {
     z-index:10000 !important;
   }
+</style>
+<style scoped lang="scss">
+.audio-wrap.disabled{
+  .player-bar{
+    .player-songinfo{
+      .avatar{
+        display:none;
+      }
+    }
+    .player-center{
+      .progress-bar-wrap{
+        .progress-bar{
+          cursor: default;
+          .progress-btn{
+            display:none;
+          }
+        }
+      }
+      .current-time{
+        display:none;
+      }
+      .player-btn{
+        span{
+          cursor: default;
+        }
+        .player-play{
+          background:url(../assets/img/player-btn3-disabled.png) center no-repeat;
+          background-size:11px;
+          background-color: rgb(42, 42, 45);
+        }
+        .player-prev{
+          background:url(../assets/img/player-prev-disabled.png) center no-repeat;
+          background-size:13px;
+        }
+        .player-next{
+          background:url(../assets/img/player-next-disabled.png) center no-repeat;
+          background-size:13px;
+        }
+      }
+    }
+    .volume-wrap{
+      opacity: 0;
+      .volume-yl{
+        cursor: default;
+      }
+      .volume-slider{
+        cursor: default;
+      }
+    }
+    .bfqbox-wrap{
+      .bflx{
+        background:url(../assets/img/loop-disabled.png) center no-repeat;
+        background-size:20px;
+        cursor:default;
+      }
+      .bflx.loopone{
+        background:url(../assets/img/loopone-disabled.png) center no-repeat;
+        background-size:20px;
+      }
+      .bflx.random{
+        background:url(../assets/img/suiji-disabled.png) center no-repeat;
+        background-size:20px;
+      }
+      .text{
+        cursor:default;
+        color: #6f6f6f;
+      }
+      .list{
+        background:url(../assets/img/bflist-disabled.png) center no-repeat;
+        background-size:20px;
+        cursor: default;
+      }
+    }
+  }
+}
 </style>
