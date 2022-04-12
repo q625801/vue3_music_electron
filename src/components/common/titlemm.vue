@@ -38,12 +38,12 @@ export default defineComponent({
 	.title{
 		font-size: 20px;
         font-weight: bold;
-        color: #d6d6d6;
+        color: $font-color;
 		cursor: pointer;
         line-height: 40px;
 	}
 	.title:hover{
-		color: #ffffff;
+		color: $font-hovercolor;
 	}
 	.arrow{
 		background: url("../../assets/img/arrow-title.png") center right no-repeat;

@@ -75,14 +75,14 @@ export default defineComponent({
         }
         .privatecontent-title{
             padding-top: 6px;
-            color: #d6d6d6;
+            color: $font-color;
             font-size: 14px;
             line-height: 20px;
             text-align: justify;
             cursor: pointer;
         }
         .privatecontent-title:hover{
-            color: #ffffff;
+            color: $font-hovercolor;
         }
     }
 }

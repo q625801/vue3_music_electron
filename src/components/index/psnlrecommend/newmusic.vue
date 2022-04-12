@@ -69,7 +69,7 @@ export default defineComponent({
         justify-content: space-between;
         flex-wrap: wrap;
         .newmusic-list.on,.newmusic-list:hover{
-            background: rgba(208, 208, 208, 0.1);
+            background: $hvoerbodybg;
         }
         .newmusic-list{
             width: 32%;
@@ -112,13 +112,13 @@ export default defineComponent({
                     -webkit-line-clamp: 1;
                     overflow: hidden;
                     em{
-                        color: #7f7f7f;
+                        color: $font-authorcolor;
                     }
                 }
                 .newmusic-author{
                     padding-top: 10px;
                     font-size: 12px;
-                    color: #7f7f7f;
+                    color: $font-authorcolor;
                     display: block;
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
@@ -129,7 +129,7 @@ export default defineComponent({
                             cursor: pointer;
                         }
                         ::v-deep em:hover{
-                            color: #afafaf;
+                            color: $font-hoverauthorcolor;
                         }
                     }
                 }

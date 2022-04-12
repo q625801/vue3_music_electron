@@ -17,25 +17,18 @@ instance.interceptors.request.use(config => {
   // console.log(config)
   return config
 })
-//get请求
-function get(url:string, params = {}) {
-  return new Promise((resolve, reject) => {
-    instance
-      .get(url, {
-        params: params,
-      })
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-}
+
 //post请求
 function post(url:string, data = {}) {
   return new Promise((resolve, reject) => {
-    instance.post(url, data).then(
+    instance({
+      headers: {
+        'Content-Type': "application/json;charset=utf-8"
+      },
+      params: data,
+      method: 'post',
+      url: url
+    }).then(
       (response) => {
         resolve(response.data);
       },
@@ -46,6 +39,27 @@ function post(url:string, data = {}) {
   });
 }
 
+//download blob
+function downloadBlobFile(url:string, data = {}){
+  return new Promise((resolve, reject) => {
+    instance({
+      headers: {
+        'Content-Type': "application/json;charset=utf-8"
+      },
+      responseType:'blob',
+      params: data,
+      method: 'get',
+      url: url
+    }).then(
+      (response) => {
+        resolve(response.data);
+      },
+      (err) => {
+        reject(err);
+      }
+    );
+  });
+}
 export function postJson(url:string, params:object, successCallback:any, errorCallback:any,isloading = true){
     // if (isloading){
     //     store.state.loadding = true;
@@ -54,7 +68,14 @@ export function postJson(url:string, params:object, successCallback:any, errorCa
         .then(res => successDataFun(res, successCallback, isloading))
         .catch(err => failDataFun(err, errorCallback, isloading));
 }
-
+export function downloadJson(url:string, params:object, successCallback:any, errorCallback:any,isloading = true){
+  // if (isloading){
+  //     store.state.loadding = true;
+  // }
+  downloadBlobFile(url, params)
+      .then(res => successDataFun(res, successCallback, isloading))
+      .catch(err => failDataFun(err, errorCallback, isloading));
+}
 function successDataFun(res:any, successCallback:any, isloading:any){
     // if (isloading) {
     //     store.state.loadding = false;

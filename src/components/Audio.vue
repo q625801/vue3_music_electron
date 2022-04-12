@@ -50,7 +50,7 @@
 <script>
 import {mp3url,songlyric} from "@/api/api"
 import {IsPC,Shuffle} from "@/utils/common"
-import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import {postJson} from "@/api/apiConfig";
 import playlist from "./Audio/playlist"
 import lyric from "./Audio/lyric"
@@ -405,10 +405,10 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
 .audio-wrap{
   width: 100%;
-  background: rgb(35, 35, 37);
+  background: $headeraudiobg;
   right: 0;
   left: 0;
   z-index: 8000;
@@ -594,8 +594,6 @@ export default {
     position: relative;
     width: 100%;
     flex: 1;
-    background: #4A4A4D;
-    cursor: pointer;
 }
 .player-bar .volume-wrap .volume-yl{
   width:30px;
@@ -656,6 +654,7 @@ export default {
 <style>
 .volume-slider .el-slider__runway{
   height:4px;
+  background-color: #4A4A4D;
 }
 .volume-slider .el-slider__bar{
   height:4px;
@@ -666,9 +665,10 @@ export default {
   height: 10px;
   background: #EC4141;
   border-radius: 50%;
+  border: none;
 }
 .volume-slider .el-slider__button-wrapper{
-  top: -2.5px;
+  top: -7.5px;
   width: auto;
   height: auto;
   left: 100%;

@@ -68,7 +68,7 @@ export default defineComponent({
     justify-content: space-between;
     flex-wrap: wrap;
     .popularpodcat-list:hover{
-        background:rgba(208,208,208,.1)
+        background:$hvoerbodybg
     }
     .popularpodcat-list{
         width:49%;
@@ -104,7 +104,7 @@ export default defineComponent({
             height: 100%;
             box-sizing: border-box;
             .popularpodcat-title{
-                color: #d6d6d6;
+                color: $font-color;
                 font-size: 14px;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
@@ -124,12 +124,12 @@ export default defineComponent({
             .popularpodcat-dj{
                 span{
                     font-size: 12px;
-                    color: rgb(127, 127, 127);
+                    color: $font-authorcolor;
                     display: block;
                     line-height: 16px;
                 }
                 .popularpodcat-brand:hover{
-                    color: rgb(175, 175, 175);
+                    color: $font-hoverauthorcolor;
                 }
                 .popularpodcat-brand{
                     cursor: pointer;

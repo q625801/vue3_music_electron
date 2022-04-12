@@ -22,7 +22,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .wrap-nav{
   height: 60px;
-  background-color: rgb(35,35,38);
+  background-color: $headeraudiobg;
   box-sizing: border-box;
   border-bottom: 2px solid rgb(148, 22, 22);
   .wrap-logo{

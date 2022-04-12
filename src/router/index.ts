@@ -10,6 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     path:"/",
     name:'App',
     redirect: "/index/psnlrecommend",
+    // meta:{id:1}
   },
   {
     path: "/index",
@@ -20,10 +21,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "psnlrecommend", //嵌套路由 1.path路径不能/开头 /开头嵌套路由不会生效
         name: "PsnlRecommend",
-        component:() => import("../components/index/PsnlRecommend.vue")
+        component:() => import("../components/index/PsnlRecommend.vue") //路由懒加载写法 懒加载好处页面按需加载组件用户访问页面效率提高  解决白屏问题
       },
       {
-        path: "handtailor", //vue-router4.x 原来require路由懒加载写法报错 替换下面那种
+        path: "handtailor", //vue-router4.x 原来require路由懒加载写法报错 替换下面那种 
         name: "handtailor",
         // component: reslove => require(["../components/index/handtailor.vue"],reslove)
         component: () => require.ensure([],(require) => require("../components/index/handtailor.vue"))
@@ -49,6 +50,11 @@ const routes: Array<RouteRecordRaw> = [
         component:LatestMusic
       },
     ],
+  },
+  {
+    path: "/everydaysongrmd",
+    name: "everydaysongrmd",
+    component: () => import("../views/everydaysongrmd.vue"),
   },
   {
     path: "/podcast",

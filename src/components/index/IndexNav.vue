@@ -61,10 +61,10 @@ export default defineComponent({
 <style scoped lang="scss">
     .index-nav{
       height: 40px;
-      padding: 0 30px;
+      padding: 0 30px 10px;
       span{
         display: block;
-        color: #d6d6d6;
+        color: $font-color;
         margin-right: 20px;
         cursor: pointer;
         line-height: 40px;
@@ -72,12 +72,12 @@ export default defineComponent({
       span.on{
         font-size: 20px;
         font-weight: bold;
-        color: #d6d6d6;
+        color: $font-color;
         background: url("../../assets/img/index_line.jpg") bottom center no-repeat;
         background-size: 75% 3px;
       }
       span:hover{
-        color: #ffffff;
+        color: $font-hovercolor;
       }
     }
 </style>

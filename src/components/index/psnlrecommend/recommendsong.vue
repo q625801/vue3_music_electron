@@ -2,10 +2,10 @@
     <div class="wrap-recommendsong">
         <Titlemm :title="'推荐歌单'" :arrow="true" :href="'xxxx'"/>
         <div class="recommendsong-section clear" v-if="SongSheetArr.length > 0">
-            <div class="songsheet-list songsheet-daily fl" @mouseenter="enter()" @mouseleave="leave">
+            <div class="songsheet-list songsheet-daily fl" @mouseenter="enter()" @mouseleave="leave" @click="goeverysongrmd">
                 <div :class="[dailytips ? 'show' : '','daily-tips','amn2']">根据您的音乐口味生成每日更新</div>
                 <div class="list-img">
-                    <img src="../../../assets/img/index-daily.jpg" title="每日推荐">
+                    <img src="../../../assets/img/index-daily.jpg" title="每日推荐" alt="每日推荐">
                     <div class="calendar">
                         <span>{{Number(today.split('-')[2])}}</span>
                     </div>
@@ -33,11 +33,17 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
+import { useRouter } from 'vue-router'
 import {postJson} from "@/api/apiConfig";
 import { personalized } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
 import {myDate} from "@/utils/common"
+interface state{
+  SongSheetArr:[];
+  today:string;
+  dailytips:boolean;
+}
 export default defineComponent({
   	name:'Index',
   	components:{
@@ -45,7 +51,7 @@ export default defineComponent({
         Titlemm
   	},
   	setup(){
-        let state = reactive<any>({
+        let state:state = reactive({
             SongSheetArr:[],
             today:'',
             dailytips:false,
@@ -79,10 +85,17 @@ export default defineComponent({
                 
             })
         }
+        let router = useRouter();
+        let goeverysongrmd = () => {
+            router.push({
+                path: '/everydaysongrmd'
+            })
+        }
 		return{
 			...toRefs(state),
             enter,
-            leave
+            leave,
+            goeverysongrmd
 		} 
   	}
 })
@@ -162,7 +175,7 @@ export default defineComponent({
             .list-title span{
                 display: block;
                 text-align: left;
-                color:#d6d6d6;
+                color:$font-color;
                 font-size: 14px;
                 line-height: 18px;
                 padding-top: 8px;
@@ -172,7 +185,7 @@ export default defineComponent({
                 overflow: hidden;                 /*超出隐藏*/
             }
             .list-title span:hover{
-                color:#ffffff;
+                color:$font-hovercolor;
             }
         }
         .songsheet-daily{

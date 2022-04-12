@@ -16,5 +16,17 @@ module.exports = {
         },
       },
     },
+  },
+  css:{
+    loaderOptions:{
+      sass:{
+        prependData: `@import "@/assets/css/peeling.scss";`
+      }
+    }
+  },
+  pluginOptions:{
+    electronBuilder:{
+      nodeIntegration: true
+    }
   }
 }
