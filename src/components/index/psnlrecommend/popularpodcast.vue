@@ -32,7 +32,7 @@ import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
 import {playtime} from "@/utils/common"
 export default defineComponent({
-    name:'loading',
+    name:'popularpodcast',
     components:{
         Titlemm,
         LoadingCpn
@@ -84,8 +84,8 @@ export default defineComponent({
                 border-radius: 3px;
                 overflow: hidden;
                 img{
-                    width: 100%;
-                    height: 100%;
+                    max-width: 100%;
+                    max-height: 100%;
                 }
             }
             .popularpodcat-playerbtn{

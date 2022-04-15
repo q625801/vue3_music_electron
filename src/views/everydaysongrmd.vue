@@ -9,21 +9,22 @@
                 <p>根据你的音乐口味生成，每天6点更新</p>
             </div>
         </div>
-        <MusicPlayList :stdetaildata="detailinfo"/>
+        <MusicPlayList :stdetaildata="detailinfo" :stSongAll="songlistAll"/>
     </div>
 </template>
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
 import {postJson} from "@/api/apiConfig"
-import { sddetail } from "@/api/api"
+import { sddetail,sdsongAll } from "@/api/api"
 import { myDate } from "@/utils/common"
 import MusicPlayList from "@/components/common/musicplaylist.vue"
 interface state{
     today:string;
     detailinfo:object;
+    songlistAll:Array<object>;
 }
 export default defineComponent({
-    name:'loading',
+    name:'everydaysongrmd',
     components:{
         MusicPlayList
     },
@@ -32,18 +33,35 @@ export default defineComponent({
             today:'',
             detailinfo:{
             },
+            songlistAll:[]
         })
         let getAblbum = () => {
-            postJson(sddetail,{id:3136952023},(res:any) => {
-                if(res.code == 200){
-                    state.detailinfo = res.playlist;
-                }
-            },(err:object) => {
-
+            return new Promise((reslove,reject) => {
+                postJson(sddetail,{id:3136952023},(res:any) => {
+                    reslove(res)
+                },(err:object) => {
+                    reject(err)
+                })
+            })
+        }
+        let getPlayListTrackAll = () => {
+            return new Promise((reslove,reject) => {
+                postJson(sdsongAll,{id:3136952023},(res:any) => {
+                    reslove(res)
+                },(err:any) => {
+                    reject(err)
+                })
             })
         }
         onMounted(() => {
-            getAblbum()
+            Promise.all([getAblbum(),getPlayListTrackAll()]).then((res:any) => {
+                if(res[0].code == 200){
+                    state.detailinfo = res[0].playlist;
+                }
+                if(res[1].code == 200){
+                    state.songlistAll = res[1].songs
+                }
+            })
             state.today = myDate()
         })
         return{

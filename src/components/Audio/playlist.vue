@@ -61,7 +61,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .wrap-playlist{
     width: 500px;
     box-sizing: border-box;
@@ -142,6 +142,6 @@ export default {
     color:#ffffff;
 }
 .playlist-listbdc .listbdc.on div.name,.playlist-listbdc .listbdc.off div.name,.playlist-listbdc .listbdc.on div.artists,.playlist-listbdc .listbdc.off div.artists{
-    color:#EC4141;
+    color:$musicNameOn;
 }
 </style>

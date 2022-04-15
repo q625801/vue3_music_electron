@@ -2,7 +2,7 @@
     <div class="wrap-newmusic">
         <Titlemm :title="'最新音乐'" :arrow="true" :href="'xxx'"/>
         <div class="newmusic-section">
-            <div :class="['newmusic-list','clear',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '']" v-for="(item,index) in newsongdata" :key="index" @click="audioPlay(item,newsongdata,this)">
+            <div :class="['newmusic-list','clear',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '']" v-for="(item,index) in newsongdata" :key="index" @click="audioPlay(item,newsongdata,store)">
                 <div class="newmusic-left fl">
                     <div class="newmusic-img">
                         <img v-lazy="item.picUrl + '?param=300y300'"/>
@@ -15,7 +15,9 @@
                         <em>{{item.song.alias.length > 0 ? '（' + item.song.alias.join(',') + '）' : (item.song.transName ? '（' + item.song.transName + '）' : '')}}</em>
                     </div>
                     <div class="newmusic-author">
-                        <span v-for="(item,index) in item.song.artists" :key="index" v-html="((index != 0) ? ' / ' : '') + '<em>'+item.name+'</em>'">
+                        <span v-for="(item,index) in item.song.artists" :key="index">
+                            {{index != 0 ? ' / ' : ''}}
+                            <em @click.stop="goArtist">{{item.name}}</em>
                         </span>
                     </div>
                 </div>
@@ -31,6 +33,7 @@ import { newsong } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
 import {audioPlay} from "@/utils/common"
+import {useStore} from 'vuex'
 export default defineComponent({
     name:'newmusic',
     components:{
@@ -53,8 +56,10 @@ export default defineComponent({
 
             })
         }
+        const store = useStore()
         return{
             ...toRefs(state),
+            store,
             audioPlay
         }
     }

@@ -91,7 +91,7 @@ interface SongData{
   SongArtists:any;
   SongTime:string;
 }
-export const audioPlay = (SongInfo:songinfo,SongList:any,self:any) => {
+export const audioPlay = (SongInfo:songinfo,SongList:any,store:any) => {
   let data = {
       SongId:SongInfo.id,
       SongName:SongInfo.name,
@@ -110,7 +110,7 @@ export const audioPlay = (SongInfo:songinfo,SongList:any,self:any) => {
           }
           arr.push(obj)
       })
-      self.$store.commit('setSongList',arr)
+      store.commit('setSongList',arr)
   }
-  self.$store.commit('setSongInfo',data)
+  store.commit('setSongInfo',data)
 }

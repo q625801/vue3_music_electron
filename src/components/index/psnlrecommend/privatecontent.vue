@@ -21,7 +21,7 @@ import { getPrivateContent } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
 export default defineComponent({
-    name:'loading',
+    name:'privatecontent',
     components:{
         Titlemm,
         LoadingCpn
