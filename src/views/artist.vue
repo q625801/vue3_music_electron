@@ -6,7 +6,7 @@
         </div>
         <div class="artist-info-right fl">
           <div class="artist-name">{{singerInfo.name}}</div>
-          <div class="artist-alias">{{singerInfo && singerInfo.alias.length > 0 ? singerInfo.alias.join(';') : ''}}</div>
+          <div class="artist-alias" v-if="singerInfo && singerInfo.alias.length > 0">{{singerInfo.alias.join(';')}}</div>
           <div class="artist-account" v-if="singerInfo.accountId">
             <span>个人主页</span>
           </div>
@@ -17,20 +17,44 @@
           </div>
         </div>
       </div>
+      <div class="artist-tabs clear">
+        <span :class="['fl',index == tabOn ? 'on' : '']" @click="tabClick(index)" v-for="(item,index) in tabData" :key="index">{{item.title}}</span>
+      </div>
+      <div class="artist-content swiper-no-swiping">
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <Album />
+            </div>
+            <div class="swiper-slide">
+              歌手详情
+            </div>
+            <div class="swiper-slide">
+              相似歌手
+            </div>
+          </div>
+        </div>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent,reactive,toRefs,onMounted } from 'vue'
 import {postJson} from "@/api/apiConfig";
 import { artists } from "@/api/api"
-import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { useRouter } from "vue-router"
 import { ElMessage } from 'element-plus'
+import * as Swiper from "@/assets/js/swiper.min.js"
+import "@/assets/css/swiper.min.css"
+import Album from "@/components/artist/album.vue"
 export default defineComponent({
   name:'artist',
+  components:{
+    Album
+  },
   setup () {
     let router = useRouter()
+    let SwiperData
     let SingerId = router.currentRoute.value.query.id
     if(!SingerId){
       ElMessage({
@@ -43,22 +67,48 @@ export default defineComponent({
       })
     }
     let state = reactive({
+      tabData:[
+        {
+          title:'专辑'
+        },
+        {
+          title:'歌手详情'
+        },
+        {
+          title:'相似歌手'
+        }
+      ],
+      tabOn:0,
       singerInfo: '',
     })
     let getSingerInfo = () => {
-      postJson(artists,{id:SingerId},(res:any) => {
+      postJson(artists,{id:SingerId},(res) => {
         if(res.code == 200){
           state.singerInfo = res.artist
         }
-      },(err:any) => {
+      },(err) => {
 
       })
     }
+    let swipershow = () => {
+      SwiperData = new Swiper('.artist-content .swiper-container', {
+				watchSlidesProgress: true,
+				slidesPerView: 'auto',
+				observer:true,//修改swiper自己或子元素时，自动初始化swiper 
+        observeParents:true,//修改swiper的父元素时，自动初始化swiper 
+			})
+    }
+    let tabClick = (index) => {
+      state.tabOn = index
+      SwiperData.slideTo(index, 500)
+    }
     onMounted(() => {
       getSingerInfo()
+      swipershow()
     })
     return {
       ...toRefs(state),
+      tabClick,
     }
   }
 })
@@ -66,6 +116,9 @@ export default defineComponent({
 <style scoped lang="scss">
 .wrap-artist{
   padding: 30px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: scroll;
   .artist-info{
     .artist-info-left{
       width: 186px;
@@ -124,6 +177,24 @@ export default defineComponent({
           background-color: $checkhvoerbg;
         }
       }
+    }
+  }
+  .artist-tabs{
+    padding-top:25px;
+    padding-bottom:20px;
+    span{
+      color: $font-color;
+      display: block;
+      margin-right: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      line-height: 40px;
+    }
+    span.on{
+      font-size: 18px;
+      font-weight: bold;
+      background: url("../assets/img/index_line.jpg") bottom center no-repeat;
+      background-size: 75% 3px;
     }
   }
 }
