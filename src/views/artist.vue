@@ -2,7 +2,7 @@
   <div class="wrap-artist">
       <div class="artist-info clear">
         <div class="artist-info-left fl">
-          <img :src="singerInfo.img1v1Url + '?param=300y300'"/>
+          <img :src="singerInfo.img1v1Url + '?param=1200y1200'"/>
         </div>
         <div class="artist-info-right fl">
           <div class="artist-name">{{singerInfo.name}}</div>
@@ -24,7 +24,7 @@
         <div class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <Album />
+              <ArtistAlbum :hotSongs="hotSongs" :SingerId="SingerId"/>
             </div>
             <div class="swiper-slide">
               歌手详情
@@ -41,16 +41,16 @@
 <script>
 import { defineComponent,reactive,toRefs,onMounted } from 'vue'
 import {postJson} from "@/api/apiConfig";
-import { artists } from "@/api/api"
+import { getartists } from "@/api/api"
 import { useRouter } from "vue-router"
 import { ElMessage } from 'element-plus'
 import * as Swiper from "@/assets/js/swiper.min.js"
 import "@/assets/css/swiper.min.css"
-import Album from "@/components/artist/album.vue"
+import ArtistAlbum from "@/components/artist/artistalbum.vue"
 export default defineComponent({
   name:'artist',
   components:{
-    Album
+    ArtistAlbum
   },
   setup () {
     let router = useRouter()
@@ -80,11 +80,14 @@ export default defineComponent({
       ],
       tabOn:0,
       singerInfo: '',
+      hotSongs:'',
+      SingerId:SingerId
     })
     let getSingerInfo = () => {
-      postJson(artists,{id:SingerId},(res) => {
+      postJson(getartists,{id:SingerId},(res) => {
         if(res.code == 200){
           state.singerInfo = res.artist
+          state.hotSongs = res.hotSongs
         }
       },(err) => {
 
