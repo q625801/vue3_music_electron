@@ -24,7 +24,7 @@
         <div class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <ArtistAlbum :hotSongs="hotSongs" :SingerId="SingerId"/>
+              <ArtistAlbum :hotSongs="hotSongs" :SingerId="SingerId" @getArtistAlbumEnd="ArtistAlbumEnd"/>
             </div>
             <div class="swiper-slide">
               歌手详情
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { defineComponent,reactive,toRefs,onMounted } from 'vue'
+import { defineComponent,reactive,toRefs,onMounted,provide,nextTick,ref,inject,watch } from 'vue'
 import {postJson} from "@/api/apiConfig";
 import { getartists } from "@/api/api"
 import { useRouter } from "vue-router"
@@ -105,13 +105,39 @@ export default defineComponent({
       state.tabOn = index
       SwiperData.slideTo(index, 500)
     }
+    const artistscrollend = ref(false)
+    let scrollMove = async () => {
+      //当滚动条滑动到底部时artistablbum组件通过监听provide artistscrollend字段来判断是否需要加载下一页
+      //同时artistalbum 通过emit想父组件传值 ArtistAlbumEnd方法来判断获取歌手专辑的接口是否返回
+      //artist父组件watch ArtistAlbumEnd
+      //当接口成功返回重置 artistscrollend 为false 为下一次滚动继续做监听 如果不重置watch无法监听到数据变化
+      //子组件就无法进行接口请求
+      await nextTick()
+      let el = document.querySelector(".wrap-artist")
+      let offsetHeight = el.offsetHeight
+      el.onscroll = () => {
+        const scrollTop = el.scrollTop
+        const scrollHeight = el.scrollHeight
+        if(offsetHeight + scrollTop - scrollHeight >= -123){
+          artistscrollend.value = true
+        }
+      }
+    }
+    provide('artistscrollend',artistscrollend)
+    let ArtistAlbumEnd = (data) => {
+      if(data){
+        artistscrollend.value = false
+      }
+    }
     onMounted(() => {
       getSingerInfo()
       swipershow()
+      scrollMove()
     })
     return {
       ...toRefs(state),
       tabClick,
+      ArtistAlbumEnd
     }
   }
 })

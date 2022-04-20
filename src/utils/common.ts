@@ -1,5 +1,5 @@
-export const myDate = () => {
-    let now = new Date();                                                                                                     
+export const myDate = (data?:number) => {
+    let now:any = data ? new Date(data) : new Date();                                                                                                     
     let year:any = now.getFullYear(); //得到年份
     let month:any = now.getMonth();//得到月份
     let date:any = now.getDate();//得到日期

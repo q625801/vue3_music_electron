@@ -15,17 +15,18 @@
             </div>
         </div>
         <LoadingCpn v-else/>
-        <div class="artistsonglist-checkall"  @click="checkAll" v-if="hotClick && songlistdata.length > 10">查看全部{{songlistdata.length}}首 ></div>
+        <div class="artistsonglist-checkall"  @click="checkAll" v-if="hotClick && songlistdata && songlistdata.length > 10">查看全部{{songlistdata.length}}首 ></div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent,reactive,toRefs,onUpdated,ref } from 'vue'
+import { defineComponent,reactive,toRefs,onUpdated,ref,onMounted } from 'vue'
 import {postJson} from "@/api/apiConfig";
 import { playtime,audioPlay } from "@/utils/common"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import {useStore} from 'vuex'
 import { useRouter } from 'vue-router'
+import { getAlbum } from "@/api/api"
 export default defineComponent({
     name:'artistsonglist',
     components:{
@@ -34,18 +35,24 @@ export default defineComponent({
     props:[
         'isHot',
         'hotSongs',
-        'songlistdata'
+        'AlbumId'
     ],
     setup (props) {
         let state = reactive({
             songlistdata:[],
             hotClick:true,
+            isHot:'',
+            AlbumId:''
+        })
+        onMounted(() => {
+            if(props.AlbumId != state.AlbumId && undefined != props.AlbumId){
+                state.AlbumId = props.AlbumId
+                getAlbumDetail()
+            }
         })
         onUpdated(() => {
-            if(props.isHot){
+            if(props.isHot != state.isHot && undefined != props.isHot){ //如果引入组件传的值不是通过接口获取或其他异步操作是不会执行updated生命周期
                 state.songlistdata = props.hotSongs
-            }else{
-                
             }
         })
         let itemRefs = ref()
@@ -54,11 +61,25 @@ export default defineComponent({
                 itemRefs.value = el
             }
         }
+        let router = useRouter()
         let checkAll = () => {
             if(props.isHot){
                 itemRefs.value.style['max-height'] = 'none'
                 state.hotClick = false
+            }else{
+                router.push({
+                    path:'/'
+                })
             }
+        }
+        let getAlbumDetail = () => {
+            postJson(getAlbum,{id:state.AlbumId},(res:any) => {
+                if(['200', 'OK', 200].includes(res.code)){
+                    state.songlistdata = res.songs
+                }
+            },(err:any) => {
+
+            })
         }
         const store = useStore()
         let goAudioPlay = (data:any) => {
@@ -135,12 +156,12 @@ export default defineComponent({
                 color: $font-authorcolor;
                 padding-right: 7px;
                 span{
-                    font-size: 14px;
+                    font-size: 13px;
                     color: $font-color;
                 }
                 em{
                     color:$font-authorcolor;
-                    font-size:14px;
+                    font-size:13px;
                 }
             }
             .artistsonglist-download{
