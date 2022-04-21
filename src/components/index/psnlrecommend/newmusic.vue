@@ -17,7 +17,7 @@
                     <div class="newmusic-author">
                         <span v-for="(item,index) in item.song.artists" :key="index">
                             {{index != 0 ? ' / ' : ''}}
-                            <em @click.stop="goArtist">{{item.name}}</em>
+                            <em @click.stop="goPage(router,'/artist',{id:item.id})">{{item.name}}</em>
                         </span>
                     </div>
                 </div>
@@ -32,8 +32,9 @@ import {postJson} from "@/api/apiConfig";
 import { newsong } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
-import {audioPlay} from "@/utils/common"
+import {audioPlay,goPage} from "@/utils/common"
 import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 export default defineComponent({
     name:'newmusic',
     components:{
@@ -57,10 +58,13 @@ export default defineComponent({
             })
         }
         const store = useStore()
+        const router = useRouter()
         return{
             ...toRefs(state),
             store,
-            audioPlay
+            audioPlay,
+            goPage,
+            router
         }
     }
 })

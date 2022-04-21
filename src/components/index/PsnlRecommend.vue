@@ -1,7 +1,7 @@
 <template>
   <div class="wrap-psnlrecommend">
     <Banner/>
-    <RecommendSong/>
+    <RecommendAlbum/>
     <PopularPodcast/>
     <PrivateContent/>
     <NewMusic/>
@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Banner from './psnlrecommend/banner.vue'
-import RecommendSong from './psnlrecommend/recommendsong.vue'
+import RecommendAlbum from './psnlrecommend/recommendalbum.vue'
 import PopularPodcast from './psnlrecommend/popularpodcast.vue'
 import PrivateContent from './psnlrecommend/privatecontent.vue'
 import NewMusic from './psnlrecommend/newmusic.vue'
@@ -19,7 +19,7 @@ export default defineComponent({
   name:'Index',
   components:{
     Banner,
-    RecommendSong,
+    RecommendAlbum,
     PopularPodcast,
     PrivateContent,
     NewMusic

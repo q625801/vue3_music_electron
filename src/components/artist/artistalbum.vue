@@ -77,6 +77,11 @@ export default defineComponent({
             state.hotSongs = props.hotSongs
             if(state.SingerId != props.SingerId){
                 state.SingerId = props.SingerId
+                state.ArtistAlbumData = []
+                state.pageArr = {
+                    offset:0,
+                    limit:5,
+                }
                 getData(state.SingerId)
             }
         })

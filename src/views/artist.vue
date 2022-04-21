@@ -22,15 +22,18 @@
       </div>
       <div class="artist-content swiper-no-swiping">
         <div class="swiper-container">
-          <div class="swiper-wrapper">
+          <div class="swiper-wrapper" :ref="setItemRef">
             <div class="swiper-slide">
               <ArtistAlbum :hotSongs="hotSongs" :SingerId="SingerId" @getArtistAlbumEnd="ArtistAlbumEnd"/>
             </div>
             <div class="swiper-slide">
-              歌手详情
+              待完善
             </div>
             <div class="swiper-slide">
-              相似歌手
+              <ArtistDesc :SingerId="SingerId" :SingerName="singerInfo.name"/>
+            </div>
+            <div class="swiper-slide">
+              <ArtistsSimi :SingerId="SingerId"/>
             </div>
           </div>
         </div>
@@ -39,18 +42,22 @@
 </template>
 
 <script>
-import { defineComponent,reactive,toRefs,onMounted,provide,nextTick,ref,inject,watch } from 'vue'
+import { defineComponent,reactive,toRefs,onMounted,provide,nextTick,ref } from 'vue'
 import {postJson} from "@/api/apiConfig";
 import { getartists } from "@/api/api"
-import { useRouter } from "vue-router"
+import { useRouter,onBeforeRouteUpdate } from "vue-router"
 import { ElMessage } from 'element-plus'
 import * as Swiper from "@/assets/js/swiper.min.js"
 import "@/assets/css/swiper.min.css"
 import ArtistAlbum from "@/components/artist/artistalbum.vue"
+import ArtistDesc from "@/components/artist/components/artistdesc.vue"
+import ArtistsSimi from "@/components/artist/components/artistssimi.vue"
 export default defineComponent({
   name:'artist',
   components:{
-    ArtistAlbum
+    ArtistAlbum,
+    ArtistDesc,
+    ArtistsSimi
   },
   setup () {
     let router = useRouter()
@@ -72,6 +79,9 @@ export default defineComponent({
           title:'专辑'
         },
         {
+          title:'MV'
+        },
+        {
           title:'歌手详情'
         },
         {
@@ -84,7 +94,7 @@ export default defineComponent({
       SingerId:SingerId
     })
     let getSingerInfo = () => {
-      postJson(getartists,{id:SingerId},(res) => {
+      postJson(getartists,{id:state.SingerId},(res) => {
         if(res.code == 200){
           state.singerInfo = res.artist
           state.hotSongs = res.hotSongs
@@ -101,7 +111,20 @@ export default defineComponent({
         observeParents:true,//修改swiper的父元素时，自动初始化swiper 
 			})
     }
+    let itemRefs = ref()
+    const setItemRef = (el) => {
+      if(el){
+        itemRefs.value = el
+      }
+    }
     let tabClick = (index) => {
+      for(let i = 0;i<itemRefs.value.children.length;i++){
+        if(index != i){
+          itemRefs.value.children[i].style.height = 0
+        }else{
+          itemRefs.value.children[i].style.height = 'auto'
+        }
+      }
       state.tabOn = index
       SwiperData.slideTo(index, 500)
     }
@@ -118,7 +141,7 @@ export default defineComponent({
       el.onscroll = () => {
         const scrollTop = el.scrollTop
         const scrollHeight = el.scrollHeight
-        if(offsetHeight + scrollTop - scrollHeight >= -123){
+        if(offsetHeight + scrollTop - scrollHeight >= -123 && state.tabOn == 0){
           artistscrollend.value = true
         }
       }
@@ -129,15 +152,29 @@ export default defineComponent({
         artistscrollend.value = false
       }
     }
-    onMounted(() => {
+    let init = () => {
       getSingerInfo()
+    }
+    onBeforeRouteUpdate(to => {
+      if(to.query.id != state.SingerId){
+        state.SingerId = to.query.id
+        state.tabOn = 0
+        state.singerInfo = ''
+        state.hotSongs = ''
+        init()
+        tabClick(0)
+      }
+    })
+    onMounted(() => {
+      init()
       swipershow()
       scrollMove()
     })
     return {
       ...toRefs(state),
       tabClick,
-      ArtistAlbumEnd
+      ArtistAlbumEnd,
+      setItemRef
     }
   }
 })

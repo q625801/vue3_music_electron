@@ -21,7 +21,7 @@
                     <div class="musicplaylist-singer">
                         <span v-for="(item,index) in scope.row.ar" :key="index">
                             {{index != 0 ? ' / ' : ''}}
-                            <em @click.stop="goArtist(item.id)">{{item.name}}</em>
+                            <em @click.stop="goPage(router,'/artist',{id:item.id})">{{item.name}}</em>
                         </span>
                     </div>
                 </template>
@@ -50,8 +50,8 @@ import { songsdetail,mp3url } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import isElectron from 'is-electron'
 import {useStore} from 'vuex'
-import { useRouter } from 'vue-router'
-import { playtime,audioPlay } from "@/utils/common"
+import { playtime,audioPlay,goPage } from "@/utils/common"
+import {useRouter} from "vue-router"
 export default defineComponent({
     name:'loading',
     props:['stdetaildata','stSongAll'],
@@ -117,7 +117,6 @@ export default defineComponent({
                     newArr.push(item.id);
                 }
             })
-            console.log('执行songsdetail')
             getsongdata(newArr);
             
         }
@@ -228,15 +227,7 @@ export default defineComponent({
                 })
             }
         }
-        let router = useRouter()
-        function goArtist(id){
-            router.push({
-                path: '/artist',
-                query:{
-                    id:id
-                }
-            })
-        }
+        const router = useRouter()
         return {
             ...toRefs(state),
             download,
@@ -244,7 +235,8 @@ export default defineComponent({
             getmoresong,
             goAudioPlay,
             tableRowClassName,
-            goArtist
+            router,
+            goPage
         }
     }
 })

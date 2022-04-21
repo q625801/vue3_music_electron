@@ -61,3 +61,7 @@ export const getPrivateContent:string = api + '/personalized/privatecontent' + (
 
 // ===================歌手热门歌曲
 export const getartists:string = api + '/artists' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================歌手描述
+export const getartistsdesc:string = api + '/artist/desc' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================相似歌手
+export const getartistssimi:string = api + '/simi/artist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')

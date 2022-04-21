@@ -1,7 +1,7 @@
 <template>
-    <div class="wrap-recommendsong">
+    <div class="wrap-recommendalbum">
         <Titlemm :title="'推荐歌单'" :arrow="true" :href="'xxxx'"/>
-        <div class="recommendsong-section clear" v-if="SongSheetArr.length > 0">
+        <div class="recommendalbum-section clear" v-if="SongSheetArr.length > 0">
             <div class="songsheet-list songsheet-daily fl" @mouseenter="enter()" @mouseleave="leave" @click="goeverysongrmd">
                 <div :class="[dailytips ? 'show' : '','daily-tips','amn2']">根据您的音乐口味生成每日更新</div>
                 <div class="list-img">
@@ -15,7 +15,7 @@
                     <span>每日歌曲推荐</span>
                 </div>
             </div>
-            <div class="songsheet-list fl" v-for="(item,index) in SongSheetArr" :key="index">
+            <div class="songsheet-list fl" v-for="(item,index) in SongSheetArr" :key="index" @click="goPage(router,'/album',{id:item.id})">
                 <div class="list-img">
                     <div class="list-playCount">{{(item.playCount/10000).toString().split(".")[0] + "万"}}</div>
                     <img v-lazy="item.picUrl + '?param=150y150'" :key="item.picUrl">
@@ -38,7 +38,7 @@ import {postJson} from "@/api/apiConfig";
 import { personalized } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
-import {myDate} from "@/utils/common"
+import {myDate,goPage} from "@/utils/common"
 interface state{
   SongSheetArr:[];
   today:string;
@@ -95,7 +95,9 @@ export default defineComponent({
 			...toRefs(state),
             enter,
             leave,
-            goeverysongrmd
+            goeverysongrmd,
+            goPage,
+            router
 		} 
   	}
 })
@@ -103,8 +105,8 @@ export default defineComponent({
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.wrap-recommendsong{
-    .recommendsong-section{
+.wrap-recommendalbum{
+    .recommendalbum-section{
         .songsheet-list:nth-child(5n){
             margin-right: 0;
         }

@@ -1,3 +1,11 @@
+export const goPage = (router:any,path:string,data:object) => {
+  router.push({
+    path: path,
+      query:{
+        ...data
+      }
+  })
+}
 export const myDate = (data?:number) => {
     let now:any = data ? new Date(data) : new Date();                                                                                                     
     let year:any = now.getFullYear(); //得到年份
