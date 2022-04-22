@@ -1,28 +1,50 @@
 <template>
     <div class="wrap-info">
-        <div class="info-section clear">
+        <div class="info-section clear" v-if="playlist">
             <div class="info-img clear fl">
-                <img v-lazy="'https://p2.music.126.net/iHbKrvHFfHb1y3Osu9EnPQ==/109951166726930602.jpg?param=300y300'"/>
+                <img v-lazy="playlist.coverImgUrl+'?param=300y300'"/>
             </div>
             <div class="info-topblk fl">
                 <div class="topblk-tagtitle clear">
                     <span class="tag fl">歌单</span>
-                    <span class="title fl">测试测试测试测试</span>
+                    <span class="title fl">{{playlist.name}}</span>
                 </div>
                 <div class="topblk-userinfo clear">
                     <div class="topblk-userinfo-img fl">
-                        <img v-lazy="'http://p2.music.126.net/gnv74qVDZlI7jcA_TpHaVw==/109951164840438649.jpg' + '?param=100y100'"/>
+                        <img v-lazy="playlist.creator.avatarUrl + '?param=100y100'"/>
                     </div>
                     <div class="topblk-userinfo-name fl">
-                        三横一竖
+                        {{playlist.creator.nickname}}
                     </div>
                     <div class="topblk-userinfo-createtime fl">
-                        2018-10-10创建
+                        {{myDate(playlist.createTime)}}创建
+                    </div>
+                </div>
+                <div class="topblk-btn clear">
+                    <div class="btn-playall fl clear">
+                        <span class="btn-apply fl">播放全部</span>
+                        <span class="btn-add fl">+</span>
+                    </div>
+                    <div class="btn-fav fl">
+                        <span>收藏({{countchange(playlist.subscribedCount)}})</span>
                     </div>
                 </div>
                 <div class="topblk-lable">
-                    <div class="topblk-list">
-                        <span></span>
+                    <div class="lable-list">
+                        标签：
+                        <span v-for="(item,index) in playlist.tags" :key="index">
+                            {{index != 0 ? ' / ' : ''}}
+                            <em>{{item}}</em>
+                        </span>
+                    </div>
+                    <div class="lable-list clear">
+                        <span class="lable-t fl">歌曲：<em>{{playlist.trackCount}}</em></span>
+                        <span class="lable-t fl">播放：<em>{{countchange(playlist.playCount)}}</em></span>
+                    </div>
+                    <div class="lable-list">
+                        <div class="label-des">
+                            <span>简介：</span>{{playlist.description}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,18 +53,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent,reactive,toRefs,watch } from 'vue'
+import { myDate,countchange } from "@/utils/common"
 export default defineComponent({
-    name:'handtailor',
-    setup () {
+    name:'albumsongsheetinfo',
+    props:[
+        'detailinfo',
+    ],
+    setup (props) {
+        let state = reactive({
+            playlist:''
+        })
+        watch(() =>props.detailinfo,(newValue) => {
+            state.playlist = newValue
+        },{immediate:true,deep:true})
         return {
-        
+            ...toRefs(state),
+            myDate,
+            countchange
         }
     }
 })
 </script>
 <style scoped lang="scss">
 .wrap-info{
+    padding: 0 30px;
     .info-section{
         .info-img{
             width: 185px;
@@ -106,6 +141,102 @@ export default defineComponent({
                     color: $font-authorcolor;
                     line-height:25px;
                     padding-left: 8px;
+                }
+            }
+            .topblk-btn{
+                margin:12px 0;
+                .btn-playall{
+                    height: 32px;
+                    box-sizing: border-box;
+                    width: 140px;
+                    background-color: rgba($musicNameOn, .9);
+                    border-radius: 25px;
+                    padding-left: 21px;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    margin-right: 10px;
+                    .btn-apply,.btn-add{
+                        color: #ffffff;
+                        display: block;
+                    }
+                    .btn-apply{
+                        width: 75%;
+                        height: 32px;
+                        line-height:32px;
+                        font-size: 14px;
+                        background: url("../../assets/img/player-btn5.png") left center no-repeat;
+                        background-size: 11px;
+                        padding-left: 20px;
+                        box-sizing: border-box;
+                    }
+                    .btn-add{
+                        width: 25%;
+                        height:31px;
+                        box-sizing: border-box;
+                        border-left: 1px solid rgba(255,255,255,.2);
+                        text-align: center;
+                        line-height:32px;
+                        font-size: 24px;
+                    }
+                }
+                .btn-playall:hover{
+                    background-color: rgba($musicNameOn, .8);
+                }
+                .btn-fav{
+                    height: 32px;
+                    font-size: 14px;
+                    line-height: 32px;
+                    border-radius: 25px;
+                    border: 1px solid $bodercolor;
+                    padding: 0 12px;
+                    cursor: pointer;
+                    span{
+                        display: block;
+                        background: url("../../assets/img/collection.png") left center no-repeat;
+                        background-size: 16px;
+                        padding-left: 20px;
+                    }
+                }
+                .btn-fav:hover{
+                    background-color:$checkhvoerbg;
+                }
+            }
+            .topblk-lable{
+                .lable-list{
+                    font-size: 13px;
+                    line-height: 20px;
+                    em{
+                        cursor: pointer;
+                        color: $albumsongsheetinfo_color;
+                    }
+                    em:hover{
+                        color: $albumsongsheetinfo_hovercolor;
+                    }
+                    .lable-t{
+                        margin-right: 12px;
+                        em{
+                            color:$font-authorcolor;
+                            cursor: default;
+                        }
+                    }
+                    .label-des{
+                        margin-right: 12px;
+                        color:$font-authorcolor;
+                        white-space: pre-wrap;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        span{
+                            color:$font-color;
+                        }
+                    }
+                    .description{
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 1;
+                        overflow: hidden;
+                        display: -webkit-box;
+                    }
                 }
             }
         }

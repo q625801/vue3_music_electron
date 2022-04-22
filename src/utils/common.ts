@@ -6,6 +6,13 @@ export const goPage = (router:any,path:string,data:object) => {
       }
   })
 }
+export const countchange = (count:number) => {
+  if(count > 10000){
+    return (count/10000).toString().split(".")[0] + "万"
+  }else{
+    return count
+  }
+}
 export const myDate = (data?:number) => {
     let now:any = data ? new Date(data) : new Date();                                                                                                     
     let year:any = now.getFullYear(); //得到年份

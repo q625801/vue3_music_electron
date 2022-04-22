@@ -1,42 +1,38 @@
 <template>
     <div class="wrap-musicplaylist">
-        <el-table :data="songlistdata" stripe class="musicplaylist-table" empty-text="数据加载中..." @row-dblclick="goAudioPlay" :row-class-name="tableRowClassName">
-            <el-table-column prop="date" label="操作" min-width="14%" center>
-                <template #default="scope">
-                    <span class="musicplaylist-ordernum">
-                        {{scope.$index + 1 < 10 ? ('0' + (scope.$index + 1)) : scope.$index + 1}}
-                    </span>
-                    <span class="musicplaylist-AudioInfoPlay"></span>
-                    <span class="musicplaylist-download" @click="download(scope.row)"></span>
-                </template>
-            </el-table-column>
-            <el-table-column label="标题" min-width="37%">
-                <template #default="scope">
-                    <span class="musicplaylist-title">{{scope.row.name}}</span>
-                    <span class="musicplaylist-alias">{{`${scope.row.alia.length > 0 ? '（' + scope.row.alia[0] + '）': ''}`}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column prop="singer" label="歌手" min-width="17%">
-                <template #default="scope">
-                    <div class="musicplaylist-singer">
-                        <span v-for="(item,index) in scope.row.ar" :key="index">
-                            {{index != 0 ? ' / ' : ''}}
-                            <em @click.stop="goPage(router,'/artist',{id:item.id})">{{item.name}}</em>
-                        </span>
+        <div class="musicplaylist-table clear" v-if="songlistdata.length > 0">
+            <div class="musicplaylist-header">
+                <div class="header-o">操作</div>
+                <div class="header-t">标题</div>
+                <div class="header-s">歌手</div>
+                <div class="header-f">专辑</div>
+                <div class="header-w">时间</div>
+            </div>
+            <div :class="['musicplaylist-list',index%2==0?'':'bgtst',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '',item.id == $store.state.audioInfo.SongInfo.SongId && $store.state.audioInfo.audioPlayBtn ? 'onPlay' : 'offPlay']" v-for="(item,index) in songlistdata" :key="item.id" @click="goAudioPlay(item)">
+                <div class="musicplaylist-operation clear">
+                    <div class="musicplaylist-num fl">
+                        <span>{{index+1 < 10 ? '0' + (index+1) : index+1}}</span>
+                        <div class="musicplaylist-AudioInfoPlay fl"></div>
                     </div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="album" label="专辑" min-width="24%">
-                <template #default="scope">
-                    <span class="musicplaylist-album">{{scope.row.al.name}}</span>
-                </template>
-            </el-table-column>
-            <el-table-column prop="duration" label="时间" min-width="8%">
-                <template #default="scope">
-                    <span>{{playtime(scope.row.dt)}}</span>
-                </template>
-            </el-table-column>
-        </el-table>
+                    <div class="musicplaylist-collection fl"></div>
+                    <div class="musicplaylist-download fl" @click.stop="download(item)"></div>
+                </div>
+                <div class="musicplaylist-name ellipsis">
+                    <span>{{item.name}}</span>
+                    <em>{{item.tns && item.tns.length > 0 ? '（' + item.tns[0] + '）' : (item.alia && item.alia.length > 0 ? '（'+ item.alia[0] + '）' : '')}}</em>
+                </div>
+                <div class="musicplaylist-artist ellipsis">
+                    <span v-for="(item2,index2) in item.ar" :key="index2">
+                        {{index2 != 0 ? ' / ' : ''}}
+                        <em @click.stop="goPage(router,'/artist',{id:item2.id})">{{item2.name}}</em>
+                    </span>
+                </div>
+                <div class="musicplaylist-album ellipsis">
+                    {{item.al.name}}
+                </div>
+                <div class="musicplaylist-duration">{{playtime(item.dt)}}</div>
+            </div>
+        </div>
         <div class="musicplaylist-loading" v-show="songmoreloading">
             <LoadingCpn/>
         </div>
@@ -44,7 +40,7 @@
     </div>
 </template>
 <script>
-import { defineComponent,onMounted,reactive,toRefs,watch,nextTick } from 'vue'
+import { defineComponent,onMounted,reactive,toRefs,watch } from 'vue'
 import { downloadJson,postJson } from "@/api/apiConfig"
 import { songsdetail,mp3url } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
@@ -73,7 +69,7 @@ export default defineComponent({
             PlayListId:'',
         })
         onMounted(() => {
-            const el = document.querySelector(".wrap-everydaysongrmd")
+            const el = document.querySelector(".wrap-everydaysongrmd") || document.querySelector(".wrap-albumsongsheet")
             const offsetHeight = el.offsetHeight
             el.onscroll = () => {
                 const scrollTop = el.scrollTop
@@ -124,10 +120,7 @@ export default defineComponent({
             postJson(songsdetail,{ids:data.toString()},(res) => {
                 if(res.code == 200){
                     state.songmoreloading = false
-                    nextTick(() => {
-                        
-                        state.songlistdata = state.songlistdata.concat(res.songs)
-                    })
+                    state.songlistdata = state.songlistdata.concat(res.songs)
                 }            
             },(err)=>{
 
@@ -244,56 +237,163 @@ export default defineComponent({
 <style scoped lang="scss">
 .wrap-musicplaylist{
     .musicplaylist-table{
-        cursor: default;
-        .musicplaylist-title{
-            color: $font-color;
+        padding-top: 8px;
+        .musicplaylist-list{
+            height: 35px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background-color:$artistsonglistbg;
+            cursor: pointer;
+            .musicplaylist-num{
+                padding-left: 20px;
+                span{
+                    font-size: 14px;
+                    display: block;
+                    width: 30px;
+                    text-align: right;
+                    color: $font-authorcolor;
+                }
+                .musicplaylist-AudioInfoPlay{
+                    width: 16px;
+                    height: 16px;
+                    background: url("../../assets/img/volume.png") center center no-repeat;
+                    background-size: 100% 100%;
+                    display: none;
+                    margin-left: 14px;
+                }
+            }
+            .musicplaylist-name{
+                width: 37%;
+                padding-left: 15px;
+                color: $font-authorcolor;
+                padding-right: 7px;
+                box-sizing: border-box;
+                span{
+                    font-size: 13px;
+                    color: $font-color;
+                }
+                em{
+                    color:$font-authorcolor;
+                    font-size:13px;
+                }
+            }
+            .musicplaylist-collection{
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                margin-left: 15px;
+                background: url("../../assets/img/collection.png") center center no-repeat;
+                background-size: 100% 100%;
+                cursor: pointer;
+            }
+            .musicplaylist-download{
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                margin-left: 10px;
+                background: url("../../assets/img/download.png") center center no-repeat;
+                background-size: 100% 100%;
+                cursor: pointer;
+            }
+            .musicplaylist-duration{
+                font-size: 14px;
+                color: $font-authorcolor;
+            }
+            .musicplaylist-artist{
+                width: 18%;
+                padding-right: 7px;
+                box-sizing: border-box;
+                span{
+                    font-size: 14px;
+                    color: $font-authorcolor;
+                    em:hover{
+                        color: $font-hoverauthorcolor;  
+                    }
+                }
+            }
+            .musicplaylist-album{
+                width: 24%;
+                font-size: 14px;
+                color: $font-authorcolor;
+                padding-right: 7px;
+                box-sizing: border-box;
+            }
+            .musicplaylist-album:hover{
+                color: $font-hoverauthorcolor;
+            }
+            .ellipsis{
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+            }
         }
-        .musicplaylist-alias{
+        .musicplaylist-list.bgtst{
+            background-color:transparent;
+        }
+        .musicplaylist-list:hover{
+            background-color:$checkhvoerbg;
+        }
+        .musicplaylist-list.on{
+            .musicplaylist-name{
+                span{
+                    color: $musicNameOn;
+                }
+            }
+        }
+        .musicplaylist-list.on.onPlay{
+            .musicplaylist-num{
+                span{
+                    display: none;
+                }
+                .musicplaylist-AudioInfoPlay{
+                    display:block;
+                }
+            }
+        }
+        .musicplaylist-list.on.offPlay{
+            .musicplaylist-num{
+                span{
+                    display: none;
+                }
+                .musicplaylist-AudioInfoPlay{
+                    display:block;
+                    background: url("../../assets/img/volume-close.png") center center no-repeat;
+                    background-size: 100% 100%;
+                }
+            }
+        }
+    }
+    .musicplaylist-header{
+        height: 35px;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        div{
+            font-size: 14px;
             color: $font-authorcolor;
         }
-        .musicplaylist-singer span ::v-deep em,.musicplaylist-album{
-            cursor: pointer;
+        .header-o{
+            width: 13%;
+            box-sizing: border-box;
+            padding-left: 7%;
         }
-        .musicplaylist-singer span ::v-deep em:hover,.musicplaylist-album:hover{
-            color: $font-hoverauthorcolor;
+        .header-t{
+            width: 37%;
+            padding-left: 15px;
+            padding-right: 7px;
+            box-sizing: border-box;
         }
-        .musicplaylist-ordernum{
-            display: inline-block;
-            line-height: 16px;
-            cursor: default;
+        .header-s{
+            width: 18%;
+            padding-right: 7px;
+            box-sizing: border-box;
         }
-        .musicplaylist-download{
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            margin-left: 15px;
-            background: url("../../assets/img/download.png") center center no-repeat;
-            background-size: 100% 100%;
-            cursor: pointer;
-        }
-        .musicplaylist-download:hover{
-            background: url("../../assets/img/download2.png") center center no-repeat;
-            background-size: 100% 100%;
-        }
-        .musicplaylist-AudioInfoPlay{
-            width: 16px;
-            height: 16px;
-            background: url("../../assets/img/volume.png") center center no-repeat;
-            background-size: 100% 100%;
-            display: none;
-        }
-        ::v-deep .el-table__row.on .cell .musicplaylist-title{
-            color: $musicNameOn;
-        }
-        ::v-deep .el-table__row.on .cell .musicplaylist-ordernum{
-            display:none;
-        }
-        ::v-deep .el-table__row.on .cell .musicplaylist-AudioInfoPlay{
-            display:inline-block;
-        }
-        ::v-deep .el-table__row.on.playoff .cell .musicplaylist-AudioInfoPlay{
-            background: url("../../assets/img/volume-close.png") center center no-repeat;
-            background-size: 100% 100%;
+        .header-f{
+            width: 24%;
+            padding-right: 7px;
+            box-sizing: border-box;
         }
     }
     .musicplaylist-loading{
@@ -305,50 +405,5 @@ export default defineComponent({
         color: #D6D6D6;
         font-size: 14px;
     }
-}
-</style>
-<style lang="scss"> 
-.wrap-musicplaylist .el-table .cell{
-    padding:0 8px 0 0;
-    color: $font-authorcolor;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-    display: -webkit-box;
-}
-.wrap-musicplaylist .el-table td.el-table__cell, .el-table th.el-table__cell.is-leaf{
-    border-bottom: 0px;
-}
-.wrap-musicplaylist .el-table{
-    background-color: transparent;
-}
-.wrap-musicplaylist .el-table .el-table__cell{
-    background-color: transparent;
-}
-.wrap-musicplaylist .el-table tr{
-    background-color: transparent;
-}
-.wrap-musicplaylist .el-table__inner-wrapper::before{
-    background-color: transparent;
-}
-.wrap-musicplaylist .el-table--enable-row-hover .el-table__body tr:hover>td.el-table__cell{
-    background-color: #373737;
-}
-.wrap-musicplaylist .el-table .el-table__row td.el-table__cell:first-child .cell{
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-.wrap-musicplaylist .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell{
-    background-color: transparent;
-}
-.wrap-musicplaylist .el-table td.el-table__cell{
-    background-color: #2E2E2E;
-}
-.wrap-musicplaylist .el-table th.el-table__cell.is-leaf:first-child{
-    text-align:center;
-}
-.wrap-musicplaylist  .el-table__body tr.el-table__row--striped:hover>td.el-table__cell{
-    background-color: #373737;
 }
 </style>

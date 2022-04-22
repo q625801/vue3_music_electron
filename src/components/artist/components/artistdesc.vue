@@ -69,7 +69,6 @@ export default defineComponent({
             line-height: 28px;
             text-align: justify;
             white-space: pre-wrap;
-            
         }
     }
     .artistdesc-list.pdt{
