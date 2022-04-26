@@ -1,7 +1,7 @@
 <template>
     <div class="wrap-artistsonglist">
         <div class="artistsonglist-table clear" :ref="setItemRef" v-if="songlistdata.length > 0">
-            <div :class="['artistsonglist-list',index%2==0?'':'bgtst',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '',item.id == $store.state.audioInfo.SongInfo.SongId && $store.state.audioInfo.audioPlayBtn ? 'onPlay' : 'offPlay']" v-for="(item,index) in songlistdata" :key="item.id" @click="goAudioPlay(item)">
+            <div :class="['artistsonglist-list',index%2==0?'':'bgtst',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '',item.id == $store.state.audioInfo.SongInfo.SongId && $store.state.audioInfo.audioPlayBtn ? 'onPlay' : 'offPlay']" v-for="(item,index) in songlistdata" :key="item.id" @dblclick="goAudioPlay(item)">
                 <div class="artistsonglist-num fl">
                     <span>{{index+1 < 10 ? '0' + (index+1) : index+1}}</span>
                     <div class="artistsonglist-AudioInfoPlay"></div>

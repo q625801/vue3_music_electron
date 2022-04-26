@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="topblk-lable">
-                    <div class="lable-list">
+                    <div class="lable-list" v-if="playlist.tags.length > 0">
                         标签：
                         <span v-for="(item,index) in playlist.tags" :key="index">
                             {{index != 0 ? ' / ' : ''}}
@@ -41,10 +41,11 @@
                         <span class="lable-t fl">歌曲：<em>{{playlist.trackCount}}</em></span>
                         <span class="lable-t fl">播放：<em>{{countchange(playlist.playCount)}}</em></span>
                     </div>
-                    <div class="lable-list">
-                        <div class="label-des">
+                    <div class="lable-list" v-if="playlist.description">
+                        <div :class="[descriptionShow ? 'on' : '','label-des']">
                             <span>简介：</span>{{playlist.description}}
                         </div>
+                        <div v-if="playlist.description.length > 38" :class="[descriptionShow ? 'on' : '','lable-arror','amn4']" @click="changedescription"></div>
                     </div>
                 </div>
             </div>
@@ -62,15 +63,20 @@ export default defineComponent({
     ],
     setup (props) {
         let state = reactive({
-            playlist:''
+            playlist:'',
+            descriptionShow: false,
         })
+        let changedescription = () => {
+            state.descriptionShow = !state.descriptionShow
+        }
         watch(() =>props.detailinfo,(newValue) => {
             state.playlist = newValue
         },{immediate:true,deep:true})
         return {
             ...toRefs(state),
             myDate,
-            countchange
+            countchange,
+            changedescription,
         }
     }
 })
@@ -112,6 +118,12 @@ export default defineComponent({
                     color: $font-color;
                     font-size: 22px;
                     padding-left: 8px;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    width: calc(100% - 34px);
+                    box-sizing: border-box;
                 }
             }
             .topblk-userinfo{
@@ -203,6 +215,7 @@ export default defineComponent({
             }
             .topblk-lable{
                 .lable-list{
+                    position: relative;
                     font-size: 13px;
                     line-height: 20px;
                     em{
@@ -231,11 +244,27 @@ export default defineComponent({
                             color:$font-color;
                         }
                     }
+                    .label-des.on{
+                        display:block;
+                    }
                     .description{
                         -webkit-box-orient: vertical;
                         -webkit-line-clamp: 1;
                         overflow: hidden;
                         display: -webkit-box;
+                    }
+                    .lable-arror{
+                        position: absolute;
+                        right: 0;
+                        top: 3px;
+                        width: 14px;
+                        height: 14px;
+                        background: url("../../assets/img/arror.png") center no-repeat;
+                        background-size: 100%;
+                        cursor: pointer;
+                    }
+                    .lable-arror.on{
+                        transform: rotate(180deg);
                     }
                 }
             }

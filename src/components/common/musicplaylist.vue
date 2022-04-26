@@ -8,7 +8,7 @@
                 <div class="header-f">专辑</div>
                 <div class="header-w">时间</div>
             </div>
-            <div :class="['musicplaylist-list',index%2==0?'':'bgtst',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '',item.id == $store.state.audioInfo.SongInfo.SongId && $store.state.audioInfo.audioPlayBtn ? 'onPlay' : 'offPlay']" v-for="(item,index) in songlistdata" :key="item.id" @click="goAudioPlay(item)">
+            <div :class="['musicplaylist-list',index%2==0?'':'bgtst',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '',item.id == $store.state.audioInfo.SongInfo.SongId && $store.state.audioInfo.audioPlayBtn ? 'onPlay' : 'offPlay']" v-for="(item,index) in songlistdata" :key="item.id" @dblclick="goAudioPlay(item)">
                 <div class="musicplaylist-operation clear">
                     <div class="musicplaylist-num fl">
                         <span>{{index+1 < 10 ? '0' + (index+1) : index+1}}</span>
