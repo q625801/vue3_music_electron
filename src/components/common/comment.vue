@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <LoadingCpn v-if="commentData && commentData.length == 0"/>
+                <LoadingCpn v-if="loading"/>
                 <el-pagination
                     small 
                     background
@@ -62,9 +62,12 @@
                     :total="pageObj.total"
                     :page-size="pageObj.pageSize"
                     :current-page="pageObj.pageNum"
-                    class="mt-4 comment-pagination"
+                    class="mt-4 common-pagination"
                     v-if="commentData && commentData.length > 0" >
                 </el-pagination>
+                <div class="comment-none" v-if="!loading && commentData.length == 0" >
+                    还没有评论，快来抢沙发~
+                </div>
             </div>
         </div>
     </div>
@@ -93,10 +96,13 @@ export default defineComponent({
                 total:0,
             },
             hotComments:[],
+            loading:false,
         })
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
+            state.loading = true
             postJson(songdetaiilcomment,{id:props.dataId,offset:offset,limit:state.pageObj.pageSize},(res:any) => {
+                state.loading = false
                 if(res.code == 200){
                     state.pageObj.total = res.total
                     context.emit('commentTotal',res.total)
@@ -160,39 +166,6 @@ export default defineComponent({
         .comment-data{
             .comment-all{
                 
-            }
-            .comment-pagination{
-                padding: 20px 0 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                ::v-deep .btn-next, ::v-deep .btn-prev{
-                    background-color:$commentPageNPbtnbg;
-                }
-                ::v-deep .btn-next, ::v-deep .btn-prev, ::v-deep .el-pager li{
-                    border: 1px solid $bodercolor;
-                    border-radius: 5px;
-                }
-                ::v-deep .el-pager li{
-                    background-color: transparent;
-                }
-                ::v-deep .el-pager li:not(.is-disabled):hover{
-                    border: none;
-                    color: $font-hoverauthorcolor;
-                }
-                ::v-deep .el-pager li:not(.is-disabled).is-active{
-                    background-color: $albumsongsheetinfo_hoverbtnbg;
-                    border: 1px solid $bodercolort;
-                    color:#ffffff;
-                }
-                ::v-deep .btn-next:hover:not([disabled]), ::v-deep .btn-prev:hover:not([disabled]) {
-                    border: none;
-                    background-color: transparent;
-                    color: $font-hoverauthorcolor;
-                }
-                ::v-deep .btn-next:disabled, ::v-deep .btn-prev:disabled{
-                    color: $font-authorcolor;
-                }
             }
         }
         .comment-list{

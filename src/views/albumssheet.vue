@@ -7,7 +7,8 @@
             </span>
         </div>
         <MusicPlayList :stdetaildata="detailinfo" :stSongAll="songlistAll" v-show="tabsOn == 0"/>
-        <Comment v-show="tabsOn == 1" :dataId="id" @commentTotal="getCommentTotal"/>
+        <Comment :dataId="id" @commentTotal="getCommentTotal" v-show="tabsOn == 1"/>
+        <Subscription :dataId="id" v-show="tabsOn == 2"/>
     </div>
 </template>
 
@@ -19,12 +20,14 @@ import AlbumSongsheetInfo from '@/components/common/album_songsheet_info.vue'
 import MusicPlayList from "@/components/common/musicplaylist.vue"
 import {useRouter} from 'vue-router'
 import Comment from '@/components/common/comment.vue'
+import Subscription from '@/components/albumssheet/subscribers.vue'
 export default defineComponent({
     name:'album',
     components:{
         AlbumSongsheetInfo,
         MusicPlayList,
-        Comment
+        Comment,
+        Subscription
     },
     setup() {
         let router = useRouter()

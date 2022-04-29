@@ -28,6 +28,12 @@ ul{list-style: none;padding: 0;margin: 0;}
 .fr{float:right;}
 .fl{float:left;}
 .clear{overflow: hidden;}
+.ellipsis{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
 img[v-lazy="loading"]{
     width: 40px;
 }

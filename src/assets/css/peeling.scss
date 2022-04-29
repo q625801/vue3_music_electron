@@ -28,3 +28,40 @@ $bodercolor:#434343;
 $bodercolort:#343434;
 
 $commentPageNPbtnbg:#383838;
+
+
+.common-pagination{
+    width: 100%;
+    padding: 20px 0 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    ::v-deep .btn-next, ::v-deep .btn-prev{
+        background-color:$commentPageNPbtnbg;
+    }
+    ::v-deep .btn-next, ::v-deep .btn-prev, ::v-deep .el-pager li{
+        border: 1px solid $bodercolor;
+        border-radius: 5px;
+    }
+    ::v-deep .el-pager li{
+        background-color: transparent;
+    }
+    ::v-deep .el-pager li:not(.is-disabled):hover{
+        border: none;
+        color: $font-hoverauthorcolor;
+    }
+    ::v-deep .el-pager li:not(.is-disabled).is-active{
+        background-color: $albumsongsheetinfo_hoverbtnbg;
+        border: 1px solid $bodercolort;
+        color:#ffffff;
+    }
+    ::v-deep .btn-next:hover:not([disabled]), ::v-deep .btn-prev:hover:not([disabled]) {
+        border: none;
+        background-color: transparent;
+        color: $font-hoverauthorcolor;
+    }
+    ::v-deep .btn-next:disabled, ::v-deep .btn-prev:disabled{
+        color: $font-authorcolor;
+        background-color: $commentPageNPbtnbg;
+    }
+}
