@@ -10,15 +10,15 @@
             <div class="comment-hotcomment" v-if="hotComments && hotComments.length > 0">
                 <div class="comment-tips">精彩评论</div>
                 <div class="comment-list clear" v-for="(item,index) in hotComments" :key="index">
-                    <div class="comment-img fl">
+                    <div class="comment-img fl" @click="goPage(router,'/userinfo',{id:item.user.userId})">
                         <img :src="item.user.avatarUrl"/>
                     </div>
                     <div class="comment-usertxt fl">
                         <div class="comment-usercontent">
-                            <span class="comment-name">{{item.user.nickname}}：</span>{{item.content}}
+                            <span class="comment-name" @click="goPage(router,'/userinfo',{id:item.user.userId})">{{item.user.nickname}}：</span>{{item.content}}
                         </div>
                         <div class="comment-usercontent comment-beReplied" v-if="item.beReplied.length > 0">
-                            <span class="comment-name">{{'@' + item.beReplied[0].user.nickname}}：</span>{{item.beReplied[0].content}}
+                            <span class="comment-name" @click="goPage(router,'/userinfo',{id:item.beReplied[0].user.userId})">{{'@' + item.beReplied[0].user.nickname}}：</span>{{item.beReplied[0].content}}
                         </div>
                         <div class="comment-time-operate clear">
                             <div class="comment-time fl">{{myDate(item.time)}}</div>
@@ -79,6 +79,8 @@ import {postJson} from '@/api/apiConfig'
 import {songdetaiilcomment} from '@/api/api'
 import { myDate } from '@/utils/common'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
+import { goPage } from "@/utils/common"
+import { useRouter } from "vue-router"
 export default defineComponent({
     name:'comment',
     components:{
@@ -120,10 +122,13 @@ export default defineComponent({
         onMounted(() => {
             getData()
         })
+        const router = useRouter()
         return {
             ...toRefs(state),
             handleCurrentChange,
-            myDate
+            myDate,
+            goPage,
+            router
         }
     }
 })
@@ -176,6 +181,7 @@ export default defineComponent({
                 height: 38px;
                 overflow: hidden;
                 border-radius: 50%;
+                cursor: pointer;
             }
             .comment-usertxt{
                 padding-left: 15px;

@@ -30,10 +30,11 @@
                     </div>
                 </div>
                 <div class="userinfo-inf">
-                    <p>个人介绍：<em>{{userinfodata.profile.signature}}</em></p>
+                    <p>个人介绍：<em>{{userinfodata.profile.signature ? userinfodata.profile.signature : '暂无介绍'}}</em></p>
                 </div>
             </div>
         </div>
+        <UserRecord :userId="id"/>
     </div>
 </template>
 
@@ -42,9 +43,13 @@ import { defineComponent,onMounted,reactive,toRefs } from 'vue'
 import { postJson } from '@/api/apiConfig'
 import { userdetail } from '@/api/api'
 import { useRouter } from 'vue-router'
+import UserRecord from '@/components/userinfo/userrecord.vue'
 export default defineComponent({
     name:'userinfo',
     props:[],
+    components:{
+        UserRecord
+    },
     setup () {
         let router = useRouter()
         let state = reactive({
@@ -72,6 +77,9 @@ export default defineComponent({
 <style scoped lang="scss">
 .wrap-userinfo{
     padding: 30px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    height: 100%;
     .userinfo-img{
         width: 185px;
         height: 185px;

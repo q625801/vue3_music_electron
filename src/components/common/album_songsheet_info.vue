@@ -10,10 +10,10 @@
                     <span class="title fl">{{playlist.name}}</span>
                 </div>
                 <div class="topblk-userinfo clear">
-                    <div class="topblk-userinfo-img fl">
+                    <div class="topblk-userinfo-img fl" @click="goPage(router,'/userinfo',{id:playlist.creator.userId})">
                         <img v-lazy="playlist.creator.avatarUrl + '?param=100y100'"/>
                     </div>
-                    <div class="topblk-userinfo-name fl">
+                    <div class="topblk-userinfo-name fl" @click="goPage(router,'/userinfo',{id:playlist.creator.userId})">
                         {{playlist.creator.nickname}}
                     </div>
                     <div class="topblk-userinfo-createtime fl">
@@ -56,6 +56,8 @@
 <script lang="ts">
 import { defineComponent,reactive,toRefs,watch } from 'vue'
 import { myDate,countchange } from "@/utils/common"
+import { goPage } from "@/utils/common"
+import { useRouter } from "vue-router"
 export default defineComponent({
     name:'albumsongsheetinfo',
     props:[
@@ -72,11 +74,14 @@ export default defineComponent({
         watch(() =>props.detailinfo,(newValue) => {
             state.playlist = newValue
         },{immediate:true,deep:true})
+        const router = useRouter()
         return {
             ...toRefs(state),
             myDate,
             countchange,
             changedescription,
+            goPage,
+            router
         }
     }
 })
@@ -92,6 +97,7 @@ export default defineComponent({
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
             img{
                 max-width: 100%;
                 max-height: 100%;

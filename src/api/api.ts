@@ -40,6 +40,8 @@ export const songdetaiilcomment:string = api + '/comment/playlist' + (api.indexO
 
 // ===================用户详情
 export const userdetail:string = api + '/user/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================用户歌单
+export const userplaylist:string = api + '/user/playlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
 // ===================专辑
 export const getAlbum:string = api + '/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')

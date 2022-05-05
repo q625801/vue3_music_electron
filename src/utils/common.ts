@@ -1,4 +1,19 @@
-export const goPage = (router:any,path:string,data:object) => {
+import { ElMessage } from 'element-plus'
+interface isdialog{
+  songsheetname:string
+}
+export const goPage = (router:any,path:string,data:object,isdialog:isdialog) => {
+  if(isdialog && isdialog.songsheetname.indexOf('喜欢的音乐') > -1){
+    ElMessage({
+      message:'此项目登录功能尚未完善，查看此歌单必须先登录！',//登录功能
+      type:'error',
+      duration:2000,
+      onClose:() => {
+        
+      },
+    })
+    return
+  }
   router.push({
     path: path,
       query:{
