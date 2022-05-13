@@ -27,6 +27,9 @@
                 <SongList :AlbumId="item.id"/>
             </div>
         </div>
+        <div class="album-loading" v-if="loading">
+            <LoadingCpn/>
+        </div>
     </div>
 </template>
 
@@ -36,10 +39,12 @@ import SongList from './components/songlist.vue'
 import {postJson} from "@/api/apiConfig";
 import { getArtistAlbum } from "@/api/api"
 import { myDate } from "@/utils/common"
+import LoadingCpn from "@/components/common/loadingcpn.vue"
 export default defineComponent({
     name:'album',
     components:{
-        SongList
+        SongList,
+        LoadingCpn
     },
     props:[
         'hotSongs',
@@ -55,21 +60,26 @@ export default defineComponent({
             SingerId:0,
             hotSongs:'',
             checkAlbumend:true,
+            loading:false,
         })
         const artistscrollend = inject('artistscrollend')
         let getData = (id:number,isPrivide:boolean = false) => {
+            state.loading = true
             postJson(getArtistAlbum,{id:id,...state.pageArr},(res:any) => {
+                state.loading = false
                 if(res.code == 200){
                     if(res.hotAlbums.length > 0){
                         state.ArtistAlbumData = state.ArtistAlbumData.concat(res.hotAlbums)
-                        if(isPrivide){
-                            context.emit('getArtistAlbumEnd',true)
-                        }
                     }else{
                         state.checkAlbumend = false
                     }
+                    if(isPrivide){
+                        context.emit('getArtistAlbumEnd',true)
+                    }
                 }
-            },(err:any) => {})
+            },(err:any) => {
+                state.loading = false
+            })
         }
         onMounted(() => {
         })
@@ -82,6 +92,7 @@ export default defineComponent({
                     offset:0,
                     limit:5,
                 }
+                state.checkAlbumend = true
                 getData(state.SingerId)
             }
         })
@@ -150,6 +161,9 @@ export default defineComponent({
     }
     .album-list.album-pd{
         padding-top: 45px;
+    }
+    .album-loading{
+        padding-top: 20px;
     }
 }
 </style>

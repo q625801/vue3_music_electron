@@ -161,6 +161,7 @@ export default defineComponent({
         state.tabOn = 0
         state.singerInfo = ''
         state.hotSongs = ''
+        artistscrollend.value = false
         init()
         tabClick(0)
       }

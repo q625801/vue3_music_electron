@@ -67,3 +67,6 @@ export const getartists:string = api + '/artists' + (api.indexOf('netease') > -1
 export const getartistsdesc:string = api + '/artist/desc' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================相似歌手
 export const getartistssimi:string = api + '/simi/artist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+
+// ===================榜单分类
+export const gettoplist:string = api + '/toplist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')

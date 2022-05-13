@@ -18,28 +18,28 @@ export default defineComponent({
         name:"个性推荐",
         path:'/',
       },
+      // {
+      //   id:2,
+      //   name:"专属定制",
+      //   path:'/index/handtailor',
+      // },
       {
         id:2,
-        name:"专属定制",
-        path:'/index/handtailor',
-      },
-      {
-        id:3,
         name:"歌单",
         path:'/index/singer',
       },
       {
-        id:4,
+        id:3,
         name:"排行榜",
         path:'/index/rankversion',
       },
       {
-        id:5,
+        id:4,
         name:"歌手",
         path:'/index/singer',
       },
       {
-        id:6,
+        id:5,
         name:"最新音乐",
         path:'/index/latestmusic'
       },
@@ -47,6 +47,14 @@ export default defineComponent({
     let IndexNavChange = (data:any) => {
       IndexNavOn.value = data.id
       router.push(data.path)
+    }
+    let currentPath = router.currentRoute.value.fullPath || ''
+    if(currentPath){
+      IndexNavList.forEach(item => {
+        if(item.path == currentPath){
+          IndexNavOn.value = item.id
+        }
+      })
     }
     return {
       IndexNavList,

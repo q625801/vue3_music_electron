@@ -22,7 +22,7 @@
                 </div>
                 <div class="topblk-btn clear">
                     <div class="btn-playall fl clear">
-                        <span class="btn-apply fl">播放全部</span>
+                        <span class="btn-apply fl" @click="playAll">播放全部</span>
                         <span class="btn-add fl">+</span>
                     </div>
                     <div class="btn-fav fl">
@@ -56,8 +56,9 @@
 <script lang="ts">
 import { defineComponent,reactive,toRefs,watch } from 'vue'
 import { myDate,countchange } from "@/utils/common"
-import { goPage } from "@/utils/common"
+import { goPage,audioPlay } from "@/utils/common"
 import { useRouter } from "vue-router"
+import { useStore } from 'vuex'
 export default defineComponent({
     name:'albumsongsheetinfo',
     props:[
@@ -65,11 +66,45 @@ export default defineComponent({
     ],
     setup (props) {
         let state = reactive({
-            playlist:'',
+            playlist:{
+                tracks:''
+            },
             descriptionShow: false,
         })
         let changedescription = () => {
             state.descriptionShow = !state.descriptionShow
+        }
+        let playAll = () => {
+            goAudioPlay(state.playlist.tracks[0])
+        }
+        const store = useStore()
+        let goAudioPlay = (data:any) => {
+            let SongInfo = {
+                id: data.id,
+                name: data.name,
+                picUrl: data.al.picUrl,
+                song:{
+                    artists: data.ar
+                }
+            }
+            let arr:any = []
+            let forArr = []
+            forArr = JSON.parse(JSON.stringify(state.playlist.tracks))
+            forArr.forEach((item:any) => {
+                let obj = {
+                    id: item.id,
+                    name: item.name,
+                    picUrl: item.al.picUrl,
+                    song:{
+                        artists: item.ar,
+                        bMusic:{
+                            playTime: item.dt,
+                        }
+                    }
+                }
+                arr.push(obj)
+            })
+            audioPlay(SongInfo,arr,store)
         }
         watch(() =>props.detailinfo,(newValue) => {
             state.playlist = newValue
@@ -81,7 +116,8 @@ export default defineComponent({
             countchange,
             changedescription,
             goPage,
-            router
+            router,
+            playAll
         }
     }
 })

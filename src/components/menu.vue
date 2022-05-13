@@ -2,7 +2,7 @@
 <template>
   <div class="wrap-menu">
     <div class="primary-menu">
-        <router-link class="menu-list" :to="item.path" v-for="(item) in MenuList" :key="item.id" :class="item.path == MenuOn ? 'on' : ''">{{item.name}}</router-link>
+        <router-link class="menu-list" :to="item.path" v-for="(item) in MenuList" :key="item.id" :class="item.id == MenuOn ? 'on' : ''">{{item.name}}</router-link>
     </div>
   </div>
 </template>
@@ -13,32 +13,37 @@
     export default{
         setup () {
             let router = useRouter()
-            let MenuOn = ref('')
+            let MenuOn = ref(1)
             // 定义响应式数据 ref对象
             let MenuList = [
                 {
+                    id:1,
                     name:"发现音乐",
                     path:"/index/psnlrecommend",
                 },
                 {
+                    id:2,
                     name:"播客",
                     path:"/podcast",
                 },
                 {
+                    id:3,
                     name:"视频",
-                    path:"/",
+                    path:"/video",
                 },
                 {
+                    id:4,
                     name:"关注",
-                    path:"/",
-                },
-                {
-                    name:"私人FM",
-                    path:"/",
-                },
+                    path:"/gaungzhu",
+                }
             ]
             watch(() => router,(newValue,oldValue) => {
-                MenuOn.value = newValue.currentRoute.value.fullPath
+                let currentPath = newValue.currentRoute.value.fullPath
+                MenuList.forEach(item => {
+                    if(currentPath == item.path){
+                        MenuOn.value = item.id
+                    }
+                })
             },{immediate:true,deep:true})
             return {
                 MenuList,
