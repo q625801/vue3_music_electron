@@ -18,7 +18,7 @@
                         {{trackIds[index].ratio + '%'}}
                     </div>
                     <div class="musicplaylist-lr fl" v-if="!trackIds[index].ratio && isRank">
-                        <span :class="[trackIds[index].lr === 0 ? 'none' : (trackIds[index].lr ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : 'new')]"></span>
+                        <span :class="[trackIds[index].lr ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : (trackIds[index].lr === 0 ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : 'new')]"></span>
                     </div>
                     <div class="musicplaylist-collection fl"></div>
                     <div class="musicplaylist-download fl" @click.stop="download(item)"></div>

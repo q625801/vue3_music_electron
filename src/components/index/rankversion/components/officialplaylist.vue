@@ -9,7 +9,7 @@
                     {{trackIds[index].ratio + '%'}}
                 </div>
                 <div class="officialplaylist-lr fl" v-else>
-                    <span :class="[trackIds[index].lr === 0 ? 'none' : (trackIds[index].lr ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : 'new')]"></span>
+                    <span :class="[trackIds[index].lr ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : (trackIds[index].lr === 0 ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : 'new')]"></span>
                 </div>
                 <div class="officialplaylist-name fl">
                     {{ item.name }}<em>{{(item.tns ? ('（' + item.tns[0] + '）') : (item.alia && item.alia.length > 0 ? ('（' + item.alia[0] + '）') : ''))}}</em>
