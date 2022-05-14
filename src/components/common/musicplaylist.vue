@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-musicplaylist">
-        <div class="musicplaylist-table clear" v-if="songlistdata.length > 0">
+        <div class="musicplaylist-table clear" v-if="songlistdata.length > 0" :class="[isRank ? 'isRank' : '']">
             <div class="musicplaylist-header">
                 <div class="header-o">操作</div>
                 <div class="header-t">标题</div>
@@ -13,6 +13,12 @@
                     <div class="musicplaylist-num fl">
                         <span>{{index+1 < 10 ? '0' + (index+1) : index+1}}</span>
                         <div class="musicplaylist-AudioInfoPlay fl"></div>
+                    </div>
+                    <div class="musicplaylist-ratio fl" v-if="trackIds[index].ratio && isRank">
+                        {{trackIds[index].ratio + '%'}}
+                    </div>
+                    <div class="musicplaylist-lr fl" v-if="!trackIds[index].ratio && isRank">
+                        <span :class="[trackIds[index].lr === 0 ? 'none' : (trackIds[index].lr ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : 'new')]"></span>
                     </div>
                     <div class="musicplaylist-collection fl"></div>
                     <div class="musicplaylist-download fl" @click.stop="download(item)"></div>
@@ -50,7 +56,7 @@ import { playtime,audioPlay,goPage } from "@/utils/common"
 import {useRouter} from "vue-router"
 export default defineComponent({
     name:'loading',
-    props:['stdetaildata','stSongAll'],
+    props:['stdetaildata','stSongAll','isRank'],
     components:{
         LoadingCpn
     },
@@ -253,6 +259,7 @@ export default defineComponent({
                     width: 30px;
                     text-align: right;
                     color: $font-authorcolor;
+                    line-height: 16px;
                 }
                 .musicplaylist-AudioInfoPlay{
                     width: 16px;
@@ -282,7 +289,7 @@ export default defineComponent({
                 display: inline-block;
                 width: 16px;
                 height: 16px;
-                margin-left: 15px;
+                margin-left: 10px;
                 background: url("../../assets/img/collection.png") center center no-repeat;
                 background-size: 100% 100%;
                 cursor: pointer;
@@ -327,6 +334,39 @@ export default defineComponent({
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 1;
                 overflow: hidden;
+            }
+            .musicplaylist-ratio{
+                font-size: 12px;
+                color: $font-authorcolor;
+                line-height: 16px;
+                padding-left: 10px;
+                text-align: center;
+                font-weight: bold;
+                width: 30px;
+            }
+            .musicplaylist-lr{
+                padding-left: 16px;
+                span{
+                    width: 23px;
+                    height: 16px;
+                    display: block;
+                }
+                .none{
+                    background: url("../../assets/img/rankline.jpg") center no-repeat;
+                    background-size: 8px 2px
+                }
+                .up{
+                    background: url("../../assets/img/long-arrow-up.png") center no-repeat;
+                    background-size: 8px;
+                }
+                .down{
+                    background: url("../../assets/img/long-arrow-down.png") center no-repeat;
+                    background-size: 8px;
+                }
+                .new{
+                    background: url("../../assets/img/new.png") center no-repeat;
+                    background-size: 23px;
+                }
             }
         }
         .musicplaylist-list.bgtst{
@@ -394,6 +434,24 @@ export default defineComponent({
             width: 24%;
             padding-right: 7px;
             box-sizing: border-box;
+        }
+    }
+    
+    .musicplaylist-table.isRank{
+        .musicplaylist-header{
+            .header-o{
+                width: 15.3%;
+                padding-left: 9%;
+            }
+            .header-t{
+                padding-left: 32px;
+                width: 35%;
+            }
+        }
+        .musicplaylist-list{
+            .musicplaylist-name{
+                width: 33%;
+            }
         }
     }
     .musicplaylist-loading{

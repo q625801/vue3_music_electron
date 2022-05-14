@@ -42,7 +42,8 @@
                                 <span class="comment-name" @click="goPage(router,'/userinfo',{id:item.user.userId})">{{item.user.nickname}}：</span>{{item.content}}
                             </div>
                             <div class="comment-usercontent comment-beReplied" v-if="item.beReplied && item.beReplied.length > 0">
-                                <span class="comment-name" @click="goPage(router,'/userinfo',{id:item.beReplied[0].user.userId})">{{'@' + item.beReplied[0].user.nickname}}：</span>{{item.beReplied[0].content}}
+                                <span v-if="item.beReplied[0].content == null" class="comment-delete">该评论已删除</span>
+                                <span v-else class="comment-name" @click="goPage(router,'/userinfo',{id:item.beReplied[0].user.userId})">{{'@' + item.beReplied[0].user.nickname}}：</span>{{item.beReplied[0].content}}
                             </div>
                             <div class="comment-time-operate clear">
                                 <div class="comment-time fl">{{myDate(item.time)}}</div>
@@ -196,6 +197,10 @@ export default defineComponent({
                     }
                     .comment-name:hover{
                         color:$albumsongsheetinfo_hovercolor
+                    }
+                    .comment-delete{
+                        display: block;
+                        text-align: center;
                     }
                 }
                 .comment-beReplied{

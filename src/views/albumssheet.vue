@@ -6,7 +6,7 @@
                 {{item == '评论' ? `${item}(${commentNum})`: item}}
             </span>
         </div>
-        <MusicPlayList :stdetaildata="detailinfo" :stSongAll="songlistAll" v-show="tabsOn == 0"/>
+        <MusicPlayList :stdetaildata="detailinfo" :stSongAll="songlistAll" :isRank="isRank" v-show="tabsOn == 0"/>
         <Comment :dataId="id" @commentTotal="getCommentTotal" v-show="tabsOn == 1"/>
         <Subscription :dataId="id" v-show="tabsOn == 2"/>
     </div>
@@ -33,6 +33,7 @@ export default defineComponent({
         let router = useRouter()
         let state = reactive({
             id: router.currentRoute.value.query.id,
+            isRank: router.currentRoute.value.query.isRank,//用于判断是否从排行榜页面进入歌单详情页 是否展示飙升率 排名变化 new
             detailinfo:'',
             songlistAll:'',
             tabsList:[
