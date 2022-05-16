@@ -8,7 +8,7 @@
           <div class="artist-name">{{singerInfo.name}}</div>
           <div class="artist-alias" v-if="singerInfo && singerInfo.alias.length > 0">{{singerInfo.alias.join(';')}}</div>
           <div class="artist-account" v-if="singerInfo.accountId">
-            <span>个人主页</span>
+            <span @click="goPage(router,'/userinfo',{id:singerInfo.accountId})">个人主页</span>
           </div>
           <div class="artist-musicresult">
             <span>单曲数:{{singerInfo.musicSize}}</span>
@@ -52,6 +52,7 @@ import "@/assets/css/swiper.min.css"
 import ArtistAlbum from "@/components/artist/artistalbum.vue"
 import ArtistDesc from "@/components/artist/components/artistdesc.vue"
 import ArtistsSimi from "@/components/artist/components/artistssimi.vue"
+import { goPage } from "@/utils/common"
 export default defineComponent({
   name:'artist',
   components:{
@@ -176,7 +177,9 @@ export default defineComponent({
       ...toRefs(state),
       tabClick,
       ArtistAlbumEnd,
-      setItemRef
+      setItemRef,
+      goPage,
+      router
     }
   }
 })

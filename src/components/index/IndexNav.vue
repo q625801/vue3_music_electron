@@ -26,7 +26,7 @@ export default defineComponent({
       {
         id:2,
         name:"歌单",
-        path:'/index/singer',
+        path:'/index/songsheetnav',
       },
       {
         id:3,

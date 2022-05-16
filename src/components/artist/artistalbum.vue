@@ -103,7 +103,6 @@ export default defineComponent({
         },{deep:true})
         watch(() => props.hotSongs,(newVal:any) => {
             state.hotSongs = props.hotSongs
-            console.log(state.hotSongs)
         })
         return {
             ...toRefs(state),
