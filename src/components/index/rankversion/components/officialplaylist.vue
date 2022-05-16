@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="officialplaylist-more">
-            <span @click="goPage(router,'/albumssheet',{id:songsheetId,isRank:true})">查看全部&nbsp;&nbsp;</span>>
+            <span @click="goPage(router,'/songsheet',{id:songsheetId,isRank:true})">查看全部&nbsp;&nbsp;</span>>
         </div>
     </div>
     <LoadingCpn v-else/>

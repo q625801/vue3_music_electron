@@ -62,9 +62,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/artist.vue"),
   },
   {
-    path: "/albumssheet",
-    name: "albumssheet",
-    component: () => import("../views/albumssheet.vue"),
+    path: "/songsheet",
+    name: "songsheet",
+    component: () => import("../views/songsheet.vue"),
+  },
+  {
+    path: "/album",
+    name: "album",
+    component: () => import("../views/album.vue"),
   },
   {
     path: "/userinfo",

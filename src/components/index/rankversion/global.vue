@@ -3,11 +3,11 @@
         <Titlemm :title="'全球榜'" :arrow="false"/>
         <div class="global-section clear">
             <div class="global-list fl" v-for="(item,index) in dataList" :key="index">
-                <div class="list-img" @click="goPage(router,'/albumssheet',{id:item.id,isRank:true})">
+                <div class="list-img" @click="goPage(router,'/songsheet',{id:item.id,isRank:true})">
                     <img v-lazy="item.coverImgUrl + '?param=200y200'"/>
                     <div class="list-playbtn"></div>
                 </div>
-                <span class="list-name" @click="goPage(router,'/albumssheet',{id:item.id,isRank:true})">{{item.name}}</span>
+                <span class="list-name" @click="goPage(router,'/songsheet',{id:item.id,isRank:true})">{{item.name}}</span>
             </div>
         </div>
     </div>

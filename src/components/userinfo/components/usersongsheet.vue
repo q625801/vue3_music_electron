@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-usersongsheet">
-        <div class="usersongsheet-list" v-for="(item,index) in dataList" :key="index" @click="goPage(router,'/albumssheet',{id:item.id},{songsheetname:item.name})">
+        <div class="usersongsheet-list" v-for="(item,index) in dataList" :key="index" @click="goPage(router,'/songsheet',{id:item.id},{songsheetname:item.name})">
             <div class="list-img">
                 <div class="list-playCount">{{item.playCount > 10000 ? (item.playCount/10000).toString().split(".")[0] + "万" : item.playCount}}</div>
                 <img v-lazy="item.coverImgUrl + '?param=300y300'" :key="item.coverImgUrl">

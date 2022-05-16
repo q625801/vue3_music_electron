@@ -20,9 +20,9 @@ import AlbumSongsheetInfo from '@/components/common/album_songsheet_info.vue'
 import MusicPlayList from "@/components/common/musicplaylist.vue"
 import {useRouter} from 'vue-router'
 import Comment from '@/components/common/comment.vue'
-import Subscription from '@/components/albumssheet/subscribers.vue'
+import Subscription from '@/components/songsheet/subscribers.vue'
 export default defineComponent({
-    name:'album',
+    name:'songsheet',
     components:{
         AlbumSongsheetInfo,
         MusicPlayList,
@@ -44,7 +44,7 @@ export default defineComponent({
             tabsOn:0,
             commentNum:0,
         })
-        let getAblbum = () => {
+        let getData = () => {
             return new Promise((reslove,reject) => {
                 postJson(sddetail,{id:state.id},(res:any) => {
                     reslove(res)
@@ -69,7 +69,7 @@ export default defineComponent({
             state.commentNum = total
         }
         onMounted(() => {
-            Promise.all([getAblbum(),getPlayListTrackAll()]).then((res:any) => {
+            Promise.all([getData(),getPlayListTrackAll()]).then((res:any) => {
                 if(res[0].code == 200){
                     state.detailinfo = res[0].playlist;
                 }

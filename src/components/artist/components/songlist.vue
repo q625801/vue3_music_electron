@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,reactive,toRefs,onUpdated,ref,onMounted } from 'vue'
+import { defineComponent,reactive,toRefs,onUpdated,ref,onMounted,watch } from 'vue'
 import {postJson} from "@/api/apiConfig";
 import { playtime,audioPlay } from "@/utils/common"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
@@ -34,7 +34,7 @@ export default defineComponent({
     },
     props:[
         'isHot',
-        'hotSongs',
+        'SongListhotSongs',
         'AlbumId'
     ],
     setup (props) {
@@ -42,7 +42,7 @@ export default defineComponent({
             songlistdata:[],
             hotClick:true,
             isHot:'',
-            AlbumId:''
+            AlbumId:'',
         })
         onMounted(() => {
             if(props.AlbumId != state.AlbumId && undefined != props.AlbumId){
@@ -50,11 +50,11 @@ export default defineComponent({
                 getAlbumDetail()
             }
         })
-        onUpdated(() => {
+        watch(() => props.SongListhotSongs,(newVal:any) => {
             if(props.isHot != state.isHot && undefined != props.isHot){ //如果引入组件传的值不是通过接口获取或其他异步操作是不会执行updated生命周期
-                state.songlistdata = props.hotSongs
+                state.songlistdata = newVal
             }
-        })
+        },{immediate:true,deep:true})
         let itemRefs = ref()
         const setItemRef = (el:Element) => {
             if(el){
@@ -68,7 +68,10 @@ export default defineComponent({
                 state.hotClick = false
             }else{
                 router.push({
-                    path:'/'
+                    path:'/album',
+                    query:{
+                        id:state.AlbumId
+                    }
                 })
             }
         }

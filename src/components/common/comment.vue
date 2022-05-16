@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="comment-morehots">更多精彩评论></div>
+                <!-- <div class="comment-morehots">更多精彩评论></div> -->
             </div>
             <div class="comment-tips" v-if="commentData && commentData.length > 0">最新评论({{pageObj.total}})</div>
             <div class="comment-data">
@@ -77,7 +77,7 @@
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
 import {postJson} from '@/api/apiConfig'
-import {songdetaiilcomment} from '@/api/api'
+import {songdetaiilcomment,getCommentAlbum} from '@/api/api'
 import { myDate } from '@/utils/common'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { goPage } from "@/utils/common"
@@ -88,7 +88,8 @@ export default defineComponent({
         LoadingCpn
     },
     props:[
-        'dataId'
+        'dataId',
+        'type'
     ],
     setup (props,context) {
         let state = reactive({
@@ -104,7 +105,7 @@ export default defineComponent({
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            postJson(songdetaiilcomment,{id:props.dataId,offset:offset,limit:state.pageObj.pageSize},(res:any) => {
+            postJson(props.type == 'album' ? getCommentAlbum : songdetaiilcomment,{id:props.dataId,offset:offset,limit:state.pageObj.pageSize},(res:any) => {
                 state.loading = false
                 if(res.code == 200){
                     state.pageObj.total = res.total

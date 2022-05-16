@@ -1,15 +1,15 @@
 <template>
     <div class="wrap-info">
-        <div class="info-section clear" v-if="playlist">
+        <div class="info-section clear" v-if="playlist && playlist.name">
             <div class="info-img clear fl">
                 <img v-lazy="playlist.coverImgUrl+'?param=300y300'"/>
             </div>
             <div class="info-topblk fl">
                 <div class="topblk-tagtitle clear">
-                    <span class="tag fl">歌单</span>
+                    <span class="tag fl">{{infotype == 'album' ? '专辑' : '歌单'}}</span>
                     <span class="title fl">{{playlist.name}}</span>
                 </div>
-                <div class="topblk-userinfo clear">
+                <div class="topblk-userinfo clear" v-if="playlist.creator">
                     <div class="topblk-userinfo-img fl" @click="goPage(router,'/userinfo',{id:playlist.creator.userId})">
                         <img v-lazy="playlist.creator.avatarUrl + '?param=100y100'"/>
                     </div>
@@ -25,11 +25,18 @@
                         <span class="btn-apply fl" @click="playAll">播放全部</span>
                         <span class="btn-add fl">+</span>
                     </div>
-                    <div class="btn-fav fl">
+                    <div class="btn-fav fl" v-if="playlist.subscribedCount">
                         <span>收藏({{countchange(playlist.subscribedCount)}})</span>
                     </div>
                 </div>
                 <div class="topblk-lable">
+                    <div class="lable-list clear" v-if="playlist.artists.length > 0">
+                        歌手：
+                        <span v-for="(item,index) in playlist.artists" :key="index">
+                            {{index != 0 ? ' / ' : ''}}
+                            <em @click.stop="goPage(router,'/artist',{id:item.id})">{{item.name}}</em>
+                        </span>
+                    </div>
                     <div class="lable-list" v-if="playlist.tags.length > 0">
                         标签：
                         <span v-for="(item,index) in playlist.tags" :key="index">
@@ -38,8 +45,9 @@
                         </span>
                     </div>
                     <div class="lable-list clear">
-                        <span class="lable-t fl">歌曲：<em>{{playlist.trackCount}}</em></span>
-                        <span class="lable-t fl">播放：<em>{{countchange(playlist.playCount)}}</em></span>
+                        <span class="lable-t fl" v-if="playlist.trackCount">歌曲：<em>{{playlist.trackCount}}</em></span>
+                        <span class="lable-t fl" v-if="playlist.playCount">播放：<em>{{countchange(playlist.playCount)}}</em></span>
+                        <span class="lable-t fl" v-if="playlist.publishTime">时间：<em>{{myDate(playlist.publishTime)}}</em></span>
                     </div>
                     <div class="lable-list" v-if="playlist.description">
                         <div :class="[descriptionShow ? 'on' : '','label-des']">
@@ -63,13 +71,26 @@ export default defineComponent({
     name:'albumsongsheetinfo',
     props:[
         'detailinfo',
+        'type'
     ],
     setup (props) {
         let state = reactive({
             playlist:{
-                tracks:''
+                coverImgUrl:'',
+                name:'',
+                creator:'',
+                tracks:[],
+                artists:[],
+                tags:[],
+                playCount:'',
+                createTime:'',
+                subscribedCount:'',
+                trackCount:'',
+                description:'',
+                publishTime:'',
             },
             descriptionShow: false,
+            infotype:props.type,
         })
         let changedescription = () => {
             state.descriptionShow = !state.descriptionShow
@@ -107,7 +128,39 @@ export default defineComponent({
             audioPlay(SongInfo,arr,store)
         }
         watch(() =>props.detailinfo,(newValue) => {
-            state.playlist = newValue
+            if(props.type && props.type == 'album'){
+                state.playlist = {
+                    coverImgUrl:newValue.picUrl,
+                    name: newValue.name,
+                    artists: newValue.artists,
+                    publishTime: newValue.publishTime,
+                    description:'',
+
+                    creator:'',
+                    tracks:[],
+                    createTime: '',
+                    subscribedCount:newValue.subscribedCount,
+                    tags:[],
+                    trackCount:'',
+                    playCount:'',
+                }
+            }else{ //歌单
+                state.playlist = {
+                    coverImgUrl:newValue.coverImgUrl,
+                    name: newValue.name,
+                    description:newValue.description,
+                    creator:newValue.creator,
+                    tracks:newValue.tracks,
+                    createTime: newValue.createTime,
+                    subscribedCount:newValue.subscribedCount,
+                    tags:newValue.tags,
+                    trackCount:newValue.trackCount,
+                    playCount:newValue.playCount,
+
+                    artists: [],
+                    publishTime: '',
+                }
+            }
         },{immediate:true,deep:true})
         const router = useRouter()
         return {
@@ -196,6 +249,9 @@ export default defineComponent({
                     line-height:25px;
                     padding-left: 8px;
                 }
+            }
+            .topblk-artists{
+                font-size: 14px;
             }
             .topblk-btn{
                 margin:12px 0;

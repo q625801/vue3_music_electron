@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-album">
-        <div class="album-list clear">
+        <div class="album-list clear" v-if="hotSongs && hotSongs.length > 0">
             <div class="album-img-time fl">
                 <div class="album-img">
                     <img src="../../assets/img/topfifty.jpg">            
@@ -10,7 +10,7 @@
                 <div class="album-name">
                     <span class="nohref">热门50首</span>
                 </div>
-                <SongList :isHot="true" :hotSongs="hotSongs"/>
+                <SongList :isHot="true" :SongListhotSongs="hotSongs"/>
             </div>
         </div>
         <div class="album-list album-pd clear" v-for="(item,index) in ArtistAlbumData" :key="index">
@@ -84,7 +84,6 @@ export default defineComponent({
         onMounted(() => {
         })
         onUpdated(() => {
-            state.hotSongs = props.hotSongs
             if(state.SingerId != props.SingerId){
                 state.SingerId = props.SingerId
                 state.ArtistAlbumData = []
@@ -102,6 +101,10 @@ export default defineComponent({
                 getData(state.SingerId,true)
             }
         },{deep:true})
+        watch(() => props.hotSongs,(newVal:any) => {
+            state.hotSongs = props.hotSongs
+            console.log(state.hotSongs)
+        })
         return {
             ...toRefs(state),
             artistscrollend,
@@ -161,6 +164,9 @@ export default defineComponent({
     }
     .album-list.album-pd{
         padding-top: 45px;
+    }
+    .album-list.album-pd:first-child{
+        padding-top: 0;
     }
     .album-loading{
         padding-top: 20px;

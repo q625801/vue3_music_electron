@@ -14,10 +14,10 @@
                         <span>{{index+1 < 10 ? '0' + (index+1) : index+1}}</span>
                         <div class="musicplaylist-AudioInfoPlay fl"></div>
                     </div>
-                    <div class="musicplaylist-ratio fl" v-if="trackIds[index].ratio && isRank">
+                    <div class="musicplaylist-ratio fl" v-if="trackIds && trackIds[index].ratio && isRank">
                         {{trackIds[index].ratio + '%'}}
                     </div>
-                    <div class="musicplaylist-lr fl" v-if="!trackIds[index].ratio && isRank">
+                    <div class="musicplaylist-lr fl" v-if="trackIds && !trackIds[index].ratio && isRank">
                         <span :class="[trackIds[index].lr ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : (trackIds[index].lr === 0 ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : 'new')]"></span>
                     </div>
                     <div class="musicplaylist-collection fl"></div>
@@ -33,7 +33,7 @@
                         <em @click.stop="goPage(router,'/artist',{id:item2.id})">{{item2.name}}</em>
                     </span>
                 </div>
-                <div class="musicplaylist-album ellipsis">
+                <div class="musicplaylist-album ellipsis" @click.stop="goPage(router,'/album',{id:item.al.id})">
                     {{item.al.name}}
                 </div>
                 <div class="musicplaylist-duration">{{playtime(item.dt)}}</div>
@@ -56,7 +56,7 @@ import { playtime,audioPlay,goPage } from "@/utils/common"
 import {useRouter} from "vue-router"
 export default defineComponent({
     name:'loading',
-    props:['stdetaildata','stSongAll','isRank'],
+    props:['stdetaildata','stSongAll','isRank','type'],
     components:{
         LoadingCpn
     },
@@ -181,6 +181,9 @@ export default defineComponent({
             }
             if(newValue.stSongAll && newValue.stSongAll.length > 0) {
                 state.songlistAll = newValue.stSongAll
+            }
+            if(newValue.type == 'album'){
+                state.songlistdata = newValue.stSongAll
             }
         },{immediate:true,deep:true})
         function getMp3Url(id){
@@ -415,7 +418,7 @@ export default defineComponent({
             color: $font-authorcolor;
         }
         .header-o{
-            width: 13%;
+            width: 12.5%;
             box-sizing: border-box;
             padding-left: 7%;
         }
