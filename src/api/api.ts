@@ -52,9 +52,6 @@ export const getArtistAlbum:string = api + '/artist/album' + (api.indexOf('netea
 // ===================专辑评论
 export const getCommentAlbum:string = api + '/comment/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
-// ===================歌单分类信息
-export const getPlaylistCatlist:string = api + '/top/playlist/highquality' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
-
 // ===================热门播客
 export const getPopularPodcast:string = api + '/personalized/djprogram' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
@@ -70,3 +67,14 @@ export const getartistssimi:string = api + '/simi/artist' + (api.indexOf('neteas
 
 // ===================榜单分类
 export const gettoplist:string = api + '/toplist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+
+// ===================歌单分类
+export const getPlaylistCatlist:string = api + '/playlist/catlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================精品歌单标签列表
+export const gethighqualitytags:string = api + '/playlist/highquality/tags' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================获取精品歌单
+export const gethighquality:string = api + '/top/playlist/highquality' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================热门歌单分类
+export const getplaylisthot:string = api + '/playlist/hot' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================获取热门歌单
+export const gettopplaylist:string = api + '/top/playlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
