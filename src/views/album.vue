@@ -25,7 +25,7 @@ import AlbumSongsheetInfo from '@/components/common/album_songsheet_info.vue'
 import MusicPlayList from "@/components/common/musicplaylist.vue"
 import {useRouter} from 'vue-router'
 import Comment from '@/components/common/comment.vue'
-import Subscription from '@/components/songsheet/subscribers.vue'
+import Subscription from '@/components/songsheetdetail/subscribers.vue'
 export default defineComponent({
     name:'album',
     components:{

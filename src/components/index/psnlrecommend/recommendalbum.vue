@@ -15,9 +15,9 @@
                     <span>每日歌曲推荐</span>
                 </div>
             </div>
-            <div class="songsheet-list fl" v-for="(item,index) in SongSheetArr" :key="index" @click="goPage(router,'/songsheet',{id:item.id})">
+            <div class="songsheet-list fl" v-for="(item,index) in SongSheetArr" :key="index" @click="goPage(router,'/songsheetdetail',{id:item.id})">
                 <div class="list-img">
-                    <div class="list-playCount">{{(item.playCount/10000).toString().split(".")[0] + "万"}}</div>
+                    <div class="list-playCount">{{item.playCount > 100000000 ? (item.playCount/100000000).toString().split(".")[0] + "亿" : item.playCount > 10000 ? (item.playCount/10000).toString().split(".")[0] + "万" : item.playCount}}</div>
                     <img v-lazy="item.picUrl + '?param=150y150'" :key="item.picUrl">
                     <!-- <img v-lazy="'../../../assets/img/loading.gif'" :key="item.picUrl"> -->
                     <div class="list-player amn4"></div>

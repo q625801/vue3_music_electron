@@ -30,11 +30,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () => require.ensure([],(require) => require("../components/index/handtailor.vue"))
       },
       {
-        path: "songsheet",
-        name: "songsheet",
-        component:SongSheet
-      },
-      {
         path: "rankversion",
         name: "rankversion",
         component:RankVersion
@@ -67,9 +62,9 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/artist.vue"),
   },
   {
-    path: "/songsheet",
-    name: "songsheet",
-    component: () => import("../views/songsheet.vue"),
+    path: "/songsheetdetail",
+    name: "songsheetdetail",
+    component: () => import("../views/songsheetdetail.vue"),
   },
   {
     path: "/album",

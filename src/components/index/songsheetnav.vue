@@ -2,6 +2,7 @@
   <div class="wrap-songsheetnav">
     <NavBanner :navtopData="navtopData"/>
     <NavCatlist @hotlistOn="gethotlistOn"/>
+    <SongSheetList :cat="cat"/>
   </div>
 </template>
 
@@ -9,18 +10,20 @@
 import { defineComponent,reactive,toRefs } from 'vue'
 import NavBanner from './songsheetnav/navbanner.vue'
 import { postJson } from '@/api/apiConfig'
-import { gethighqualitytags,gethighquality } from '@/api/api'
+import { gethighquality } from '@/api/api'
 import NavCatlist from './songsheetnav/navcatlist.vue'
+import SongSheetList from './songsheetnav/songsheetlist.vue'
 export default defineComponent({
   name:'shongsheetnav',
   components:{
     NavBanner,
-    NavCatlist
+    NavCatlist,
+    SongSheetList
   },
   setup () {
     let state = reactive({
       navtopData:'',
-      cat:'华语'
+      cat:'华语',
     })
     let getNavTopData = () => {
       postJson(gethighquality,{cat:state.cat,limit:1},(res:any) => {
@@ -33,7 +36,7 @@ export default defineComponent({
     }
     let gethotlistOn = (data:any) => {
       state.cat = data.name
-      getNavTopData()
+      init()
     }
     let init = () => {
       getNavTopData()
