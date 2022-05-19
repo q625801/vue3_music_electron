@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Index from "../views/Index.vue";
 import PodCast from "../views/podcast.vue"
-import SongSheet from "../components/index/songsheetnav.vue"
 import RankVersion from "../components/index/rankversion.vue"
 import Singer from "../components/index/singer.vue"
 import LatestMusic from "../components/index/latestmusic.vue"
@@ -48,7 +47,12 @@ const routes: Array<RouteRecordRaw> = [
         path: "songsheetnav",
         name: "songsheetnav",
         component:() => import("../components/index/songsheetnav.vue"),
-      }
+      },
+      {
+        path: "highqualityssheet",
+        name: "highqualityssheet",
+        component: () => import("../views/highqualityssheet.vue"),
+      },
     ],
   },
   {

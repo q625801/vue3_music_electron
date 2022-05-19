@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap-navtop" v-if="data.coverImgUrl">
+    <div class="wrap-navtop" v-if="data.coverImgUrl" @click="goPage(router,'/index/highqualityssheet',{cat:cat})">
         <div class="navtop-img">
             <img :src="data.coverImgUrl">
         </div>
@@ -20,24 +20,33 @@
 
 <script lang="ts">
 import { defineComponent,reactive,toRefs,watch } from 'vue'
-
+import { useRouter } from 'vue-router'
+import { goPage } from '@/utils/common'
 export default defineComponent({
     name:'navtop',
     components:{
 
     },
     props:[
-        'navtopData'
+        'navtopData',
+        'cat'
     ],
     setup (props) {
         let state = reactive({
-            data:''
+            data:'',
+            cat:props.cat
         })
         watch(() =>props.navtopData,(newValue:any) => {
             state.data = newValue
         })
+        watch(() =>props.cat,(newValue:any) => {
+            state.cat = newValue
+        })
+        let router = useRouter()
         return {
             ...toRefs(state),
+            router,
+            goPage
         }
     }
 })

@@ -17,7 +17,7 @@
                     </div>
                     <div class="catgorysection-right clear fl">
                         <div class="catgorysection-btn fl" v-for="(item2,index2) in item.children" :key="index2">
-                            <span @click="clickhotlist(item2)" :class="[item2.name == hotlistOnName ? 'on' : '']">{{item2.name}}</span>
+                            <span @click="clickhotlist(item2)" :class="[item2.name == hotlistOnName ? 'on' : '',item2.hot ? 'hot' : '']">{{item2.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,6 @@ export default defineComponent({
                         })
                     })
                     state.catgorydata = arr
-                    console.log(arr)
                 }
             },(err) => {
                 
@@ -216,6 +215,7 @@ export default defineComponent({
                             cursor: pointer;
                             padding: 7px 10px;
                             border-radius: 25px;
+                            position: relative;
                         }
                         span:hover{
                             color:$musicNameOn;
@@ -223,6 +223,16 @@ export default defineComponent({
                         span.on{
                             color:$musicNameOn;
                             background: rgba($musicNameOn,0.05)
+                        }
+                        span.hot:after{
+                            width: 16px;
+                            height: 16px;
+                            background: url('../../../assets/img/hot.png') center center no-repeat;
+                            background-size: 100%;
+                            position: absolute;
+                            right: -5px;
+                            top: 6px;
+                            content:' ';
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 <template>
   <div class="wrap-songsheetnav">
-    <NavBanner :navtopData="navtopData"/>
+    <NavBanner :navtopData="navtopData" :cat="cat"/>
     <NavCatlist @hotlistOn="gethotlistOn"/>
     <SongSheetList :cat="cat"/>
   </div>
@@ -28,7 +28,7 @@ export default defineComponent({
     let getNavTopData = () => {
       postJson(gethighquality,{cat:state.cat,limit:1},(res:any) => {
         if(res.code == 200){
-          state.navtopData = res.playlists.length > 0 ?res.playlists[0] : []
+          state.navtopData = res.playlists.length > 0 ? res.playlists[0] : []
         }
       },(err:any) => {
 
