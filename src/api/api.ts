@@ -78,3 +78,7 @@ export const gethighquality:string = api + '/top/playlist/highquality' + (api.in
 export const getplaylisthot:string = api + '/playlist/hot' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================获取热门歌单
 export const gettopplaylist:string = api + '/top/playlist' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+
+// ===================歌手列表
+export const getartistlist:string = api + '/artist/list' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+
