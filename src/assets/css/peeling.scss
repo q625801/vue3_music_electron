@@ -36,7 +36,7 @@ $navcatlistcatogrybg:#363636;
 $navcatlistcatogrybdc:#121212;
 $navcatlistcatogrybdtc:#494949;
 
-
+$latestmusictabbg:#666666;
 
 
 
@@ -51,31 +51,31 @@ $navcatlistcatogrybdtc:#494949;
     display: flex;
     align-items: center;
     justify-content: center;
-    ::v-deep .btn-next, ::v-deep .btn-prev{
+    ::v-deep(.btn-next), ::v-deep(.btn-prev){
         background-color:$commentPageNPbtnbg;
     }
-    ::v-deep .btn-next, ::v-deep .btn-prev, ::v-deep .el-pager li{
+    ::v-deep(.btn-next), ::v-deep(.btn-prev), ::v-deep(.el-pager li){
         border: 1px solid $bodercolor;
         border-radius: 5px;
     }
-    ::v-deep .el-pager li{
+    ::v-deep(.el-pager li){
         background-color: transparent;
     }
-    ::v-deep .el-pager li:not(.is-disabled):hover{
+    ::v-deep(.el-pager li:not(.is-disabled):hover){
         border: none;
         color: $font-hoverauthorcolor;
     }
-    ::v-deep .el-pager li:not(.is-disabled).is-active{
+    ::v-deep(.el-pager li:not(.is-disabled).is-active){
         background-color: $albumsongsheetinfo_hoverbtnbg;
         border: 1px solid $bodercolort;
         color:#ffffff;
     }
-    ::v-deep .btn-next:hover:not([disabled]), ::v-deep .btn-prev:hover:not([disabled]) {
+    ::v-deep(.btn-next:hover:not([disabled])), ::v-deep(.btn-prev:hover:not([disabled])){
         border: none;
         background-color: transparent;
         color: $font-hoverauthorcolor;
     }
-    ::v-deep .btn-next:disabled, ::v-deep .btn-prev:disabled{
+    ::v-deep(.btn-next:disabled), ::v-deep(.btn-prev:disabled){
         color: $font-authorcolor;
         background-color: $commentPageNPbtnbg;
     }

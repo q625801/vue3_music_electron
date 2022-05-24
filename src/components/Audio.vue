@@ -463,7 +463,7 @@ export default {
 .ellipsis.music-name:hover{
   color: #ffffff;
 }
-.player-bar .info .ellipsis.author span ::v-deep em{
+.player-bar .info .ellipsis.author span ::v-deep(em){
   cursor: pointer;
 }
 .player-btn{

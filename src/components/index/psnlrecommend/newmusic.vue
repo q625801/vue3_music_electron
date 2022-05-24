@@ -134,10 +134,10 @@ export default defineComponent({
                     -webkit-line-clamp: 1;
                     overflow: hidden;
                     span{
-                        ::v-deep em{
+                        ::v-deep(em){
                             cursor: pointer;
                         }
-                        ::v-deep em:hover{
+                        ::v-deep(em:hover){
                             color: $font-hoverauthorcolor;
                         }
                     }
