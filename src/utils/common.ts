@@ -144,3 +144,17 @@ export const audioPlay = (SongInfo:songinfo,SongList:any,store:any) => {
   }
   store.commit('setSongInfo',data)
 }
+/*
+  计算年月加减月份
+  originalYtd为String，格式为"yyyy-MM"
+  monthNum为Number，格式为n，n为正数表示加月份，为负数表示减月份
+*/
+export const addDate2 = (sourceDate:any,months:any) => {
+  var date:any = new Date(sourceDate);//比如sourceDate传参“2019-03-31”
+  var oldDate = date.getDate();//获取原来的月有多少日
+  date.setDate(1);//设置为1日（day）
+  date.setMonth(date.getMonth() + months);//设置新的月份(从0开始) months 传参-1
+  var newDay= new Date(date.getYear(), date.getMonth()+1, 0).getDate();//获取新得到的月有多少日
+  date.setDate(Math.min(oldDate, newDay));
+  return date.getFullYear() + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+}

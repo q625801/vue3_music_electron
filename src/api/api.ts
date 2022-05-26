@@ -84,4 +84,6 @@ export const getartistlist:string = api + '/artist/list' + (api.indexOf('netease
 
 // ===================新歌速递
 export const gettopsong:string = api + '/top/song' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================本周新碟
+export const gettopalbum:string = api + '/top/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 

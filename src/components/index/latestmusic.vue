@@ -10,16 +10,19 @@
             <div :class="['tabs-bg amn2',tabsOn == 'newalbum' ? 'right' : '']"></div>
         </div>
         <NewSong v-show="tabsOn == 'newsong'"/>
+        <NewAlbum v-show="tabsOn == 'newalbum'"/>
     </div>
 </template>
 
 <script>
 import { defineComponent,reactive,toRefs } from 'vue'
-import NewSong from './latestmusic/newsong';
+import NewSong from './latestmusic/newsong'
+import NewAlbum from './latestmusic/newalbum'
 export default defineComponent({
     name:'latestmusic',
     components:{
         NewSong,
+        NewAlbum
     },
     setup () {
         let state = reactive({

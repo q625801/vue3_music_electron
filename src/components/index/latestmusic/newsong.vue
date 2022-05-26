@@ -9,7 +9,7 @@
                 <div class="btn fl collection">收藏全部</div>
             </div>
         </div>
-        <div class="newsong-section">
+        <div class="newsong-section" v-if="!loading">
             <div class="newsong-list clear" v-for="(item,index) in dataList" :key="item.id" @dblclick="goAudioPlay(item)" :class="[item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '',item.id == $store.state.audioInfo.SongInfo.SongId && $store.state.audioInfo.audioPlayBtn ? 'onPlay' : '']">
                 <div class="num fl">{{index+1 < 10 ? '0' + (index+1) : index+1}}</div>
                 <div class="img fl" @click="goAudioPlay(item)">
@@ -27,6 +27,7 @@
                 <div class="duration fl">{{playtime(item.duration)}}</div> 
             </div>
         </div>
+        <LoadingCpn v-else/>
     </div>
 </template>
 
@@ -37,8 +38,12 @@ import { gettopsong } from '@/api/api'
 import { useRouter } from 'vue-router'
 import { playtime,goPage,audioPlay } from '@/utils/common'
 import {useStore} from 'vuex'
+import LoadingCpn from "@/components/common/loadingcpn.vue"
 export default defineComponent({
     name:'newsong',
+    components:{
+        LoadingCpn
+    },
     setup () {
         let state = reactive({
             optionList:[
@@ -65,13 +70,16 @@ export default defineComponent({
             ],
             optionType:0,
             dataList:[],
+            loading:false,
         })
         let changeOption = (data) => {
             state.optionType = data
             getData()
         }
         let getData = () => {
+            state.loading = true
             postJson(gettopsong,{type:state.optionType},res => {
+                state.loading = false
                 if(res.code == 200){
                     state.dataList = res.data
                 }
