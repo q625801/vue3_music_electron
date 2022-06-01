@@ -4,8 +4,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent,ref } from 'vue'
+<script>
+import { defineComponent,ref,watch } from 'vue'
 import { useRouter } from 'vue-router'
 export default defineComponent({
   name:'IndexNav',
@@ -16,7 +16,7 @@ export default defineComponent({
       {
         id:1,
         name:"个性推荐",
-        path:'/',
+        path:'/index/psnlrecommend',
       },
       // {
       //   id:2,
@@ -44,18 +44,18 @@ export default defineComponent({
         path:'/index/latestmusic'
       },
     ]
-    let IndexNavChange = (data:any) => {
+    let IndexNavChange = (data) => {
       IndexNavOn.value = data.id
       router.push(data.path)
     }
-    let currentPath = router.currentRoute.value.fullPath || ''
-    if(currentPath){
+    watch(() => router,(newValue) => {
+      let currentPath = newValue.currentRoute.value.fullPath
       IndexNavList.forEach(item => {
-        if(item.path == currentPath){
+        if(currentPath == item.path){
           IndexNavOn.value = item.id
         }
       })
-    }
+    },{immediate:true,deep:true})
     return {
       IndexNavList,
       IndexNavOn,

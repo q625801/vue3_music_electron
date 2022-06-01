@@ -10,9 +10,6 @@ const api = process.env.NODE_ENV === 'development' ? '/api' : 'https://netease-c
 // ===================首页
 export const banner:string = api + '/banner' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '') // 测试
 
-// ===================导航
-export const hotsearch:string = api + '/search/hot' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
-
 // ===================推荐歌单
 export const personalized:string = api + '/personalized' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================推荐新歌曲
@@ -86,4 +83,11 @@ export const getartistlist:string = api + '/artist/list' + (api.indexOf('netease
 export const gettopsong:string = api + '/top/song' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================本周新碟
 export const gettopalbum:string = api + '/top/album' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+
+// ===================默认搜索关键词
+export const getsearchdefault:string = api + '/search/default' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================热搜榜
+export const hotsearch:string = api + '/search/hot/detail' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================搜索建议
+export const hotsearchsuggest:string = api + '/search/suggest' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 
