@@ -66,7 +66,10 @@ export default defineComponent({
       state.searchdialogFlag = true
     }
     let hideSearchDialog = (data) => {
-      state.searchdialogFlag = data
+      state.searchdialogFlag = data.dialogFlag
+      if(data.keywords){
+        state.keywords = data.keywords
+      }
     }
     let inputchange = () => {
       if(state.keywords){

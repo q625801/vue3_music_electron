@@ -3,7 +3,7 @@
         <div class="searchdialog-hotsection" v-if="dialogHotShow">
             <div class="searchdialog-title">热搜榜</div>
             <div class="hotsection-content" v-if="!loading">
-                <div class="hotsection-list clear" v-for="(item,index) in hotSearchData" :key="index">
+                <div class="hotsection-list clear" v-for="(item,index) in hotSearchData" :key="index" @click="handleGoSearch(item.searchWord,1)">
                     <div class="num fl" :class="[index < 3 ? 'top' : '']">
                         {{index + 1}}
                     </div>
@@ -55,6 +55,8 @@ import { defineComponent,reactive,toRefs,ref,onMounted,watch } from 'vue'
 import { postJson } from '@/api/apiConfig'
 import { hotsearch,hotsearchsuggest } from '@/api/api'
 import LoadingCpn from "@/components/common/loadingcpn"
+import { goPage } from '@/utils/common'
+import { useRouter } from 'vue-router'
 export default defineComponent({
     name:'searchdialog',
     components:{
@@ -108,7 +110,7 @@ export default defineComponent({
                     return
                 }
                 if(searchDialogdom && searchDialogdom.value != null && !searchDialogdom.value.contains(e.target)){
-                  context.emit('searchdialogChange',false)
+                  context.emit('searchdialogChange',{dialogFlag:false,keywords:''})
                 }
             })
         })
@@ -151,7 +153,6 @@ export default defineComponent({
                                 arr.push(obj)
                             })
                             state.wantsearchSaas = arr
-                            console.log(state.wantsearchSaas)
                         }else{
                             state.wantsearchSaas = []
                         }
@@ -164,9 +165,15 @@ export default defineComponent({
                 state.dialogHotShow = true
             }
         },{immediate: true,deep: true})
+        const router = useRouter()
+        let handleGoSearch = (keywords,type) => {
+            context.emit('searchdialogChange',{dialogFlag:false,keywords:keywords})
+            goPage(router,'/search',{keywords:keywords,type:type})
+        }
         return {
             ...toRefs(state),
-            searchDialogdom
+            searchDialogdom,
+            handleGoSearch
         }
     }
 })
