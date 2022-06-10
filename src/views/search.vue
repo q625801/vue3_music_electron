@@ -10,6 +10,7 @@
         <div class="search-content">
             <SearchMusicPlaylist :keywords="keywords" v-if="tabsOn == 1"/>
             <SearchArtist :keywords="keywords" v-if="tabsOn == 100"/>
+            <SearchAlbum :keywords="keywords" v-if="tabsOn == 10"/>
         </div>
     </div>
 </template>
@@ -21,13 +22,15 @@ import { useRouter } from 'vue-router'
 import SearchYWant from "@/components/search/searchywant.vue"
 import SearchMusicPlaylist from "@/components/search/searchmusicplaylist.vue"
 import SearchArtist from "@/components/search/searchartist.vue"
+import SearchAlbum from "@/components/search/searchalbum.vue"
 export default defineComponent({
     name:'search',
     components:{
         Titlemm,
         SearchYWant,
         SearchMusicPlaylist,
-        SearchArtist
+        SearchArtist,
+        SearchAlbum
     },
     setup () {
         const router = useRouter()
