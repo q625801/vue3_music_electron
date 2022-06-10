@@ -14,7 +14,7 @@
                 <div class="officialplaylist-name fl">
                     {{ item.name }}<em>{{(item.tns ? ('（' + item.tns[0] + '）') : (item.alia && item.alia.length > 0 ? ('（' + item.alia[0] + '）') : ''))}}</em>
                 </div>
-                <div class="officialplaylist-author fr">
+                <div class="officialplaylist-author ellipsis fr">
                     <span v-for="(item2,index2) in item.ar" :key="index2">
                         {{index2 != 0 ? ' / ' : ''}}
                         <em @click.stop="goPage(router,'/artist',{id:item2.id})">{{item2.name}}</em>
@@ -135,6 +135,7 @@ export default defineComponent({
             }
         }
         .officialplaylist-author{
+            max-width: 34%;
             span{
                 font-size: 12px;
                 color: $font-authorcolor;

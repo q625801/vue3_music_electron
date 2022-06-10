@@ -1,7 +1,7 @@
 <template>
     <div class="wrap-artistssimi">
         <div class="artistssimi-list" v-for="(item,index) in simiData" :key="index">
-            <div class="artistssimi-img">
+            <div class="artistssimi-img" @click.stop="goPage(router,'/artist',{id:item.id})">
                 <img v-lazy="item.picUrl + '?param=200y200'"/>
             </div>
             <span class="artistssimi-name" @click.stop="goPage(router,'/artist',{id:item.id})">{{item.name}}</span>
@@ -65,6 +65,7 @@ export default defineComponent({
             align-items: center;
             border-radius:5px;
             overflow: hidden;
+            cursor: pointer;
         }
         .artistssimi-name{
             color: $font-color;

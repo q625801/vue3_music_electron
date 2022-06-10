@@ -14,7 +14,7 @@
                     <div class="popularpodcat-category"><span>{{item.program.radio.category}}</span></div>
                     <div class="popularpodcat-dj clear">
                         <span class="popularpodcat-brand fl">{{item.program.radio.name}}</span>
-                        <span class="popularpodcat-playcount fl">{{item.program.adjustedPlayCount > 100000000 ? (item.program.adjustedPlayCount/100000000).toString().split(".")[0] + "亿" : item.program.adjustedPlayCount > 10000 ? (item.program.adjustedPlayCount/100000000).toString().split(".")[0] + "万" : item.program.adjustedPlayCount}}</span>
+                        <span class="popularpodcat-playcount fl">{{item.program.adjustedPlayCount > 100000000 ? (item.program.adjustedPlayCount/100000000).toString().split(".")[0] + "亿" : item.program.adjustedPlayCount > 10000 ? (item.program.adjustedPlayCount/10000).toString().split(".")[0] + "万" : item.program.adjustedPlayCount}}</span>
                         <span class="popularpodcat-duration fl">{{getplaytime(item.program.duration)}}</span>
                     </div>
                 </div>

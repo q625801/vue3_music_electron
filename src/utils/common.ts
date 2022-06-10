@@ -158,3 +158,13 @@ export const addDate2 = (sourceDate:any,months:any) => {
   date.setDate(Math.min(oldDate, newDay));
   return date.getFullYear() + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
 }
+
+
+export const drawCorrelativeKeyword = (data:any,field:string,searchkeyword:string,newfield:string) => {
+  let arr = JSON.parse(JSON.stringify(data))
+  arr.forEach((item:any,index:number) => {
+      let html = item[field].replace(searchkeyword,"<span style='color:#85B9E6'>"+searchkeyword+"</span>")
+      arr[index][newfield ? newfield : field] = html
+  })
+  return arr
+}

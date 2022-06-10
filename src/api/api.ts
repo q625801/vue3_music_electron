@@ -92,4 +92,6 @@ export const hotsearch:string = api + '/search/hot/detail' + (api.indexOf('netea
 export const hotsearchsuggest:string = api + '/search/suggest' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 // ===================搜索你可能感兴趣
 export const hotsearchmultimatch:string = api + '/search/multimatch' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
+// ===================搜索你可能感兴趣
+export const getsearch:string = api + '/search' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '')
 

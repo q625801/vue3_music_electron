@@ -15,7 +15,7 @@
       </div>
       <div class="routersearch-search fl">
         <div class="search-input">
-          <input type="text" v-model="keywords" @focus="shinputfocus" :placeholder="defaultkeyword" inputType="search"/>
+          <input type="text" v-model="keywords" @focus="shinputfocus" @keyup.enter="handleSearchInput" :placeholder="defaultkeyword" inputType="search"/>
         </div>
       </div>
       <SearchDialog v-if="searchdialogFlag" :keywords="keywords" @searchdialogChange="hideSearchDialog"/>
@@ -29,6 +29,7 @@ import { useRouter } from 'vue-router'
 import { postJson } from '@/api/apiConfig'
 import { getsearchdefault } from '@/api/api'
 import SearchDialog from './header/searchdialog'
+import { goPage } from '@/utils/common'
 export default defineComponent({
   name:'Header',
   components:{
@@ -71,10 +72,14 @@ export default defineComponent({
         state.keywords = data.keywords
       }
     }
-    let inputchange = () => {
-      if(state.keywords){
-        
+    let handleSearchInput = () => {
+      let dom = document.querySelector('.search-input input')
+      if(!state.keywords){
+        state.keywords = state.defaultkeyword
       }
+      dom.blur()
+      state.searchdialogFlag = false
+      goPage(router,'/search',{keywords:state.keywords,type:1})
     }
     let init = () => {
       getdefaultkeyword()
@@ -85,16 +90,13 @@ export default defineComponent({
       state.forwardUrl = history.state.forward
       state.backUrl = history.state.back
     },{immediate:true,deep:true})
-    watch(() => state.keywords,newValue => {
-      inputchange()
-    })
     return {
       ...toRefs(state),
       handleback,
       handleforward,
       shinputfocus,
       hideSearchDialog,
-      inputchange
+      handleSearchInput
     }
   },
 })

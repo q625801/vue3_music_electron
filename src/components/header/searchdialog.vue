@@ -33,7 +33,7 @@
                     <div class="searchdialog-title">猜你想搜</div>
                     <div class="content-u">
                         <div class="content-l" v-for="(item,index) in wantsearchData" :key="index">
-                            <p class="ellipsis" v-html="item.keyword"></p>
+                            <p class="ellipsis" v-html="item.htmlkeyword" @click="handleGoSearch(item.keyword,1)"></p>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="searchdialog-title">{{item.name}}</div>
                     <div class="content-u">
                         <div class="content-l" v-for="(item2,index2) in item.data" :key="index2">
-                            <p class="ellipsis" v-html="item2.name"></p>
+                            <p class="ellipsis" v-html="item2.htmlkeyword"></p>
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@ import { defineComponent,reactive,toRefs,ref,onMounted,watch } from 'vue'
 import { postJson } from '@/api/apiConfig'
 import { hotsearch,hotsearchsuggest } from '@/api/api'
 import LoadingCpn from "@/components/common/loadingcpn"
-import { goPage } from '@/utils/common'
+import { goPage,drawCorrelativeKeyword } from '@/utils/common'
 import { useRouter } from 'vue-router'
 export default defineComponent({
     name:'searchdialog',
@@ -114,20 +114,12 @@ export default defineComponent({
                 }
             })
         })
-        let drawCorrelativeKeyword = (data,field,searchkeyword) => {
-            let arr = JSON.parse(JSON.stringify(data))
-            arr.forEach((item,index) => {
-                let html = item[field].replace(searchkeyword,"<span style='color:#85B9E6'>"+searchkeyword+"</span>")
-                arr[index][field] = html
-            })
-            return arr
-        }
         watch(() => props.keywords,newValue => {
             if(newValue){
                 Promise.all([wantsearch(newValue,'mobile'),wantsearch(newValue)]).then((res) =>{
                     if(res[0].code == 200){
                         if(res[0].result.allMatch){
-                            state.wantsearchData = drawCorrelativeKeyword(res[0].result.allMatch,'keyword',newValue)
+                            state.wantsearchData = drawCorrelativeKeyword(res[0].result.allMatch,'keyword',newValue,'htmlkeyword')
                         }else{
                             state.wantsearchData = []
                         }
@@ -149,7 +141,7 @@ export default defineComponent({
                                         res[1].result[item][index2].name = res[1].result[item][index2].name + ' - ' + artiststr
                                     })
                                 }
-                                obj.data = drawCorrelativeKeyword(res[1].result[item],'name',newValue)
+                                obj.data = drawCorrelativeKeyword(res[1].result[item],'name',newValue,'htmlkeyword')
                                 arr.push(obj)
                             })
                             state.wantsearchSaas = arr
