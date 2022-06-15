@@ -45,7 +45,7 @@
             :page-size="pageObj.pageSize"
             :current-page="pageObj.pageNum"
             class="mt-4 common-pagination"
-            v-if="false" >
+             >
         </el-pagination>
         <div class="musicplaylist-bottom" v-if="dataNo">暂无数据</div>
     </div>
