@@ -45,7 +45,7 @@
             :page-size="pageObj.pageSize"
             :current-page="pageObj.pageNum"
             class="mt-4 common-pagination"
-             >
+            >
         </el-pagination>
         <div class="musicplaylist-bottom" v-if="dataNo">暂无数据</div>
     </div>
@@ -64,7 +64,8 @@ export default defineComponent({
         LoadingCpn
     },
     props:[
-        'keywords'
+        'keywords',
+        'searchType'
     ],
     setup (props) {
         let state = reactive({
@@ -80,7 +81,7 @@ export default defineComponent({
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            postJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:1},res => {
+            postJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:props.searchType},res => {
                 state.loading = false
                 if(res.code == 200){
                     if(res.result.songs && res.result.songs.length > 0){

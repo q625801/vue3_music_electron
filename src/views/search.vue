@@ -8,7 +8,7 @@
             </div>  
         </div>
         <div class="search-content">
-            <SearchMusicPlaylist :keywords="keywords" v-if="tabsOn == 1"/>
+            <SearchMusicPlaylist :keywords="keywords" :searchType="1" v-if="tabsOn == 1"/>
             <SearchArtist :keywords="keywords" v-if="tabsOn == 100"/>
             <SearchAlbum :keywords="keywords" v-if="tabsOn == 10"/>
         </div>
