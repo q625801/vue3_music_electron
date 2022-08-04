@@ -28,7 +28,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs,ref } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { getplaylisthot,getPlaylistCatlist } from '@/api/api'
 export default defineComponent({
     name:'navcatlist',
@@ -45,7 +45,7 @@ export default defineComponent({
             catgorysectionFlag:false,
         })
         let getData = () => {
-            postJson(getplaylisthot,{},(res) => {
+            getJson(getplaylisthot,{},(res) => {
                 if(res.code == 200){
                     state.hotlistData = res.tags
                 }
@@ -54,7 +54,7 @@ export default defineComponent({
             })
         }
         let getCategory = () => {
-            postJson(getPlaylistCatlist,{},(res) => {
+            getJson(getPlaylistCatlist,{},(res) => {
                 if(res.code == 200){
                     let arr = []
                     let categories = res.categories

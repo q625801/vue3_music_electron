@@ -47,7 +47,7 @@
 </template>
 <script>
 import { defineComponent,onMounted,reactive,toRefs,watch } from 'vue'
-import { downloadJson,postJson } from "@/api/apiConfig"
+import { downloadJson,getJson } from "@/api/apiConfig"
 import { songsdetail,mp3url } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import isElectron from 'is-electron'
@@ -123,7 +123,7 @@ export default defineComponent({
             
         }
         let getsongdata = (data) => {
-            postJson(songsdetail,{ids:data.toString()},(res) => {
+            getJson(songsdetail,{ids:data.toString()},(res) => {
                 if(res.code == 200){
                     state.songmoreloading = false
                     state.songlistdata = state.songlistdata.concat(res.songs)
@@ -188,7 +188,7 @@ export default defineComponent({
         },{immediate:true,deep:true})
         function getMp3Url(id){
             return new Promise((reslove,reject) => {
-                postJson(mp3url + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
+                getJson(mp3url + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
                     if(res.data[0].url != null){
                         reslove(res.data[0].url)
                     }else{

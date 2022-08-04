@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
-import {postJson} from "@/api/apiConfig"
+import {getJson} from "@/api/apiConfig"
 import { sddetail,sdsongAll } from "@/api/api"
 import { myDate } from "@/utils/common"
 import MusicPlayList from "@/components/common/musicplaylist.vue"
@@ -37,7 +37,7 @@ export default defineComponent({
         })
         let getAblbum = () => {
             return new Promise((reslove,reject) => {
-                postJson(sddetail,{id:3136952023},(res:any) => {
+                getJson(sddetail,{id:3136952023},(res:any) => {
                     reslove(res)
                 },(err:object) => {
                     reject(err)
@@ -46,7 +46,7 @@ export default defineComponent({
         }
         let getPlayListTrackAll = () => {
             return new Promise((reslove,reject) => {
-                postJson(sdsongAll,{id:3136952023},(res:any) => {
+                getJson(sdsongAll,{id:3136952023},(res:any) => {
                     reslove(res)
                 },(err:any) => {
                     reject(err)

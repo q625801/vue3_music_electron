@@ -19,14 +19,14 @@ instance.interceptors.request.use(config => {
 })
 
 //post请求
-function post(url:string, data = {}) {
+function get(url:string, data = {}) {
   return new Promise((resolve, reject) => {
     instance({
       headers: {
         'Content-Type': "application/json;charset=utf-8"
       },
       params: data,
-      method: 'post',
+      method: 'get',
       url: url
     }).then(
       (response) => {
@@ -60,11 +60,14 @@ function downloadBlobFile(url:string, data = {}){
     );
   });
 }
-export function postJson(url:string, params:object, successCallback:any, errorCallback:any,isloading = true){
+export function getJson(url:string, params:object, successCallback:any, errorCallback:any,isloading = true){
     // if (isloading){
     //     store.state.loadding = true;
     // }
-    post(url, params)
+    const interfaceSign = url.indexOf('?') > -1 ? '&' : '?';
+    const interfaceUrl =
+      url + interfaceSign + 'timestamp=' + new Date().getTime();
+    get(interfaceUrl, params)
         .then(res => successDataFun(res, successCallback, isloading))
         .catch(err => failDataFun(err, errorCallback, isloading));
 }

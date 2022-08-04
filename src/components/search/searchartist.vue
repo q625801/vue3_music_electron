@@ -24,7 +24,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs } from 'vue'
-import { postJson } from "@/api/apiConfig"
+import { getJson } from "@/api/apiConfig"
 import { getsearch } from "@/api/api"
 import { useRouter } from 'vue-router'
 import { goPage } from '@/utils/common'
@@ -46,7 +46,7 @@ export default defineComponent({
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            postJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:100},res => {
+            getJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:100},res => {
                 if(res.code == 200){
                    state.dataList = res.result.artists
                    state.pageObj.total = res.result.artistCount

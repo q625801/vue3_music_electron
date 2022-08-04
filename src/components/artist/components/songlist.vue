@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent,reactive,toRefs,onUpdated,ref,onMounted,watch } from 'vue'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { playtime,audioPlay } from "@/utils/common"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import {useStore} from 'vuex'
@@ -76,7 +76,7 @@ export default defineComponent({
             }
         }
         let getAlbumDetail = () => {
-            postJson(getAlbum,{id:state.AlbumId},(res:any) => {
+            getJson(getAlbum,{id:state.AlbumId},(res:any) => {
                 if(['200', 'OK', 200].includes(res.code)){
                     state.songlistdata = res.songs
                 }

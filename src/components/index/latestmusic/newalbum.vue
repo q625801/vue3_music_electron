@@ -44,7 +44,7 @@
 
 <script>
 import { defineComponent,onMounted,reactive,toRefs,inject,onBeforeUnmount } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { gettopalbum } from '@/api/api'
 import { addDate2,myDate,goPage } from '@/utils/common'
 import { useRouter } from 'vue-router'
@@ -105,7 +105,7 @@ export default defineComponent({
             let year = addDate2(state.today,state.timeDown).split('-')[0]
             let month = addDate2(state.today,state.timeDown).split('-')[1]
             state.loading = true
-            postJson(gettopalbum,{year:year,month:month,area:state.optionarea,type:state.optionType},res => {
+            getJson(gettopalbum,{year:year,month:month,area:state.optionarea,type:state.optionType},res => {
                 state.loading = false
                 if(res.code == 200){
                     let weekobj = {},obj = {}

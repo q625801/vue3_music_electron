@@ -26,7 +26,7 @@
 <script>
 import { defineComponent,reactive,toRefs,watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { getsearchdefault } from '@/api/api'
 import SearchDialog from './header/searchdialog'
 import { goPage } from '@/utils/common'
@@ -55,7 +55,7 @@ export default defineComponent({
       }
     }
     let getdefaultkeyword = () => {
-      postJson(getsearchdefault,{},res=>{
+      getJson(getsearchdefault,{},res=>{
         if(res.code == 200){
           state.defaultkeyword = res.data.realkeyword
         }

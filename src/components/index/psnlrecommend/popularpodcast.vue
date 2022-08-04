@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { getPopularPodcast } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
@@ -45,7 +45,7 @@ export default defineComponent({
            getData() 
         })
         function getData(){
-            postJson(getPopularPodcast,{},(res:any) =>{
+            getJson(getPopularPodcast,{},(res:any) =>{
                 if(res.code == 200){
                     state.popularpodcat = res.result
                 }

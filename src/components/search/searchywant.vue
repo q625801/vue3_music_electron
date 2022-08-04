@@ -32,7 +32,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs,watch } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { hotsearchmultimatch } from '@/api/api'
 import { goPage } from '@/utils/common'
 import { useRouter } from 'vue-router'
@@ -46,7 +46,7 @@ export default defineComponent({
             dataList:[]
         })
         let getData = () => {
-            postJson(hotsearchmultimatch,{keywords:props.keywords},res => {
+            getJson(hotsearchmultimatch,{keywords:props.keywords},res => {
                 if(res.code == 200){
                     let data = res.result
                     let arr = []

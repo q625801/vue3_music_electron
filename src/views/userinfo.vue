@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { userdetail } from '@/api/api'
 import { useRouter } from 'vue-router'
 import UserRecord from '@/components/userinfo/userrecord.vue'
@@ -57,7 +57,7 @@ export default defineComponent({
             id: router.currentRoute.value.query.id,
         })
         let getData = () => {
-            postJson(userdetail,{uid:state.id},(res:any) => {
+            getJson(userdetail,{uid:state.id},(res:any) => {
                 if(res.code == 200){
                     state.userinfodata = res
                 }

@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { gettoplist } from '@/api/api'
 import Official from './rankversion/official.vue'
 import Global from './rankversion/global.vue'
@@ -31,7 +31,7 @@ export default defineComponent({
       globalData:''
     })
     let getData = () => {
-      postJson(gettoplist,{},(res:toplist) => {
+      getJson(gettoplist,{},(res:toplist) => {
         if(res.code == 200) {
           state.officialData = res.list.filter((item:any,index:any) => {
             return index < 4

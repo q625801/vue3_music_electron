@@ -52,7 +52,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs,ref,onMounted,watch } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { hotsearch,hotsearchsuggest } from '@/api/api'
 import LoadingCpn from "@/components/common/loadingcpn"
 import { goPage,drawCorrelativeKeyword } from '@/utils/common'
@@ -75,7 +75,7 @@ export default defineComponent({
         })
         let gethostSearchData = () => {
             state.loading = true
-            postJson(hotsearch,{},res => {
+            getJson(hotsearch,{},res => {
                 state.loading = false
                 if(res.code == 200){
                     state.hotSearchData = res.data
@@ -92,7 +92,7 @@ export default defineComponent({
                 params.type = type
             }
             return new Promise((reslove,reject) => {
-                postJson(hotsearchsuggest,params,res => {
+                getJson(hotsearchsuggest,params,res => {
                     reslove(res)
                 },err => {
                     reject('error')

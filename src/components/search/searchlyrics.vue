@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent,reactive,toRefs } from 'vue'
-import { postJson } from "@/api/apiConfig"
+import { getJson } from "@/api/apiConfig"
 import { getsearch } from "@/api/api"
 import { useRouter } from 'vue-router'
 import { goPage } from '@/utils/common'

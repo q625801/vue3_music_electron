@@ -43,7 +43,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs,onMounted,provide,nextTick,ref } from 'vue'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { getartists } from "@/api/api"
 import { useRouter,onBeforeRouteUpdate } from "vue-router"
 import { ElMessage } from 'element-plus'
@@ -95,7 +95,7 @@ export default defineComponent({
       SingerId:SingerId
     })
     let getSingerInfo = () => {
-      postJson(getartists,{id:state.SingerId},(res) => {
+      getJson(getartists,{id:state.SingerId},(res) => {
         if(res.code == 200){
           state.singerInfo = res.artist
           state.hotSongs = res.hotSongs

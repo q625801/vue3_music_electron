@@ -37,7 +37,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs,watch,ref,onMounted } from 'vue'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { gethighqualitytags,gethighquality } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
@@ -61,7 +61,7 @@ export default defineComponent({
             loading:false,
         })
         let getTags = () => {
-            postJson(gethighqualitytags,{},(res) => {
+            getJson(gethighqualitytags,{},(res) => {
                 if(res.code == 200){
                     state.highqualityTags = res.tags
                 }
@@ -69,7 +69,7 @@ export default defineComponent({
         }
         let getData = () => {
             state.loading = true
-            postJson(gethighquality,{before:state.before,cat:state.cat,limit:20},res => {
+            getJson(gethighquality,{before:state.before,cat:state.cat,limit:20},res => {
                 state.loading = false
                 if(res.code == 200){
                     state.dataList = state.dataList.concat(res.playlists)

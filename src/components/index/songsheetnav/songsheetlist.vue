@@ -27,7 +27,7 @@
 
 <script>
 import { defineComponent,watch,reactive,toRefs } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { gettopplaylist } from '@/api/api'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { useRouter } from 'vue-router'
@@ -54,7 +54,7 @@ export default defineComponent({
         let getSongSheet = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            postJson(gettopplaylist,{cat:state.cat,offset:offset,limit:state.pageObj.pageSize},(res) => {
+            getJson(gettopplaylist,{cat:state.cat,offset:offset,limit:state.pageObj.pageSize},(res) => {
                 state.loading = false
                 if(res.code == 200){
                     state.songsheetData = res.playlists

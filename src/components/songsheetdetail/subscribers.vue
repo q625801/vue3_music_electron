@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs }from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { subscribers } from '@/api/api'
 import { useRouter } from 'vue-router'
 import { goPage } from '@/utils/common'
@@ -48,7 +48,7 @@ export default defineComponent({
         })
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
-            postJson(subscribers,{id:props.dataId,offset:offset,limit:state.pageObj.pageSize},(res:any) => {
+            getJson(subscribers,{id:props.dataId,offset:offset,limit:state.pageObj.pageSize},(res:any) => {
                 if(res.code == 200){
                     state.pageObj.total = res.total
                     state.subscribersData = res.subscribers

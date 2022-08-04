@@ -76,7 +76,7 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
-import {postJson} from '@/api/apiConfig'
+import {getJson} from '@/api/apiConfig'
 import {songdetaiilcomment,getCommentAlbum} from '@/api/api'
 import { myDate } from '@/utils/common'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
@@ -105,7 +105,7 @@ export default defineComponent({
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            postJson(props.type == 'album' ? getCommentAlbum : songdetaiilcomment,{id:props.dataId,offset:offset,limit:state.pageObj.pageSize},(res:any) => {
+            getJson(props.type == 'album' ? getCommentAlbum : songdetaiilcomment,{id:props.dataId,offset:offset,limit:state.pageObj.pageSize},(res:any) => {
                 state.loading = false
                 if(res.code == 200){
                     state.pageObj.total = res.total

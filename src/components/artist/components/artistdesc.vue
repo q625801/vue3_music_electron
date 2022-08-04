@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs,watch } from 'vue'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { getartistsdesc } from "@/api/api"
 export default defineComponent({
     name:'artistdesc',
@@ -40,7 +40,7 @@ export default defineComponent({
             getData()
         })
         let getData = () => {
-            postJson(getartistsdesc,{id:props.SingerId},(res:any) => {
+            getJson(getartistsdesc,{id:props.SingerId},(res:any) => {
                 if(res.code == 200){
                     state.descData = res
                 }

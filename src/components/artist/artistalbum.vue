@@ -36,7 +36,7 @@
 <script lang="ts">
 import { defineComponent,reactive,toRefs,onMounted,onUpdated,inject,watch,ref,provide } from 'vue'
 import SongList from './components/songlist.vue'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { getArtistAlbum } from "@/api/api"
 import { myDate } from "@/utils/common"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
@@ -65,7 +65,7 @@ export default defineComponent({
         const artistscrollend = inject('artistscrollend')
         let getData = (id:number,isPrivide:boolean = false) => {
             state.loading = true
-            postJson(getArtistAlbum,{id:id,...state.pageArr},(res:any) => {
+            getJson(getArtistAlbum,{id:id,...state.pageArr},(res:any) => {
                 state.loading = false
                 if(res.code == 200){
                     if(res.hotAlbums.length > 0){

@@ -33,7 +33,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { gettopsong } from '@/api/api'
 import { useRouter } from 'vue-router'
 import { playtime,goPage,audioPlay } from '@/utils/common'
@@ -78,7 +78,7 @@ export default defineComponent({
         }
         let getData = () => {
             state.loading = true
-            postJson(gettopsong,{type:state.optionType},res => {
+            getJson(gettopsong,{type:state.optionType},res => {
                 state.loading = false
                 if(res.code == 200){
                     state.dataList = res.data

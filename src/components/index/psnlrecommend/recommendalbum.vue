@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
 import { useRouter } from 'vue-router'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { personalized } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
@@ -77,7 +77,7 @@ export default defineComponent({
             state.dailytips = true
         },700)
         let getSongSheet = () => {
-            postJson(personalized,{limit:9},(res:any) => {
+            getJson(personalized,{limit:9},(res:any) => {
                 if(res.code == 200){
                     state.SongSheetArr = res.result
                 }

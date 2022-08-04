@@ -31,7 +31,7 @@
 
 <script>
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { sddetail } from '@/api/api'
 import { useRouter } from 'vue-router'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
@@ -51,7 +51,7 @@ export default defineComponent({
             songsheetId: props.id,
         })
         let getData = () => {
-            postJson(sddetail,{id:props.id},(res) => {
+            getJson(sddetail,{id:props.id},(res) => {
                 if(res.code == 200) {
                     state.dataList = res.playlist.tracks
                     state.trackIds = res.playlist.trackIds

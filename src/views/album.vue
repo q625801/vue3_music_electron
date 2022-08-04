@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent,reactive,toRefs,onMounted } from 'vue'
-import {postJson} from "@/api/apiConfig"
+import {getJson} from "@/api/apiConfig"
 import { getAlbum,getAlbumDetailDynamic } from "@/api/api"
 import AlbumSongsheetInfo from '@/components/common/album_songsheet_info.vue'
 import MusicPlayList from "@/components/common/musicplaylist.vue"
@@ -51,7 +51,7 @@ export default defineComponent({
         })
         let getData = () => {
             return new Promise((reslove,reject) => {
-                postJson(getAlbum,{id:state.id},(res:any) => {
+                getJson(getAlbum,{id:state.id},(res:any) => {
                     reslove(res)
                 },(err:object) => {
                     reject(err)
@@ -60,7 +60,7 @@ export default defineComponent({
         }
         let AlbumDetailDynamic = () => {
             return new Promise((reslove,reject) => {
-                postJson(getAlbumDetailDynamic,{id:state.id},(res:any) => {
+                getJson(getAlbumDetailDynamic,{id:state.id},(res:any) => {
                     reslove(res)
                 },(err:object) => {
                     reject(err)

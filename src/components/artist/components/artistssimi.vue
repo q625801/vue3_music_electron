@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs,watch } from 'vue'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import { getartistssimi } from "@/api/api"
 import {goPage} from "@/utils/common"
 import {useRouter} from "vue-router"
@@ -32,7 +32,7 @@ export default defineComponent({
             getData()
         })
         let getData = () => {
-            postJson(getartistssimi,{id:props.SingerId},(res:any) => {
+            getJson(getartistssimi,{id:props.SingerId},(res:any) => {
                 if(res.code == 200){
                     state.simiData = res.artists
                 }

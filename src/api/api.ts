@@ -4,8 +4,8 @@
  * @Last Modified by: 王誉
  * @Last Modified time: 2022-03-25 17:42:41
  */
-// const api = 'https://netease-cloud-music-api-orcin-seven.vercel.app';
-const api = process.env.NODE_ENV === 'development' ? '/api' : 'https://netease-cloud-music-api-orcin-seven.vercel.app';
+// const api = 'https://netease-cloud-music-api-orcin-seven.vercel.app'; vercel部署服务
+const api = process.env.NODE_ENV === 'development' ? 'https://netease-cloud-music-api-orcin-seven.vercel.app' : 'https://netease-cloud-music-api-orcin-seven.vercel.app';
 
 // ===================首页
 export const banner:string = api + '/banner' + (api.indexOf('netease') > -1 ? '?realIP=116.25.146.177' : '') // 测试

@@ -16,7 +16,7 @@
 <script>
 import { defineComponent,reactive,toRefs,onMounted } from 'vue'
 import Selectopt from './singer/selectopt.vue'
-import { postJson } from '@/api/apiConfig'
+import { getJson } from '@/api/apiConfig'
 import { getartistlist } from '@/api/api'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { goPage } from "@/utils/common"
@@ -52,7 +52,7 @@ export default defineComponent({
                 offset:offset
             }
             state.loading = true
-            postJson(getartistlist,params,res => {
+            getJson(getartistlist,params,res => {
                 state.loading = false
                 if(res.code == 200){
                     state.more = res.more

@@ -19,7 +19,7 @@
 
 <script setup>
 import { ref,onMounted,defineProps,watch } from "vue";
-import { postJson } from "@/api/apiConfig"
+import { getJson } from "@/api/apiConfig"
 import { userplaylist } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { goPage } from "@/utils/common"
@@ -36,7 +36,7 @@ let dataList = ref([])
 const getData = () => {
     loading.value = true
     let offset = pageObj.value.pageSize * (pageObj.value.pageNum - 1)
-    postJson(userplaylist,{uid:props.userId,offset:offset,limit:pageObj.value.pageSize},res => {
+    getJson(userplaylist,{uid:props.userId,offset:offset,limit:pageObj.value.pageSize},res => {
         if(res.code == 200){
             pageObj.value.more = res.more
             if(props.type == 'create'){

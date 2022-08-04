@@ -51,7 +51,7 @@
 import {mp3url,songlyric} from "@/api/api"
 import {IsPC,Shuffle} from "@/utils/common"
 import { mapGetters } from 'vuex'
-import {postJson} from "@/api/apiConfig";
+import {getJson} from "@/api/apiConfig";
 import playlist from "./Audio/playlist"
 import lyric from "./Audio/lyric"
 export default {
@@ -96,7 +96,7 @@ export default {
       this.is_yuanmousedown = false
     },
     getmusicurl(id){
-      postJson(mp3url + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
+      getJson(mp3url + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
         if(res.data[0].url != null){
           this.$refs.audio.src = res.data[0].url;
         }else{
@@ -115,7 +115,7 @@ export default {
       },false)
     },
     getlyric(id){
-      postJson(songlyric + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
+      getJson(songlyric + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
         this.$refs.lyric.init(res.lrc.lyric,res.lrc.version)
       },(err) => {
 

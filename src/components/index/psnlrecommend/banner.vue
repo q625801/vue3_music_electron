@@ -18,7 +18,7 @@
 
 <script>
 import { defineComponent,onMounted,ref,onUpdated } from 'vue'
-import { postJson } from "@/api/apiConfig";
+import { getJson } from "@/api/apiConfig";
 import { banner } from "@/api/api"
 import "@/assets/css/swiper.min.css"
 import * as Swiper from "@/assets/js/swiper.min.js"
@@ -37,7 +37,7 @@ export default defineComponent({
 			swiperShow(bannerArr.length)
 		})
       	function getbanner(){
-          	postJson(banner,{},(res) => {
+          	getJson(banner,{},(res) => {
 				if(res.code == 200){
 					bannerArr.value = res.banners
 				}  

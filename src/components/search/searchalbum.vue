@@ -33,7 +33,7 @@
 
 <script>
 import { defineComponent,reactive,toRefs,watch } from 'vue'
-import { postJson } from "@/api/apiConfig"
+import { getJson } from "@/api/apiConfig"
 import { getsearch } from "@/api/api"
 import { useRouter } from 'vue-router'
 import { goPage } from '@/utils/common'
@@ -59,7 +59,7 @@ export default defineComponent({
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            postJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:10},res => {
+            getJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:10},res => {
                 console.log(res)
                 state.loading = false
                 if(res.code == 200){

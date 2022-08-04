@@ -52,7 +52,7 @@
 </template>
 <script>
 import { defineComponent,reactive,toRefs,watch } from 'vue'
-import { downloadJson,postJson } from "@/api/apiConfig"
+import { downloadJson,getJson } from "@/api/apiConfig"
 import { mp3url,getsearch } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import isElectron from 'is-electron'
@@ -81,7 +81,7 @@ export default defineComponent({
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            postJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:props.searchType},res => {
+            getJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:props.searchType},res => {
                 state.loading = false
                 if(res.code == 200){
                     if(res.result.songs && res.result.songs.length > 0){
@@ -126,7 +126,7 @@ export default defineComponent({
         }
         function getMp3Url(id){
             return new Promise((reslove,reject) => {
-                postJson(mp3url + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
+                getJson(mp3url + '?timestamp=' + new Date().getTime(),{id:id},(res) => {
                     if(res.data[0].url != null){
                         reslove(res.data[0].url)
                     }else{
