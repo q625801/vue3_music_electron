@@ -9,8 +9,8 @@
             </div>
             <div :class="['tabs-bg amn2',tabsOn == 'newalbum' ? 'right' : '']"></div>
         </div>
-        <NewSong v-show="tabsOn == 'newsong'"/>
-        <NewAlbum v-show="tabsOn == 'newalbum'"/>
+        <NewSong v-if="tabsOn == 'newsong'"/>
+        <NewAlbum v-if="tabsOn == 'newalbum'"/>
     </div>
 </template>
 

@@ -36,7 +36,8 @@
         <div class="musicplaylist-loading" v-show="loading">
             <LoadingCpn/>
         </div>
-        <el-pagination
+        <div class="musicplaylist-bottom"  v-show="!loading">我也是有底线的额</div>
+        <!-- <el-pagination
             small 
             background
             layout="prev, pager, next"
@@ -46,8 +47,7 @@
             :current-page="pageObj.pageNum"
             class="mt-4 common-pagination"
             >
-        </el-pagination>
-        <div class="musicplaylist-bottom" v-if="dataNo">暂无数据</div>
+        </el-pagination> -->
     </div>
 </template>
 <script>

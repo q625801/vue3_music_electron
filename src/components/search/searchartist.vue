@@ -19,6 +19,9 @@
             class="mt-4 common-pagination"
             v-if="dataList && dataList.length > 0" >
         </el-pagination>
+        <div class="musicplaylist-loading" v-show="loading">
+            <LoadingCpn/>
+        </div>
     </div>
 </template>
 
@@ -28,8 +31,12 @@ import { getJson } from "@/api/apiConfig"
 import { getsearch } from "@/api/api"
 import { useRouter } from 'vue-router'
 import { goPage } from '@/utils/common'
+import LoadingCpn from "@/components/common/loadingcpn.vue"
 export default defineComponent({
     name:'searchartist',
+    components:{
+        LoadingCpn
+    },
     props:[
         'keywords'
     ],
@@ -51,6 +58,7 @@ export default defineComponent({
                    state.dataList = res.result.artists
                    state.pageObj.total = res.result.artistCount
                 }
+                state.loading = false
             },err => {
 
             })
@@ -87,6 +95,7 @@ export default defineComponent({
             }
             .searchartist-name{
                 padding-left: 10px;
+                font-size: 14px;
             }
         }
         .searchartist-list:nth-child(2n){

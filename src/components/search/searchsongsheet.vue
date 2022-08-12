@@ -1,15 +1,19 @@
 <template>
     <div class="wrap-searchalbum">
         <div class="searchalbum-section">
-            <div class="searchalbum-list clear" v-for="(item,index) in dataList" :key="index" @click="goPage(router,'/album',{id:item.id})">
+            <div class="searchalbum-list clear" v-for="(item,index) in dataList" :key="index" @click="goPage(router,'/songsheetdetail',{id:item.id})">
                 <div class="img fl">
-                    <img v-lazy="item.picUrl + '?param=200y200'"/>
+                    <img v-lazy="item.coverImgUrl + '?param=200y200'"/>
                 </div>
                 <div class="name ellipsis fl">
                     {{item.name}}
                 </div>
-                <div class="artist" @click.stop="goPage(router,'/artist',{id:item.artist.id})">
-                    {{item.artist.name + (item.artist.alia[0] ? `（${item.artist.alia[0]}）` : '') }}
+                <div class="useinfo ellipsis">
+                    <span>{{item.trackCount}}首</span>
+                    <span>by <em @click.stop="goPage(router,'/userinfo',{id:item.creator.userId})">{{item.creator.nickname}}</em></span>
+                </div>
+                <div class="playcount">
+                    {{item.playCount > 100000000 ? (item.playCount/100000000).toString().split(".")[0] + "亿" : item.playCount > 10000 ? (item.playCount/10000).toString().split(".")[0] + "万" : item.playCount}}
                 </div>
             </div>
         </div>
@@ -60,13 +64,13 @@ export default defineComponent({
         let getData = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            getJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:10},res => {
+            getJson(getsearch,{keywords:props.keywords,limit:state.pageObj.pageSize,offset:offset,type:1000},res => {
                 console.log(res)
                 state.loading = false
                 if(res.code == 200){
-                    if(res.result.albums && res.result.albums.length > 0){
-                        state.dataList =  res.result.albums
-                        state.pageObj.total = res.result.albumCount
+                    if(res.result.playlists && res.result.playlists.length > 0){
+                        state.dataList =  res.result.playlists
+                        state.pageObj.total = res.result.playlistCount
                         console.log(state.pageObj)
                     }else{
                         state.dataNo = true
@@ -125,12 +129,29 @@ export default defineComponent({
                 font-size: 14px;
                 width: 300px;
             }
-            .artist{
-                font-size: 12px;
-                color: $font-authorcolor;
-                &:hover{
-                    color: $font-hoverauthorcolor;
+            .useinfo{
+                width: 180px;
+                span{
+                    font-size: 12px;
+                    color: $font-authorcolor;
+                    em{
+                        color:$font-color;
+                        &:hover{
+                            color:$font-hovercolor;
+                        }
+                    }
                 }
+                span:first-child{
+                    padding-right: 40px;
+                }
+            }
+            .playcount{
+                background: url("../../assets/img/player-btn.png") left center no-repeat;
+                background-size: 18px 18px;
+                padding-left: 20px;
+                line-height:20px;
+                font-size: 12px;
+                margin-left: 50px;
             }
         }
         .searchalbum-list:nth-child(2n){

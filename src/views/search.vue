@@ -11,6 +11,7 @@
             <SearchMusicPlaylist :keywords="keywords" :searchType="1" v-if="tabsOn == 1"/>
             <SearchArtist :keywords="keywords" v-if="tabsOn == 100"/>
             <SearchAlbum :keywords="keywords" v-if="tabsOn == 10"/>
+            <SearchSongSheet :keywords="keywords" v-if="tabsOn == 1000"/>
         </div>
     </div>
 </template>
@@ -23,6 +24,7 @@ import SearchYWant from "@/components/search/searchywant.vue"
 import SearchMusicPlaylist from "@/components/search/searchmusicplaylist.vue"
 import SearchArtist from "@/components/search/searchartist.vue"
 import SearchAlbum from "@/components/search/searchalbum.vue"
+import SearchSongSheet from "@/components/search/searchsongsheet.vue"
 export default defineComponent({
     name:'search',
     components:{
@@ -30,7 +32,8 @@ export default defineComponent({
         SearchYWant,
         SearchMusicPlaylist,
         SearchArtist,
-        SearchAlbum
+        SearchAlbum,
+        SearchSongSheet
     },
     setup () {
         const router = useRouter()
@@ -50,30 +53,30 @@ export default defineComponent({
                     name:'专辑',
                     type:'10'
                 },
-                {
-                    name:'视频',
-                    type:'1014'
-                },
+                // {
+                //     name:'视频',
+                //     type:'1014'
+                // },
                 {
                     name:'歌单',
                     type:'1000'
                 },
-                {
-                    name:'歌词',
-                    type:'1006'
-                },
-                {
-                    name:'播客',
-                    type:'1009'
-                },
-                {
-                    name:'声音',
-                    type:'2000'
-                },
-                {
-                    name:'用户',
-                    type:'1002'
-                }
+                // {
+                //     name:'歌词',
+                //     type:'1006'
+                // },
+                // {
+                //     name:'播客',
+                //     type:'1009'
+                // },
+                // {
+                //     name:'声音',
+                //     type:'2000'
+                // },
+                // {
+                //     name:'用户',
+                //     type:'1002'
+                // }
             ],
             tabsOn:1
         })
