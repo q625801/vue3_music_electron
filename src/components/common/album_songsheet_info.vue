@@ -58,6 +58,9 @@
                 </div>
             </div>
         </div>
+        <div class="loading" v-else>
+            <LoadingCpn/>
+        </div>
     </div>
 </template>
 
@@ -67,12 +70,16 @@ import { myDate,countchange } from "@/utils/common"
 import { goPage,audioPlay } from "@/utils/common"
 import { useRouter } from "vue-router"
 import { useStore } from 'vuex'
+import LoadingCpn from "@/components/common/loadingcpn.vue"
 export default defineComponent({
     name:'albumsongsheetinfo',
     props:[
         'detailinfo',
         'type'
     ],
+    components:{
+        LoadingCpn
+    },
     setup (props) {
         let state = reactive({
             playlist:{
@@ -91,6 +98,7 @@ export default defineComponent({
             },
             descriptionShow: false,
             infotype:props.type,
+            loading:false,
         })
         let changedescription = () => {
             state.descriptionShow = !state.descriptionShow

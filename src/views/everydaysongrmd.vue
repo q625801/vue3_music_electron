@@ -10,6 +10,9 @@
             </div>
         </div>
         <MusicPlayList :stdetaildata="detailinfo" :stSongAll="songlistAll"/>
+        <div class="loading" v-if="loading">
+            <LoadingCpn/>
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -18,22 +21,26 @@ import {getJson} from "@/api/apiConfig"
 import { sddetail,sdsongAll } from "@/api/api"
 import { myDate } from "@/utils/common"
 import MusicPlayList from "@/components/common/musicplaylist.vue"
+import LoadingCpn from "@/components/common/loadingcpn.vue"
 interface state{
     today:string;
     detailinfo:object;
     songlistAll:Array<object>;
+    loading:boolean;
 }
 export default defineComponent({
     name:'everydaysongrmd',
     components:{
-        MusicPlayList
+        MusicPlayList,
+        LoadingCpn
     },
     setup(){
         let state:state = reactive({
             today:'',
             detailinfo:{
             },
-            songlistAll:[]
+            songlistAll:[],
+            loading:false,
         })
         let getAblbum = () => {
             return new Promise((reslove,reject) => {
@@ -54,7 +61,9 @@ export default defineComponent({
             })
         }
         onMounted(() => {
+            state.loading = true
             Promise.all([getAblbum(),getPlayListTrackAll()]).then((res:any) => {
+                state.loading = false
                 if(res[0].code == 200){
                     state.detailinfo = res[0].playlist;
                 }
@@ -105,6 +114,9 @@ export default defineComponent({
                 padding-top: 8px;
             }
         }
+    }
+    .loading{
+        padding-top: 15px;
     }
 }
 </style>

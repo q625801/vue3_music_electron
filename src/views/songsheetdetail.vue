@@ -6,6 +6,9 @@
                 {{item == '评论' ? `${item}(${commentNum})`: item}}
             </span>
         </div>
+        <div class="loading" v-show="loading">
+            <LoadingCpn/>
+        </div>
         <MusicPlayList :stdetaildata="detailinfo" :stSongAll="songlistAll" :isRank="isRank" v-show="tabsOn == 0"/>
         <Comment :dataId="id" @commentTotal="getCommentTotal" v-show="tabsOn == 1"/>
         <Subscription :dataId="id" v-show="tabsOn == 2"/>
@@ -21,13 +24,15 @@ import MusicPlayList from "@/components/common/musicplaylist.vue"
 import {useRouter} from 'vue-router'
 import Comment from '@/components/common/comment.vue'
 import Subscription from '@/components/songsheetdetail/subscribers.vue'
+import LoadingCpn from "@/components/common/loadingcpn.vue"
 export default defineComponent({
     name:'songsheet',
     components:{
         AlbumSongsheetInfo,
         MusicPlayList,
         Comment,
-        Subscription
+        Subscription,
+        LoadingCpn
     },
     setup() {
         let router = useRouter()
@@ -43,6 +48,7 @@ export default defineComponent({
             ],
             tabsOn:0,
             commentNum:0,
+            loading:false,
         })
         let getData = () => {
             return new Promise((reslove,reject) => {
@@ -69,7 +75,9 @@ export default defineComponent({
             state.commentNum = total
         }
         onMounted(() => {
+            state.loading = true
             Promise.all([getData(),getPlayListTrackAll()]).then((res:any) => {
+                state.loading = false
                 if(res[0].code == 200){
                     state.detailinfo = res[0].playlist;
                 }

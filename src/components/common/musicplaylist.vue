@@ -62,7 +62,7 @@ export default defineComponent({
     },
     setup (props) {
         let state = reactive({
-            trackIds: '', //由于此处逻辑copy Vue2仿网易云版本故备注 songlistarr字段改为trackIds
+            trackIds: '',
             pagelength: '',
             songlistdata:[],
             pageArr:{
@@ -123,6 +123,7 @@ export default defineComponent({
             
         }
         let getsongdata = (data) => {
+            state.songmoreloading = true
             getJson(songsdetail,{ids:data.toString()},(res) => {
                 if(res.code == 200){
                     state.songmoreloading = false

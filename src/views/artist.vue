@@ -2,7 +2,7 @@
   <div class="wrap-artist">
       <div class="artist-info clear">
         <div class="artist-info-left fl">
-          <img :src="singerInfo.img1v1Url + '?param=1200y1200'"/>
+          <img :src="singerInfo.picUrl + '?param=200y200'" v-show="singerInfo.picUrl"/>
         </div>
         <div class="artist-info-right fl">
           <div class="artist-name">{{singerInfo.name}}</div>

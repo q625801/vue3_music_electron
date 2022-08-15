@@ -1,7 +1,7 @@
 <template>
   <div class="wrap-songsheetnav">
     <NavBanner :navtopData="navtopData" :cat="cat"/>
-    <NavCatlist @hotlistOn="gethotlistOn"/>
+    <NavCatlist @hotlistOn="gethotlistOn" :cat="cat"/>
     <SongSheetList :cat="cat"/>
   </div>
 </template>
@@ -13,6 +13,7 @@ import { getJson } from '@/api/apiConfig'
 import { gethighquality } from '@/api/api'
 import NavCatlist from './songsheetnav/navcatlist.vue'
 import SongSheetList from './songsheetnav/songsheetlist.vue'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   name:'shongsheetnav',
   components:{
@@ -21,9 +22,10 @@ export default defineComponent({
     SongSheetList
   },
   setup () {
+    let router = useRouter()
     let state = reactive({
       navtopData:'',
-      cat:'华语',
+      cat:router.currentRoute.value.query.cat ? router.currentRoute.value.query.cat : '华语',
     })
     let getNavTopData = () => {
       getJson(gethighquality,{cat:state.cat,limit:1},(res:any) => {

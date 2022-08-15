@@ -36,11 +36,12 @@ export default defineComponent({
 
     },
     props:[
+        'cat'
     ],
     setup (props,context) {
         let state = reactive({
             hotlistData:'',
-            hotlistOnName:'华语',
+            hotlistOnName:props.cat,
             catgorydata:'',
             catgorysectionFlag:false,
         })
