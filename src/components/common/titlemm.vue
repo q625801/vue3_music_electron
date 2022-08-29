@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { defineComponent,toRefs } from 'vue'
+import { useRouter } from 'vue-router'
 export default defineComponent({
   	name:'titlemm',
   	components:{
@@ -18,8 +19,11 @@ export default defineComponent({
 	},
   	setup(props){
 		const { title,arrow,href } = toRefs(props)
+		const router = useRouter()
 		function goUrl(href:string) {
-			console.log(href)
+			if(href){
+				router.push(href)
+			}
 		}
 		return{
 			title,

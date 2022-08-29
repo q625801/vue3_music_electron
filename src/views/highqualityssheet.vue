@@ -57,7 +57,7 @@ export default defineComponent({
             cat:router.currentRoute.value.query.cat,
             dataList:[],
             before:'',
-            more:'',
+            more:true,
             loading:false,
         })
         let getTags = () => {

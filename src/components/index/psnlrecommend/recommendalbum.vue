@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-recommendalbum">
-        <Titlemm :title="'推荐歌单'" :arrow="true" :href="'xxxx'"/>
+        <Titlemm :title="'推荐歌单'" :arrow="true" :href="{path:'/index/songsheetnav',query:{cat:'流行'}}"/>
         <div class="recommendalbum-section clear" v-if="SongSheetArr.length > 0">
             <div class="songsheet-list songsheet-daily fl" @mouseenter="enter()" @mouseleave="leave" @click="goeverysongrmd">
                 <div :class="[dailytips ? 'show' : '','daily-tips','amn2']">根据您的音乐口味生成每日更新</div>

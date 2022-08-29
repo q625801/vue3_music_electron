@@ -1,4 +1,5 @@
 import axios from "axios"; // 引用axios
+let getckflag = true
 const instance = axios.create({
   timeout: 60000,
 });
@@ -7,14 +8,7 @@ interface axiosconfig {
 }
 //请求拦截器
 instance.interceptors.request.use(config => {
-  // console.log(config)
-  if(!config){
-    config = {}
-  }
-  if(!config.headers){
-    config.headers = {}
-  }
-  // console.log(config)
+  console.log(config)
   return config
 })
 
@@ -66,7 +60,7 @@ export function getJson(url:string, params:object, successCallback:any, errorCal
     // }
     const interfaceSign = url.indexOf('?') > -1 ? '&' : '?';
     const interfaceUrl =
-      url + interfaceSign + 'timestamp=' + new Date().getTime();
+      url;
     get(interfaceUrl, params)
         .then(res => successDataFun(res, successCallback, isloading))
         .catch(err => failDataFun(err, errorCallback, isloading));

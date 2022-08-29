@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-popularpodcat">
-        <Titlemm :title="'热门播客'" :arrow="true" :href="'xxx'"/>
+        <Titlemm :title="'热门播客'" :arrow="true"/>
         <div class="popularpodcat-section" v-if="popularpodcat.length > 0">
             <div class="popularpodcat-list clear" v-for="(item,index) in popularpodcat" :key="index">
                 <div class="popularpodcat-left fl">

@@ -41,7 +41,7 @@
                         标签：
                         <span v-for="(item,index) in playlist.tags" :key="index">
                             {{index != 0 ? ' / ' : ''}}
-                            <em>{{item}}</em>
+                            <em @click="goPage(router,'/index/songsheetnav',{cat:item})">{{item}}</em>
                         </span>
                     </div>
                     <div class="lable-list clear">

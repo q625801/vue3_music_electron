@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-privatecontent">
-        <Titlemm :title="'独家放送'" :arrow="true" :href="'xxx'"/>
+        <Titlemm :title="'独家放送'" :arrow="true"/>
         <div class="privatecontent-section" v-if="PrivateContent.length > 0">
             <div class="privatecontent-list" v-for="(item,index) in PrivateContent" :key="index">
                 <div class="privatecontent-img">

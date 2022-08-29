@@ -1,6 +1,6 @@
 <template>
     <div class="wrap-newmusic">
-        <Titlemm :title="'最新音乐'" :arrow="true" :href="'xxx'"/>
+        <Titlemm :title="'最新音乐'" :arrow="true" :href="{path:'/index/latestmusic',query:{}}"/>
         <div class="newmusic-section">
             <div :class="['newmusic-list','clear',item.id == $store.state.audioInfo.SongInfo.SongId ? 'on' : '']" v-for="(item,index) in newsongdata" :key="index" @click="audioPlay(item,newsongdata,store)">
                 <div class="newmusic-left fl">
