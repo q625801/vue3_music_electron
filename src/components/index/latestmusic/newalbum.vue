@@ -42,20 +42,30 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs,inject,onBeforeUnmount } from 'vue'
 import { getJson } from '@/api/apiConfig'
 import { gettopalbum } from '@/api/api'
 import { addDate2,myDate,goPage } from '@/utils/common'
 import { useRouter } from 'vue-router'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
+interface state{
+    optionList:{name:string,data:string}[],
+    optionarea:string,
+    albumList:any[],
+    albumOn:number,
+    today: string,
+    timeDown:number,
+    loading:boolean,
+    optionType:string
+}
 export default defineComponent({
     name:'handtailor',
     components:{
         LoadingCpn
     },
     setup () {
-        let state = reactive({
+        let state = reactive<state>({
             optionList:[
                 {
                     name: '全部',
@@ -86,15 +96,15 @@ export default defineComponent({
             loading:false,
             optionType:'new'
         })
-        let newalbumLeftData = inject('newalbumLeftData')
-        let changearea = (data) => {
+        let newalbumLeftData:any = inject('newalbumLeftData')
+        let changearea = (data:string) => {
             state.optionarea = data
             state.albumList = []
             state.albumOn = -1
             state.timeDown = 0
             getData()
         }
-        let changeType = (data) => {
+        let changeType = (data:string) => {
             state.optionType = data
             state.albumList = []
             state.albumOn = -1
@@ -105,10 +115,17 @@ export default defineComponent({
             let year = addDate2(state.today,state.timeDown).split('-')[0]
             let month = addDate2(state.today,state.timeDown).split('-')[1]
             state.loading = true
-            getJson(gettopalbum,{year:year,month:month,area:state.optionarea,type:state.optionType},res => {
+            getJson(gettopalbum,{year:year,month:month,area:state.optionarea,type:state.optionType},(res:{code:number,weekData:any[],monthData:any[]}) => {
                 state.loading = false
                 if(res.code == 200){
-                    let weekobj = {},obj = {}
+                    let weekobj:{timedate:string,data:any[]} = {
+                        timedate:'',
+                        data:[]
+                    }
+                    let obj:{timedate:string,data:any[]} = {
+                        timedate:'',
+                        data:[]
+                    }
                     if(res.weekData && res.weekData.length > 0){
                         weekobj.timedate = 'weekData',
                         weekobj.data = res.weekData
@@ -120,12 +137,12 @@ export default defineComponent({
                         state.albumList.push(obj)
                     }
                 }
-            },err => {
+            },(err:any) => {
 
             })
         }
         onMounted(() => {
-            const el = document.querySelector(".index-screen")
+            const el:HTMLElement = document.querySelector(".index-screen") as HTMLElement
             const offsetHeight = el.offsetHeight
             el.onscroll = () => {
                 const albumDatedom = document.getElementsByClassName("newalbum-left")

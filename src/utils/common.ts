@@ -29,10 +29,10 @@ export const countchange = (count:number) => {
   }
 }
 export const myDate = (data?:number) => {
-    let now:any = data ? new Date(data) : new Date();                                                                                                     
-    let year:any = now.getFullYear(); //得到年份
-    let month:any = now.getMonth();//得到月份
-    let date:any = now.getDate();//得到日期
+    let now:Date = data ? new Date(data) : new Date();                                                                                                     
+    let year:number = now.getFullYear(); //得到年份
+    let month:number | string = now.getMonth();//得到月份
+    let date:number | string = now.getDate();//得到日期
     month = month + 1;
     if (month < 10){
         month = "0" + month
@@ -42,7 +42,7 @@ export const myDate = (data?:number) => {
     return time
 }
 export const minutes = (times:number) => {
-    var minutes:any = Math.floor(times / (1000 * 60)) % 60; //计算剩余的分钟
+    var minutes:number| string = Math.floor(times / (1000 * 60)) % 60; //计算剩余的分钟
     if (minutes < 10) {
       return "0" + minutes;
     } else {
@@ -50,7 +50,7 @@ export const minutes = (times:number) => {
     }
   }
 export const seconds = (times:number) => {
-    var seconds:any = Math.floor(times / 1000) % 60; //计算剩余的秒数
+    var seconds:number| string = Math.floor(times / 1000) % 60; //计算剩余的秒数
     if (seconds < 10) {
       return "0" + seconds;
     } else {

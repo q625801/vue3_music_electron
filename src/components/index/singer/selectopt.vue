@@ -15,13 +15,21 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,reactive,toRefs } from 'vue'
 import { option } from './optiondata.js'
+interface state{
+    selectOption:any[],
+    params:{
+        languages: string,
+        classify: string,
+        screen: string,
+    }
+}
 export default defineComponent({
     name:'handtailor',
     setup (props,context) {
-        let state = reactive({
+        let state = reactive<state>({
             selectOption:option,
             params:{
                 languages:'-1',
@@ -29,7 +37,7 @@ export default defineComponent({
                 screen:'',
             }
         })
-        let changeOption = (type,data) => {
+        let changeOption = (type:string,data:string) => {
             switch (type) {
                 case 'languages':
                     state.params.languages = data

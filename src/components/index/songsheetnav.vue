@@ -14,6 +14,10 @@ import { gethighquality } from '@/api/api'
 import NavCatlist from './songsheetnav/navcatlist.vue'
 import SongSheetList from './songsheetnav/songsheetlist.vue'
 import { useRouter } from 'vue-router'
+interface state{
+  navtopData: any[],
+  cat: string,
+}
 export default defineComponent({
   name:'shongsheetnav',
   components:{
@@ -23,12 +27,12 @@ export default defineComponent({
   },
   setup () {
     let router = useRouter()
-    let state = reactive({
-      navtopData:'',
-      cat:router.currentRoute.value.query.cat ? router.currentRoute.value.query.cat : '华语',
+    let state = reactive<state>({
+      navtopData:[],
+      cat:router.currentRoute.value.query.cat as any ? router.currentRoute.value.query.cat as any : '华语',
     })
     let getNavTopData = () => {
-      getJson(gethighquality,{cat:state.cat,limit:1},(res:any) => {
+      getJson(gethighquality,{cat:state.cat,limit:1},(res:{code:number,playlists:any[]}) => {
         if(res.code == 200){
           state.navtopData = res.playlists.length > 0 ? res.playlists[0] : []
         }
@@ -36,7 +40,7 @@ export default defineComponent({
 
       })
     }
-    let gethotlistOn = (data:any) => {
+    let gethotlistOn = (data:{name:string}) => {
       state.cat = data.name
       init()
     }

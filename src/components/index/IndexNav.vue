@@ -4,15 +4,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,ref,watch } from 'vue'
 import { useRouter } from 'vue-router'
+interface IndexNavListIt{
+  id: number,
+  name: string,
+  path: string,
+}
 export default defineComponent({
   name:'IndexNav',
   setup () {
     const router = useRouter()
     let IndexNavOn = ref(1)
-    let IndexNavList = [
+    let IndexNavList:IndexNavListIt[] = [
       {
         id:1,
         name:"个性推荐",
@@ -44,7 +49,7 @@ export default defineComponent({
         path:'/index/latestmusic'
       },
     ]
-    let IndexNavChange = (data) => {
+    let IndexNavChange = (data:IndexNavListIt) => {
       IndexNavOn.value = data.id
       router.push(data.path)
     }

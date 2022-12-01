@@ -25,6 +25,11 @@ interface toplist{
   code: number,
   list: any,
 }
+interface state{
+  officialData: any[],
+  globalData: any[],
+  loading: boolean,
+}
 export default defineComponent({
   name:'rankversion',
   components:{
@@ -33,20 +38,20 @@ export default defineComponent({
     LoadingCpn
   },
   setup(){
-    let state = reactive({
-      officialData: '',
-      globalData:'',
-      loading:false,
+    let state = reactive<state>({
+      officialData: [],
+      globalData: [],
+      loading: false,
     })
     let getData = () => {
       state.loading = true
       getJson(gettoplist,{},(res:toplist) => {
         state.loading = false
         if(res.code == 200) {
-          state.officialData = res.list.filter((item:any,index:any) => {
+          state.officialData = res.list.filter((item:any,index:number) => {
             return index < 4
           })
-          state.globalData = res.list.filter((item:any,index:any) => {
+          state.globalData = res.list.filter((item:any,index:number) => {
             return index > 3
           })
         }

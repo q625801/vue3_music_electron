@@ -42,14 +42,15 @@ export default defineComponent({
         LoadingCpn
     },
     setup(){
-        let state = reactive<any>({
+        let state = reactive<{newsongdata:any[]}>({
             newsongdata:[],
         })
         onMounted(() => {
-           getData() 
+            console.log(state.newsongdata.length)
+            getData()
         })
         function getData(){
-            getJson(newsong,{limit:12},(res:any) =>{
+            getJson(newsong,{limit:12},(res:{code:number,result:any[]}) =>{
                 if(res.code == 200){
                     state.newsongdata = res.result
                 }

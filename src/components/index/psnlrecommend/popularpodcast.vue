@@ -31,6 +31,9 @@ import { getPopularPodcast } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
 import {playtime} from "@/utils/common"
+interface state{
+    popularpodcat:any[]
+}
 export default defineComponent({
     name:'popularpodcast',
     components:{
@@ -38,14 +41,14 @@ export default defineComponent({
         LoadingCpn
     },
     setup(){
-        let state = reactive<any>({
+        let state = reactive<state>({
             popularpodcat:[],
         })
         onMounted(() => {
            getData() 
         })
         function getData(){
-            getJson(getPopularPodcast,{},(res:any) =>{
+            getJson(getPopularPodcast,{},(res:{code:number,result:any[]}) =>{
                 if(res.code == 200){
                     state.popularpodcat = res.result
                 }

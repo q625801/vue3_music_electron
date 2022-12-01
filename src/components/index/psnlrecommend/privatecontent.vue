@@ -20,6 +20,9 @@ import {getJson} from "@/api/apiConfig";
 import { getPrivateContent } from "@/api/api"
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
+interface state{
+    PrivateContent:any[]
+}
 export default defineComponent({
     name:'privatecontent',
     components:{
@@ -27,14 +30,14 @@ export default defineComponent({
         LoadingCpn
     },
     setup(){
-        let state = reactive<any>({
+        let state = reactive<state>({
             PrivateContent:[],
         })
         onMounted(() => {
            getData() 
         })
         function getData(){
-            getJson(getPrivateContent,{},(res:any) =>{
+            getJson(getPrivateContent,{},(res:{code:number,result:any[]}) =>{
                 if(res.code == 200){
                     state.PrivateContent = res.result
                 }

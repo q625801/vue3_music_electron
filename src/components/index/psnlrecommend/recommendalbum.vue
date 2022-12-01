@@ -40,7 +40,7 @@ import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
 import {myDate,goPage} from "@/utils/common"
 interface state{
-  SongSheetArr:[];
+  SongSheetArr:any[];
   today:string;
   dailytips:boolean;
 }
@@ -77,7 +77,7 @@ export default defineComponent({
             state.dailytips = true
         },700)
         let getSongSheet = () => {
-            getJson(personalized,{limit:9},(res:any) => {
+            getJson(personalized,{limit:9},(res:{code:number,result:any[]}) => {
                 if(res.code == 200){
                     state.SongSheetArr = res.result
                 }

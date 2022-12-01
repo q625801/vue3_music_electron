@@ -25,13 +25,24 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,watch,reactive,toRefs } from 'vue'
 import { getJson } from '@/api/apiConfig'
 import { gettopplaylist } from '@/api/api'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { useRouter } from 'vue-router'
 import { goPage } from '@/utils/common'
+interface page{
+    pageSize: number,
+    pageNum: number,
+    total: number,
+}
+interface state{
+    cat:string,
+    songsheetData:any[],
+    loading:boolean,
+    pageObj:page
+}
 export default defineComponent({
     name:'songsheetlist',
     components:{
@@ -41,9 +52,9 @@ export default defineComponent({
         'cat'
     ],
     setup (props) {
-        let state = reactive({
+        let state = reactive<state>({
             cat: props.cat,
-            songsheetData:'',
+            songsheetData:[],
             loading:false,
             pageObj:{
                 pageSize:100,
@@ -54,17 +65,17 @@ export default defineComponent({
         let getSongSheet = () => {
             let offset = state.pageObj.pageSize * (state.pageObj.pageNum - 1)
             state.loading = true
-            getJson(gettopplaylist,{cat:state.cat,offset:offset,limit:state.pageObj.pageSize},(res) => {
+            getJson(gettopplaylist,{cat:state.cat,offset:offset,limit:state.pageObj.pageSize},(res:{code:number,playlists:any[],total:number}) => {
                 state.loading = false
                 if(res.code == 200){
                     state.songsheetData = res.playlists
                     state.pageObj.total = res.total
                 }
-            },(err) => {
+            },(err:any) => {
 
             })
         }
-        let handleCurrentChange = (pagenum) => {
+        let handleCurrentChange = (pagenum:number) => {
             state.pageObj.pageNum = pagenum
             state.songsheetData = []
             getSongSheet()
@@ -75,7 +86,7 @@ export default defineComponent({
         })
         let router = useRouter()
         let init = () => {
-            state.songsheetData = ''
+            state.songsheetData = []
             state.pageObj = {
                 pageSize:100,
                 pageNum:1,

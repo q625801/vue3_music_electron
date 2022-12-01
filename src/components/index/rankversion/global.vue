@@ -27,8 +27,8 @@ export default defineComponent({
     },
     props:['globalData'],
     setup (props) {
-        let state = reactive({
-            dataList:''
+        let state = reactive<{dataList:any[]}>({
+            dataList: []
         })
         watch(() => props.globalData,(newValue) => {
             state.dataList = newValue

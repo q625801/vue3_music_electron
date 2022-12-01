@@ -31,7 +31,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,reactive,toRefs } from 'vue'
 import { getJson } from '@/api/apiConfig'
 import { gettopsong } from '@/api/api'
@@ -39,13 +39,36 @@ import { useRouter } from 'vue-router'
 import { playtime,goPage,audioPlay } from '@/utils/common'
 import {useStore} from 'vuex'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
+interface state{
+    optionList: {name:string,data:number}[],
+    optionType: number,
+    dataList: any[],
+    loading: boolean
+}
+interface audioInfoGet{
+    id: string,
+    name: string,
+    album: {
+        picUrl:string,
+    },
+    artists:any[],
+    duration?: number
+}
+interface audioInfoSet{
+    id: string,
+    name: string,
+    picUrl: string,
+    song: {
+        artists: any[]
+    }
+}
 export default defineComponent({
     name:'newsong',
     components:{
         LoadingCpn
     },
     setup () {
-        let state = reactive({
+        let state = reactive<state>({
             optionList:[
                 {
                     name: '全部',
@@ -72,26 +95,26 @@ export default defineComponent({
             dataList:[],
             loading:false,
         })
-        let changeOption = (data) => {
+        let changeOption = (data:number) => {
             state.optionType = data
             getData()
         }
         let getData = () => {
             state.loading = true
-            getJson(gettopsong,{type:state.optionType},res => {
+            getJson(gettopsong,{type:state.optionType},(res:{code:number,data:any[]}) => {
                 state.loading = false
                 if(res.code == 200){
                     state.dataList = res.data
                 }
-            },err => {
+            },(err:any) => {
 
             })
         }
         getData()
         const router = useRouter()
         const store = useStore()
-        let goAudioPlay = (data) => {
-            let SongInfo = {
+        let goAudioPlay = (data:audioInfoGet) => {
+            let SongInfo:audioInfoSet = {
                 id: data.id,
                 name: data.name,
                 picUrl: data.album.picUrl,
@@ -99,10 +122,10 @@ export default defineComponent({
                     artists: data.artists
                 }
             }
-            let arr = []
-            let forArr = ''
+            let arr:any[] = []
+            let forArr = []
             forArr = JSON.parse(JSON.stringify(state.dataList))
-            forArr.forEach(item => {
+            forArr.forEach((item:audioInfoGet) => {
                 let obj = {
                     id: item.id,
                     name: item.name,

@@ -13,7 +13,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,reactive,toRefs,onMounted } from 'vue'
 import Selectopt from './singer/selectopt.vue'
 import { getJson } from '@/api/apiConfig'
@@ -21,6 +21,19 @@ import { getartistlist } from '@/api/api'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { goPage } from "@/utils/common"
 import { useRouter } from 'vue-router'
+interface params{
+    classify: string,
+    languages: string,
+    screen: string,
+}
+interface state{
+    params: params,
+    singerList: any[],
+    pageSize: number,
+    pageNum: number,
+    more: boolean,
+    loading: boolean,
+}
 export default defineComponent({
     name:'singer',
     components:{
@@ -28,15 +41,19 @@ export default defineComponent({
         LoadingCpn
     },
     setup () {
-        let state = reactive({
-            params:'',
+        let state = reactive<state>({
+            params:{
+                classify:"",
+                languages:"",
+                screen:""
+            },
             singerList:[],
             pageSize: 20,
             pageNum:1,
             more:false,
             loading:false,
         })
-        let getparams = (params) => {
+        let getparams = (params:params) => {
             state.pageNum = 1
             state.params = params
             state.singerList = []
@@ -52,18 +69,18 @@ export default defineComponent({
                 offset:offset
             }
             state.loading = true
-            getJson(getartistlist,params,res => {
+            getJson(getartistlist,params,(res:{code:number,more:boolean,artists:any[]}) => {
                 state.loading = false
                 if(res.code == 200){
                     state.more = res.more
                     state.singerList = state.singerList.concat(res.artists)
                 }
-            },err => {
+            },(err:any) => {
 
             })
         }
         onMounted(() => {
-            const el = document.querySelector(".index-screen")
+            const el:HTMLElement = document.querySelector(".index-screen") as HTMLElement
             const offsetHeight = el.offsetHeight
             el.onscroll = () => {
                 const scrollTop = el.scrollTop

@@ -11,7 +11,7 @@
                 <div class="officialplaylist-lr fl" v-else>
                     <span :class="[trackIds[index].lr ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : (trackIds[index].lr === 0 ? (index - trackIds[index].lr === 0 ? 'none' : (index - trackIds[index].lr < 0 ? 'up' : 'down')) : 'new')]"></span>
                 </div>
-                <div class="officialplaylist-name fl">
+                <div class="officialplaylist-name ellipsis fl">
                     {{ item.name }}<em>{{(item.tns ? ('（' + item.tns[0] + '）') : (item.alia && item.alia.length > 0 ? ('（' + item.alia[0] + '）') : ''))}}</em>
                 </div>
                 <div class="officialplaylist-author ellipsis fr">
@@ -29,7 +29,7 @@
     <LoadingCpn v-else/>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,onMounted,reactive,toRefs } from 'vue'
 import { getJson } from '@/api/apiConfig'
 import { sddetail } from '@/api/api'
@@ -37,6 +37,29 @@ import { useRouter } from 'vue-router'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import { goPage,audioPlay } from "@/utils/common"
 import {useStore} from 'vuex'
+interface state{
+    dataList: any[],
+    trackIds: any[],
+    OfficialName: string,
+    songsheetId: string,
+}
+interface playlist{
+    tracks: any[],
+    trackIds: any[],
+}
+interface SongInfoGet{
+    id: number,
+    name: string,
+    al: {picUrl:string},
+    ar: any[],
+    dt: number
+}
+interface SongInfoSet{
+    id: string,
+    name: string,
+    picUrl: string,
+    song:{artists: any[]}
+}
 export default defineComponent({
     name:'officialplaylist',
     props:['id','OfficialName'],
@@ -44,25 +67,25 @@ export default defineComponent({
         LoadingCpn
     },
     setup (props) {
-        let state = reactive({
+        let state = reactive<state>({
             dataList:[],
             trackIds:[],
             OfficialName: props.OfficialName,
             songsheetId: props.id,
         })
         let getData = () => {
-            getJson(sddetail,{id:props.id},(res) => {
+            getJson(sddetail,{id:props.id},(res:{code:number,playlist:playlist}) => {
                 if(res.code == 200) {
                     state.dataList = res.playlist.tracks
                     state.trackIds = res.playlist.trackIds
                 }
-            },(err) => {
+            },(err:any) => {
 
             })
         }
         const store = useStore()
-        let goAudioPlay = (data) => {
-            let SongInfo = {
+        let goAudioPlay = (data:SongInfoGet) => {
+            let SongInfo:SongInfoSet = {
                 id: data.id,
                 name: data.name,
                 picUrl: data.al.picUrl,
@@ -70,8 +93,8 @@ export default defineComponent({
                     artists: data.ar
                 }
             }
-            let arr = []
-            let forArr = ''
+            let arr:any[] = []
+            let forArr:any[] = []
             forArr = JSON.parse(JSON.stringify(state.dataList))
             forArr.forEach(item => {
                 let obj = {
@@ -129,6 +152,7 @@ export default defineComponent({
             font-weight: bold;
         }
         .officialplaylist-name{
+            max-width: 55%;
             font-size: 12px;
             em{
                 color: $font-authorcolor;

@@ -26,10 +26,16 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,reactive,toRefs,ref } from 'vue'
 import { getJson } from '@/api/apiConfig'
 import { getplaylisthot,getPlaylistCatlist } from '@/api/api'
+interface state{
+    hotlistData:any[],
+    hotlistOnName:string,
+    catgorydata:any[],
+    catgorysectionFlag:boolean,
+}
 export default defineComponent({
     name:'navcatlist',
     components:{
@@ -39,26 +45,27 @@ export default defineComponent({
         'cat'
     ],
     setup (props,context) {
-        let state = reactive({
-            hotlistData:'',
+        let state = reactive<state>({
+            hotlistData:[],
             hotlistOnName:props.cat,
-            catgorydata:'',
+            catgorydata:[],
             catgorysectionFlag:false,
         })
         let getData = () => {
-            getJson(getplaylisthot,{},(res) => {
+            getJson(getplaylisthot,{},(res:{code:number,tags:any[]}) => {
                 if(res.code == 200){
                     state.hotlistData = res.tags
                 }
-            },(err) => {
+            },(err:any) => {
                 
             })
         }
         let getCategory = () => {
-            getJson(getPlaylistCatlist,{},(res) => {
+            getJson(getPlaylistCatlist,{},(res:{code:number,categories:Record<string,string>,sub:any[]}) => {
                 if(res.code == 200){
-                    let arr = []
+                    let arr:{name:string,category:string,children:any[]}[] = []
                     let categories = res.categories
+                    console.log(res,'typescript categories')
                     Object.keys(categories).forEach(item => {
                         let obj = {
                             name:categories[item],
@@ -74,19 +81,19 @@ export default defineComponent({
                     })
                     state.catgorydata = arr
                 }
-            },(err) => {
+            },(err:any) => {
                 
             })
         }
-        let clickhotlist = (data) => {
+        let clickhotlist = (data:{name:string}) => {
             state.hotlistOnName = data.name
             state.catgorysectionFlag = false
             context.emit('hotlistOn',data)
         }
-        const catgoryon = ref(null)
-        const catgorysection = ref(null)
+        const catgoryon = ref<HTMLElement | null>(null)
+        const catgorysection = ref<HTMLElement | null>(null)
         let init = () => {
-            document.addEventListener('click',(e) => {
+            document.addEventListener('click',(e:any) => {
                 if(catgoryon && catgoryon.value != null && catgoryon.value.contains(e.target)){
                     return
                 }else if(catgorysection && catgorysection.value != null && !catgorysection.value.contains(e.target)){

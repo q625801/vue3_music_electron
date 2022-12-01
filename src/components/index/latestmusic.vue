@@ -14,10 +14,10 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent,reactive,toRefs } from 'vue'
-import NewSong from './latestmusic/newsong'
-import NewAlbum from './latestmusic/newalbum'
+import NewSong from './latestmusic/newsong.vue'
+import NewAlbum from './latestmusic/newalbum.vue'
 export default defineComponent({
     name:'latestmusic',
     components:{
@@ -25,10 +25,10 @@ export default defineComponent({
         NewAlbum
     },
     setup () {
-        let state = reactive({
+        let state = reactive<{tabsOn:string}>({
             tabsOn:'newsong'
         })
-        let changeTabs = (data) => {
+        let changeTabs = (data:string) => {
             state.tabsOn = data
         }
         return {

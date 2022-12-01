@@ -19,6 +19,9 @@ import { defineComponent,onMounted,reactive,toRefs,watch } from 'vue'
 import LoadingCpn from "@/components/common/loadingcpn.vue"
 import Titlemm from "@/components/common/titlemm.vue"
 import OfficialPlaylist from "./components/officialplaylist.vue"
+interface state{
+    dataList:any[]
+}
 export default defineComponent({
     name:'official',
     components:{
@@ -28,8 +31,8 @@ export default defineComponent({
     },
     props:['officialData'],
     setup (props) {
-        let state = reactive({
-            dataList:''
+        let state = reactive<state>({
+            dataList:[]
         })
         watch(() => props.officialData,(newValue) => {
             state.dataList = newValue
