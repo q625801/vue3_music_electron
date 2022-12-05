@@ -9,7 +9,7 @@
                     {{item.name}}
                 </div>
                 <div class="artist" @click.stop="goPage(router,'/artist',{id:item.artist.id})">
-                    {{item.artist.name + (item.artist.alia[0] ? `（${item.artist.alia[0]}）` : '') }}
+                    {{item.artist.name + (item.artist.alias[0] ? `（${item.artist.alias[0]}）` : '') }}
                 </div>
             </div>
         </div>

@@ -22,15 +22,15 @@
                     <em>{{item.transNames && item.transNames.length > 0 ? '（' + item.transNames[0] + '）' : (item.alias && item.alias.length > 0 ? '（'+ item.alias[0] + '）' : '')}}</em>
                 </div>
                 <div class="musicplaylist-artist ellipsis">
-                    <span v-for="(item2,index2) in item.artists" :key="index2">
+                    <span v-for="(item2,index2) in item.ar" :key="index2">
                         {{index2 != 0 ? ' / ' : ''}}
                         <em @click.stop="goPage(router,'/artist',{id:item2.id})">{{item2.name}}</em>
                     </span>
                 </div>
-                <div class="musicplaylist-album ellipsis" @click.stop="goPage(router,'/album',{id:item.album.id})">
-                    {{item.album.name}}
+                <div class="musicplaylist-album ellipsis" @click.stop="goPage(router,'/album',{id:item.al.id})">
+                    {{item.al.name}}
                 </div>
-                <div class="musicplaylist-duration">{{playtime(item.duration)}}</div>
+                <div class="musicplaylist-duration">{{playtime(item.dt)}}</div>
             </div>
         </div>
         <div class="musicplaylist-loading" v-show="loading">

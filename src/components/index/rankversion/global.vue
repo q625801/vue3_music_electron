@@ -85,6 +85,11 @@ export default defineComponent({
                 font-size: 14px;
                 padding-top: 6px;
                 line-height: 20px;
+                height: 40px;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
             }
             .list-name:hover{
                 color: $font-hovercolor;

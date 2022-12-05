@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent,reactive,toRefs } from 'vue'
-import { option } from './optiondata.js'
+import { option } from './optiondata'
 interface state{
     selectOption:any[],
     params:{

@@ -48,7 +48,7 @@ interface playlist{
     trackIds: any[],
 }
 interface SongInfoGet{
-    id: number,
+    id: string,
     name: string,
     al: {picUrl:string},
     ar: any[],

@@ -1,4 +1,4 @@
-export let option = [
+export let option:any[] = [
     {
         name:'语种',
         type: 'languages',
